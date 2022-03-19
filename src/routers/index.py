@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from ..utils import template
 
 __all__ = (
     'router',
@@ -10,4 +11,4 @@ prefix: str = ''
 
 @router.get('/')
 def index():
-    return {'hello': 'world'}
+    return template('index.html')

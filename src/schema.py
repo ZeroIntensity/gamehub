@@ -1,9 +1,8 @@
 import strawberry
+from .gql import api_version
 
 @strawberry.type
 class Query:
-    @strawberry.field
-    def hello(self) -> str:
-        return "world"
+    api_version = strawberry.field(resolver = api_version)
 
 schema = strawberry.Schema(Query)
