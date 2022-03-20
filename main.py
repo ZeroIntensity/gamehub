@@ -1,11 +1,7 @@
 from src.app import app
 import uvicorn
 import json
-
-with open('./config.json') as f:
-    config = json.load(f)
-
-conf = config['prod' if config['production'] else 'dev']
+from src.config import state_config as conf
 
 if __name__ == '__main__':
     uvicorn.run(

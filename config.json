@@ -3,13 +3,15 @@
 	"prod": {
 		"ip": "0.0.0.0",
 		"port": 8080,
-		"extra": {}
+		"extra": {},
+		"mongo_url": "idk"
 	},
 	"dev": {
 		"ip": "localhost",
 		"port": 5000,
 		"extra": {
 			"reload": true
-		}
+		},
+		"mongo_url": "mongodb://localhost:27017/"
 	}
 }

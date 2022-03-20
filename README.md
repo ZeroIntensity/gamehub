@@ -11,4 +11,4 @@ $ python3 -m pip install -r requirements.txt
 $ python3 main.py
 ```
 
-Node V
+Node V11+ and Python 3.7+ are required.
