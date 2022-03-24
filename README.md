@@ -14,11 +14,3 @@ $ yarn install && yarn build
 $ python3 -m pip install -r requirements.txt
 $ python3 main.py
 ```
-
-### Watching a file
-
-If you would like to watch a CSS file with tailwind, run the following command:
-
-```
-$ yarn tailwindcss -o ./static/css/dist/<target_output_file> --watch
-```
