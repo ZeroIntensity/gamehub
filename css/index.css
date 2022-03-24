@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utlities {
+	.btn {
+		@apply rounded drop-shadow-xl bg-gradient-to-tr px-1 font-bold transition-all;
+	}
+
+	@screen md {
+		@apply p-1;
+	}
+
+	@screen xl {
+		@apply p-2;
+	}
+
+	.btn:hover {
+		@apply opacity-50;
+	}
+
+	.btn:active {
+		@apply opacity-30;
+	}
+}
+
+/* above not getting compiled by tailwind?? */
