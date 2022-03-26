@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, responses
 from ..utils import template
 
 __all__ = (
@@ -9,6 +9,9 @@ __all__ = (
 router = APIRouter()
 prefix: str = ''
 
-@router.get('/')
+@router.get(
+    '/',
+    response_class = responses.HTMLResponse
+)
 def index():
     return template('index.html')

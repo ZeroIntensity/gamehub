@@ -1,8 +1,11 @@
 import strawberry
-from .gql import api_version
+from strawberry.schema.config import StrawberryConfig
+from .gql import *
 
 @strawberry.type
 class Query:
-    api_version = strawberry.field(resolver = api_version)
+    api_version = api_version
+    create_account = create_account
+    
 
 schema = strawberry.Schema(Query)
