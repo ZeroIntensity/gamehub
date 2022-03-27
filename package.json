@@ -11,7 +11,7 @@
 		"typescript": "^4.5.5"
 	},
 	"scripts": {
-		"css:build": "postcss ./css --dir ./static/css/dist",
+		"css:build": "postcss ./static/css --dir ./static/css/dist",
 		"build": "npm run css:build && npm run tsc",
 		"ts:build": "tsc",
 		"ts:watch": "tsc -w"
