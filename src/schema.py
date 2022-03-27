@@ -1,11 +1,14 @@
 import strawberry
-from strawberry.schema.config import StrawberryConfig
 from .gql import *
 
 @strawberry.type
 class Query:
     api_version = api_version
-    create_account = create_account
-    
 
-schema = strawberry.Schema(Query)
+@strawberry.type
+class Mutation:
+    create_account = create_account
+    promote = promote
+    demote = demote
+
+schema = strawberry.Schema(Query, mutation = Mutation)

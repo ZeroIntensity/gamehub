@@ -1,4 +1,5 @@
 from pymongo.collection import Collection
+from typing import Union, overload, Literal
 
 __all__ = ['Model']
 
@@ -6,9 +7,25 @@ class Model:
     """Base class representing a model. All classes that derive from this should be dataclasses."""
     
     collection: Collection
-    
+    _id: str
+
     def __init_subclass__(cls, **kwargs) -> None:
         cls.collection = kwargs['collection']
+    
+    def update(self, data: "Model") -> None:
+        """Update the current document."""
+        
+        if not self._id:
+            raise Exception("_id must be present")
+        
+        self.collection.update_one(
+            {
+                '_id': self._id
+            },
+            {
+                '$set': data.make_dict()
+            }
+        )
 
     def save(self) -> None:
         """Save the current document."""
@@ -20,6 +37,7 @@ class Model:
 
     def exists(self) -> bool:
         """Whether the current document exists."""
+
         return bool(self.count())
 
     def make_dict(self) -> dict:
@@ -32,4 +50,36 @@ class Model:
                 new[key] = value
 
         return new
+    
+    def delete(self) -> None:
+        """Delete a document based on the current data."""
+        self.collection.delete_one(self.make_dict())
+    
+    @overload
+    def find(self, return_dict: Literal[False]) -> "Model":
+        ...
 
+    @overload
+    def find(self, return_dict: Literal[True]) -> dict:
+        ...
+
+    def find(self, return_dict: bool = False) -> Union[dict, "Model"]:
+        """Find a document based on the current data."""
+        find = self.collection.find_one(self.make_dict())
+
+        if not find:
+            raise ValueError("not found")
+        
+        if not return_dict:
+            return self.__class__(**find)
+
+        return find
+    
+    @classmethod
+    def find_by_id(cls, id: str):
+        find = cls.collection.find_one({'_id': id})
+
+        if not find:
+            raise ValueError("not found")
+
+        return cls(**find)
