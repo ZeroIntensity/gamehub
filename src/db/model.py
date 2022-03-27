@@ -9,6 +9,10 @@ class Model:
     collection: Collection
     _id: str
 
+    def __init__(self, *_, **__) -> None:
+        # to get linters to stop complaining
+        pass
+
     def __init_subclass__(cls, **kwargs) -> None:
         cls.collection = kwargs['collection']
     
@@ -56,11 +60,11 @@ class Model:
         self.collection.delete_one(self.make_dict())
     
     @overload
-    def find(self, return_dict: Literal[False]) -> "Model":
+    def find(self, return_dict: Literal[False] = False) -> "Model":
         ...
 
     @overload
-    def find(self, return_dict: Literal[True]) -> dict:
+    def find(self, return_dict: Literal[True] = True) -> dict:
         ...
 
     def find(self, return_dict: bool = False) -> Union[dict, "Model"]:

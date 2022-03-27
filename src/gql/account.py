@@ -2,7 +2,14 @@ import strawberry
 import re
 from typing_extensions import Annotated
 from ..db import UserModel
-from ..utils import validate, hash, check_perms, ORDER, check_creds
+from ..utils import (
+    validate, 
+    hash, 
+    check_perms, 
+    ORDER, 
+    check_creds,
+    exists
+)
 
 @strawberry.input(description = "User authentication data.")
 class User:
@@ -25,7 +32,7 @@ def create_account(
         model.exists(): f'Name "{user.name}" is already taken.',
         len(user.name) < 4: "Username must be at least 4 characters.",
         len(user.name) > 20: "Username cannot exceed 20 characters.",
-        re.match(pattern, user.name): "Invalid username.",
+        bool(re.match(pattern, user.name)): "Invalid username.",
         len(user.password) < 6: "Password must be at least 6 characters."
     })
 
@@ -45,11 +52,7 @@ def promote(
     ]
 ) -> str:
     check_creds(credentials.name, credentials.password)
-    
-    try:
-        target = UserModel(username = username).find()
-    except ValueError as e:
-        raise Exception(f'User "{username}" was not found.') from e
+    target = exists(username)
 
     model = UserModel(username = credentials.name).find()
     typ = target.account_type
@@ -77,11 +80,7 @@ def demote(
     ]
 ) -> str:
     check_creds(credentials.name, credentials.password)
-
-    try:
-        target = UserModel(username = username).find()
-    except ValueError as e:
-        raise Exception(f'User "{username}" was not found.') from e
+    target = exists(username)
 
     model = UserModel(username = credentials.name).find()
     typ = target.account_type
