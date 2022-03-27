@@ -1,10 +1,15 @@
 import pymongo
-from ..config import CONFIG
+from ..config import config
 
 __all__ = (
-    "client",
-    "db"
+    'db',
+    'users',
+    'games'
 )
 
-client = pymongo.MongoClient(CONFIG['mongo_url'])
-db = client["gamehub"]
+client = pymongo.MongoClient(config.mongo_host, config.mongo_port)
+db = client.gamehub
+
+users = db.users
+games = db.games
+

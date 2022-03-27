@@ -1,12 +1,11 @@
-from src.app import app
 import uvicorn
-import json
-from src.config import CONFIG
+from src.config import config
+from src.app import app # type: ignore
 
 if __name__ == '__main__':
     uvicorn.run(
         'main:app', 
-        host = CONFIG['host'], 
-        port = CONFIG['port'],
-        reload = CONFIG['reload']
+        host = config.host, 
+        port = config.port,
+        reload = config.reload
     )

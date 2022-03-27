@@ -1,5 +1,5 @@
-"""Module holding all database related functions/objects"""
+"""Module containing database related objects."""
 
-from .connection import db, client
+from .connection import db, users, games
 from .model import Model
-from .user import User, UserDictionary
+from .user import UserModel
