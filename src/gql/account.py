@@ -10,11 +10,12 @@ from ..utils import (
     check_creds,
     exists
 )
+from typing import Optional
 
 @strawberry.input(description = "User authentication data.")
 class User:
-    name: str = strawberry.field(description = 'Name of the user.')
-    password: str = strawberry.field(description = 'Password of the user.')
+    name: str = strawberry.field(description = 'Account username.')
+    password: str = strawberry.field(description = 'Account password.')
 
 AccountCredentials = Annotated[User, strawberry.argument("Account credentials.")]
  
@@ -22,7 +23,7 @@ AccountCredentials = Annotated[User, strawberry.argument("Account credentials.")
 def create_account(
     user: Annotated[
         User, 
-        strawberry.argument("Data to create the account from.")
+        strawberry.argument("Data to create the account from.", name = "credentials")
     ]
 ) -> str:
     model = UserModel(username = user.name)
@@ -98,3 +99,23 @@ def demote(
 
     target.update(ext)
     return f'Demoted "{username}" to "{pre}"'
+
+@strawberry.field(description = "Delete or terminate an account.")
+def delete_account(
+        credentials: AccountCredentials,
+        target: Annotated[
+            Optional[str],
+            strawberry.argument("Target account to delete. Targets self when null.")
+        ] = None
+) -> str:
+    slf = check_creds(credentials.name, credentials.password).find()
+    model = exists(target or credentials.name)
+    
+    if slf.username == model.username:
+        slf.delete()
+        return "Your account has been deleted."
+
+    check_perms(slf.account_type, 'admin')
+    model.delete()
+
+    return f'Deleted used "{target}".'

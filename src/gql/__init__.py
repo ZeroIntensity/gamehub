@@ -1,4 +1,4 @@
 """Module holding all GraphQL resolvers."""
 
 from .info import *
-from .account import create_account, promote, demote
+from .account import create_account, promote, demote, delete_account
