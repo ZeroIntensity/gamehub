@@ -4,6 +4,7 @@ from .gql import *
 @strawberry.type
 class Query:
     api_version = api_version
+    user_data = user_data
 
 @strawberry.type
 class Mutation:

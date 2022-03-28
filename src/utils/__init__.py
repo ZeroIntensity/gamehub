@@ -6,3 +6,5 @@ from .hash import hash
 from .perms import ORDER, check_perms
 from .login import check_creds
 from .exists import exists
+from .has_access import has_access
+

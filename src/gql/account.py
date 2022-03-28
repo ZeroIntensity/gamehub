@@ -8,36 +8,38 @@ from ..utils import (
     check_perms, 
     ORDER, 
     check_creds,
-    exists
+    exists,
+    has_access
 )
 from typing import Optional
 
 @strawberry.input(description = "User authentication data.")
-class User:
+class UserInput:
     name: str = strawberry.field(description = 'Account username.')
     password: str = strawberry.field(description = 'Account password.')
 
-AccountCredentials = Annotated[User, strawberry.argument("Account credentials.")]
- 
+AccountCredentials = Annotated[UserInput, strawberry.argument("Account credentials.")]
+TargetAccount = Annotated[
+    Optional[str],
+    strawberry.argument("Target account to perform operation on. Defaults to self when null.")
+]
+
 @strawberry.field(description = "Create a new account.")
 def create_account(
-    user: Annotated[
-        User, 
-        strawberry.argument("Data to create the account from.", name = "credentials")
-    ]
+    credentials: AccountCredentials
 ) -> str:
-    model = UserModel(username = user.name)
+    model = UserModel(username = credentials.name)
     pattern = r'.*(<|>|\(|\)|\*|&|@|\'|\"|,|\{|\}|\[|\]).*'
 
     validate({
-        model.exists(): f'Name "{user.name}" is already taken.',
-        len(user.name) < 4: "Username must be at least 4 characters.",
-        len(user.name) > 20: "Username cannot exceed 20 characters.",
-        bool(re.match(pattern, user.name)): "Invalid username.",
-        len(user.password) < 6: "Password must be at least 6 characters."
+        model.exists(): f'Name "{credentials.name}" is already taken.',
+        len(credentials.name) < 4: "Username must be at least 4 characters.",
+        len(credentials.name) > 20: "Username cannot exceed 20 characters.",
+        bool(re.match(pattern, credentials.name)): "Invalid username.",
+        len(credentials.password) < 6: "Password must be at least 6 characters."
     })
 
-    model.password = hash(user.password)
+    model.password = hash(credentials.password)
     model.account_type = "user"
     
     model.save()
@@ -101,21 +103,12 @@ def demote(
     return f'Demoted "{username}" to "{pre}"'
 
 @strawberry.field(description = "Delete or terminate an account.")
-def delete_account(
-        credentials: AccountCredentials,
-        target: Annotated[
-            Optional[str],
-            strawberry.argument("Target account to delete. Targets self when null.")
-        ] = None
-) -> str:
-    slf = check_creds(credentials.name, credentials.password).find()
-    model = exists(target or credentials.name)
-    
-    if slf.username == model.username:
-        slf.delete()
-        return "Your account has been deleted."
-
-    check_perms(slf.account_type, 'admin')
+def delete_account(credentials: AccountCredentials, target: TargetAccount) -> str:
+    model = has_access(
+        credentials.name, 
+        credentials.password, 
+        target
+    )
     model.delete()
 
-    return f'Deleted used "{target}".'
+    return f'Deleted user "{target}".'
