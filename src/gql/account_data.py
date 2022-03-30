@@ -1,6 +1,5 @@
 import strawberry
 from .account import AccountCredentials, TargetAccount
-from .._typing import AccountType
 from ..utils import has_access
 
 @strawberry.type
@@ -14,4 +13,8 @@ def user_data(
     target: TargetAccount = None
 ) -> User:
     model = has_access(credentials.name, credentials.password, target)
+
+    assert model.username
+    assert model.account_type
+
     return User(name = model.username, account_type = model.account_type)

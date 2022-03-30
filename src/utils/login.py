@@ -11,6 +11,8 @@ def check_creds(username: str, password: str) -> Union[UserModel, NoReturn]:
     
     try:
         model = tmp.find()
+        
+        assert model.password 
         hasher.verify(model.password, password)
     except (ValueError, VerifyMismatchError) as e:
         raise Exception("Invalid username or password.") from e

@@ -1,9 +1,8 @@
 from ..db import UserModel
-from typing import Union, NoReturn
 
 __all__ = ['exists']
 
-def exists(username: str) -> Union[UserModel, NoReturn]:
+def exists(username: str) -> UserModel:
     """Check if a user exists inside a GraphQL resolver."""
 
     try:

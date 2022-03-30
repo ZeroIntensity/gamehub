@@ -9,9 +9,11 @@ from ..utils import (
     ORDER, 
     check_creds,
     exists,
-    has_access
+    has_access,
+    not_null
 )
 from typing import Optional
+from .._typing import AccountType
 
 @strawberry.input(description = "User authentication data.")
 class UserInput:
@@ -58,7 +60,7 @@ def promote(
     target = exists(username)
 
     model = UserModel(username = credentials.name).find()
-    typ = target.account_type
+    typ: AccountType = not_null(target.account_type)
     
     index = ORDER.index(typ) + 1
 
@@ -66,7 +68,7 @@ def promote(
         raise Exception(f'"{username}" already has the maximum permissions.')
 
     next = ORDER[index]
-    check_perms(model.account_type, next)
+    check_perms(not_null(model.account_type), next)
     
     ext = UserModel(username = username).find()
     ext.account_type = next
@@ -86,7 +88,7 @@ def demote(
     target = exists(username)
 
     model = UserModel(username = credentials.name).find()
-    typ = target.account_type
+    typ: AccountType = not_null(target.account_type)
 
     index = ORDER.index(typ) - 1
 
@@ -94,7 +96,7 @@ def demote(
         raise Exception(f'"{username}" already has the minimum permissions.')
 
     pre = ORDER[index]
-    check_perms(model.account_type, target.account_type)
+    check_perms(not_null(model.account_type), typ)
 
     ext = UserModel(username = username).find()
     ext.account_type = pre

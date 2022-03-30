@@ -1,0 +1,6 @@
+[tool.pyright]
+reportSelfClsParameterName = false
+pythonPlatform = "Linux"
+typeCheckingMode = "basic"
+[[tool.pyright.executionEnvironments]]
+root = "src"

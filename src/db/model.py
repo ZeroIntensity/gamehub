@@ -1,7 +1,9 @@
 from pymongo.collection import Collection
-from typing import Union, overload, Literal
+from typing import Union, overload, Literal, TypeVar
 
 __all__ = ['Model']
+
+T = TypeVar("T", bound = "Model")
 
 class Model:
     """Base class representing a model. All classes that derive from this should be dataclasses."""
@@ -60,14 +62,14 @@ class Model:
         self.collection.delete_one(self.make_dict())
     
     @overload
-    def find(self, return_dict: Literal[False] = False) -> "Model":
+    def find(self: T, return_dict: Literal[False] = False) -> T:
         ...
 
     @overload
     def find(self, return_dict: Literal[True] = True) -> dict:
         ...
 
-    def find(self, return_dict: bool = False) -> Union[dict, "Model"]:
+    def find(self: T, return_dict: bool = False) -> Union[dict, T]:
         """Find a document based on the current data."""
         find = self.collection.find_one(self.make_dict())
 
