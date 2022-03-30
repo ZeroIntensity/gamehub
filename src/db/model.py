@@ -11,7 +11,7 @@ class Model:
     collection: Collection
     _id: str
 
-    def __init__(self, *, **_) -> None:
+    def __init__(self, *, _) -> None:
         pass
 
     def __init_subclass__(cls, **kwargs) -> None:

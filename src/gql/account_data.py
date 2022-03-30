@@ -4,17 +4,22 @@ from ..utils import has_access
 
 @strawberry.type
 class User:
-    name: str
-    account_type: str
+    username: str = strawberry.field(
+        description = "Account username.",
+        name = "name"
+    )
+    account_type: str = strawberry.field(description = "Account permissions.")
 
 @strawberry.field(description = 'Get data of a user.')
 def user_data(
     credentials: AccountCredentials, 
     target: TargetAccount = None
 ) -> User:
-    model = has_access(credentials.name, credentials.password, target)
+    model_dict = has_access(credentials.name, credentials.password, target) \
+        .make_dict()
+    
+    for i in ['_id', 'password']:
+        del model_dict[i]
+    
 
-    assert model.username
-    assert model.account_type
-
-    return User(name = model.username, account_type = model.account_type)
+    return User(**model_dict)
