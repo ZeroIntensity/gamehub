@@ -1,8 +1,8 @@
-from ..db import UserModel
+from ..db import FoundUser, UserModel
 
 __all__ = ['exists']
 
-def exists(username: str) -> UserModel:
+def exists(username: str) -> FoundUser:
     """Check if a user exists inside a GraphQL resolver."""
 
     try:

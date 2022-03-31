@@ -14,3 +14,8 @@ $ yarn install && yarn build
 $ python3 -m pip install -r requirements.txt
 $ python3 main.py
 ```
+
+## Why is this using MongoDB and not a relational database?
+Ease of use. I have yet to find a good library for ORM/DRM in Python, and Mongo is much easier to make one for. 
+
+Now, please do not make an issue saying something like "oh, just use [insert sql library]". These libraries are huge and have APIs that are awful to work with. 

@@ -1,11 +1,23 @@
 from dataclasses import dataclass
 from .._typing import Argon2Hash, AccountType
 from .connection import users
-from .model import Model
-from typing import Optional
+from .model import Model, ModelProtocol
+from typing import Optional, Protocol
+
+__all__ = (
+    'UserModel',
+    'FoundUser'
+)
+
+class FoundUser(ModelProtocol, Protocol):
+    _id: str
+    username: str
+    password: str
+    account_type: AccountType
+
 
 @dataclass
-class UserModel(Model, collection = users):
+class UserModel(Model[FoundUser], collection = users):
     """Class representing a user model."""
     _id: Optional[str] = None
     username: Optional[str] = None

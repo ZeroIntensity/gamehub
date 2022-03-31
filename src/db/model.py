@@ -1,11 +1,15 @@
 from pymongo.collection import Collection
-from typing import Union, overload, Literal, TypeVar
+from typing import Union, overload, Literal, TypeVar, Generic, Protocol
 
-__all__ = ['Model']
+__all__ = (
+    'Model',
+    'ModelProtocol'
+)
 
-T = TypeVar("T", bound = "Model")
+T = TypeVar("T")
 
-class Model:
+
+class Model(Generic[T]):
     """Base class representing a model. All classes that derive from this should be dataclasses."""
     
     collection: Collection
@@ -17,7 +21,7 @@ class Model:
     def __init_subclass__(cls, **kwargs) -> None:
         cls.collection = kwargs['collection']
     
-    def update(self, data: "Model") -> None:
+    def update(self, data: Union["Model", "ModelProtocol"]) -> None:
         """Update the current document."""
         
         if not self._id:
@@ -61,14 +65,14 @@ class Model:
         self.collection.delete_one(self.make_dict())
     
     @overload
-    def find(self: T, return_dict: Literal[False] = False) -> T:
+    def find(self, return_dict: Literal[False] = False) -> T:
         ...
 
     @overload
     def find(self, return_dict: Literal[True] = True) -> dict:
         ...
 
-    def find(self: T, return_dict: bool = False) -> Union[dict, T]:
+    def find(self, return_dict: bool = False) -> Union[dict, T]:
         """Find a document based on the current data."""
         find = self.collection.find_one(self.make_dict())
 
@@ -76,15 +80,34 @@ class Model:
             raise ValueError("not found")
         
         if not return_dict:
-            return self.__class__(**find)
+            return self.__class__(**find) # type: ignore
 
         return find
-    
-    @classmethod
-    def find_by_id(cls, id: str):
-        find = cls.collection.find_one({'_id': id})
 
-        if not find:
-            raise ValueError("not found")
+class ModelProtocol(Protocol[T]):
+    _id: str
+    collection: Collection
 
-        return cls(**find)
+    def find(self: T, return_dict: bool = False) -> Union[dict, T]:
+        ...
+
+    def __init__(self, *, _) -> None:
+        ...
+
+    def delete(self) -> None:
+        ...
+
+    def make_dict(self) -> dict:
+        ...
+
+    def exists(self) -> bool:
+        ...
+
+    def count(self) -> int:
+        ...
+
+    def save(self) -> None:
+        ...
+
+    def update(self, data: Union[Model, "ModelProtocol"]) -> None:
+        ...

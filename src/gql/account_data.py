@@ -19,7 +19,6 @@ def user_data(
         .make_dict()
     
     for i in ['_id', 'password']:
-        del model_dict[i]
-    
+        del model_dict[i]    
 
     return User(**model_dict)

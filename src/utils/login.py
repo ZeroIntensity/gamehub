@@ -1,9 +1,8 @@
-from ..db import UserModel
-from typing import Union, NoReturn
+from ..db import UserModel, FoundUser
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 
-def check_creds(username: str, password: str) -> Union[UserModel, NoReturn]:
+def check_creds(username: str, password: str) -> FoundUser:
     """Check a users credentials."""
 
     tmp = UserModel(username = username)
@@ -11,8 +10,6 @@ def check_creds(username: str, password: str) -> Union[UserModel, NoReturn]:
     
     try:
         model = tmp.find()
-        
-        assert model.password 
         hasher.verify(model.password, password)
     except (ValueError, VerifyMismatchError) as e:
         raise Exception("Invalid username or password.") from e

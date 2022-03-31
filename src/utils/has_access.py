@@ -1,10 +1,10 @@
-from ..db import UserModel
+from ..db import FoundUser
+
 from typing import Optional
 from .login import check_creds
 from .exists import exists
 from .._typing import AccountType
 from .perms import check_perms
-from ..utils import not_null
 
 __all__ = ['has_access']
 
@@ -13,12 +13,12 @@ def has_access(
     password: str,
     target: Optional[str] = None,
     needed: AccountType = 'admin'
-) -> UserModel:
+) -> FoundUser:
     """Check if supplied credentials can view the target account."""
     model = check_creds(username, password)
-    target_model: UserModel = exists(target or username)
+    target_model: FoundUser = exists(target or username)
 
     if model.username != target_model.username:
-        check_perms(not_null(model.account_type), needed)
+        check_perms(model.account_type, needed)
 
     return target_model

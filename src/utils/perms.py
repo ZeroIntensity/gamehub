@@ -1,4 +1,4 @@
-from typing import List, Union, NoReturn
+from typing import List
 from .._typing import AccountType
 
 __all__ = (
@@ -11,7 +11,7 @@ ORDER: List[AccountType] = ["user", "admin", "owner", "developer"]
 def check_perms(
     actual: AccountType,   
     needed: AccountType
-) -> Union[None, NoReturn]:
+) -> None:
     """Check if a user has required permissions."""
     if ORDER.index(actual) < ORDER.index(needed):
         raise Exception('Insufficent permissions.')

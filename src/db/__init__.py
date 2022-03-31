@@ -2,4 +2,4 @@
 
 from .connection import db, users, games
 from .model import Model
-from .user import UserModel
+from .user import UserModel, FoundUser

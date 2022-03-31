@@ -68,7 +68,7 @@ def promote(
         raise Exception(f'"{username}" already has the maximum permissions.')
 
     next = ORDER[index]
-    check_perms(not_null(model.account_type), next)
+    check_perms(model.account_type, next)
     
     ext = UserModel(username = username).find()
     ext.account_type = next
@@ -88,7 +88,7 @@ def demote(
     target = exists(username)
 
     model = UserModel(username = credentials.name).find()
-    typ: AccountType = not_null(target.account_type)
+    typ: AccountType = target.account_type
 
     index = ORDER.index(typ) - 1
 
@@ -96,7 +96,7 @@ def demote(
         raise Exception(f'"{username}" already has the minimum permissions.')
 
     pre = ORDER[index]
-    check_perms(not_null(model.account_type), typ)
+    check_perms(model.account_type, typ)
 
     ext = UserModel(username = username).find()
     ext.account_type = pre
