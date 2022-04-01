@@ -1,46 +1,32 @@
+from fastapi import security
 from strawberry import BasePermission
 from strawberry.types import Info
-from fastapi import Request, Depends
-from typing import Any
-import re
-from base64 import urlsafe_b64decode as decode
+from fastapi import Depends
+from typing import Any, Optional, Union
 from strawberry.fastapi import BaseContext
-from ..db import FoundUser, UserModel
-from binascii import Error
+from ..db import FoundUser
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from ..utils import check_creds
+
+security = HTTPBasic(auto_error = False)
 
 class Context(BaseContext):
-    def __init__(self, user: FoundUser) -> None:
+    def __init__(self, user: Optional[FoundUser]) -> None:
         self.user = user
+
+def ctx_dependency(credentials: HTTPBasicCredentials = Depends(security)) -> Context:
+    user = check_creds(credentials.username, credentials.password) \
+            if credentials else None
+    return Context(user = user)
 
 async def get_context(ctx = Depends(ctx_dependency)):
     return ctx
 
 class Authenticated(BasePermission):
-    message = "Authentication is required."
+    message = "Invalid username or password."
     
     def has_permission(self, _: Any, info: Info, **kwargs) -> bool:
-        request: Request = info.context["request"]
-        auth = request.headers.get('Authorization')
-
-        if not auth:
+        if not info.context.user:
             return False
-
-        if not re.match('Basic .+', auth):
-            return False
-        
-        try:
-            decoded: bytes = decode(auth)
-        except Error:
-            return False
-        
-        split: list = decoded.decode().split(':', maxsplit = 1)
-        
-        if len(split) >= 1:
-            return False
-
-        username = split[0]
-        password = split[1]
 
         return True
-
-

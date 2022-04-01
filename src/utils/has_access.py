@@ -9,16 +9,14 @@ from .perms import check_perms
 __all__ = ['has_access']
 
 def has_access(
-    username: str,
-    password: str,
+    user: FoundUser,
     target: Optional[str] = None,
     needed: AccountType = 'admin'
 ) -> FoundUser:
     """Check if supplied credentials can view the target account."""
-    model = check_creds(username, password)
-    target_model: FoundUser = exists(target or username)
+    target_model: FoundUser = exists(target or user.username)
 
-    if model.username != target_model.username:
-        check_perms(model.account_type, needed)
+    if user.username != target_model.username:
+        check_perms(user.account_type, needed)
 
     return target_model

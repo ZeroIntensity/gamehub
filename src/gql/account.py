@@ -1,26 +1,26 @@
 import strawberry
 import re
 from typing_extensions import Annotated
-from ..db import UserModel
+from ..db import UserModel, FoundUser
 from ..utils import (
     validate, 
     hash, 
     check_perms, 
     ORDER, 
-    check_creds,
     exists,
     has_access,
     not_null
 )
 from typing import Optional
 from .._typing import AccountType
+from .permissions import Authenticated
+from strawberry.types import Info
 
 @strawberry.input(description = "User authentication data.")
 class UserInput:
     name: str = strawberry.field(description = 'Account username.')
     password: str = strawberry.field(description = 'Account password.')
 
-AccountCredentials = Annotated[UserInput, strawberry.argument("Account credentials.")]
 TargetAccount = Annotated[
     Optional[str],
     strawberry.argument("Target account to perform operation on. Defaults to self when null.")
@@ -28,7 +28,10 @@ TargetAccount = Annotated[
 
 @strawberry.field(description = "Create a new account.")
 def create_account(
-    credentials: AccountCredentials
+    credentials: Annotated[
+        UserInput,
+        strawberry.argument("Credentials to account from.")
+    ]
 ) -> str:
     model = UserModel(username = credentials.name)
     pattern = r'.*(<|>|\(|\)|\*|&|@|\'|\"|,|\{|\}|\[|\]).*'
@@ -48,18 +51,17 @@ def create_account(
 
     return "Successfully created account."
 
-@strawberry.field(description = "Promote a user.")
+@strawberry.field(description = "Promote a user.", permission_classes = [Authenticated])
 def promote(
-    credentials: AccountCredentials,
+    info: Info,
     username: Annotated[
         str,
         strawberry.argument("Account to promote.")
     ]
 ) -> str:
-    check_creds(credentials.name, credentials.password)
+    model: FoundUser = info.context.user
     target = exists(username)
 
-    model = UserModel(username = credentials.name).find()
     typ: AccountType = not_null(target.account_type)
     
     index = ORDER.index(typ) + 1
@@ -76,18 +78,17 @@ def promote(
     target.update(ext)
     return f'Promoted "{username}" to "{next}"'
 
-@strawberry.field(description = "Demote a user.")
+@strawberry.field(description = "Demote a user.", permission_classes = [Authenticated])
 def demote(
-    credentials: AccountCredentials,
+    info: Info,
     username: Annotated[
         str,
         strawberry.argument("Account to demote.")
     ]
 ) -> str:
-    check_creds(credentials.name, credentials.password)
+    model: FoundUser = info.context.user
     target = exists(username)
 
-    model = UserModel(username = credentials.name).find()
     typ: AccountType = target.account_type
 
     index = ORDER.index(typ) - 1
@@ -104,13 +105,13 @@ def demote(
     target.update(ext)
     return f'Demoted "{username}" to "{pre}"'
 
-@strawberry.field(description = "Delete or terminate an account.")
-def delete_account(credentials: AccountCredentials, target: TargetAccount) -> str:
-    model = has_access(
-        credentials.name, 
-        credentials.password, 
-        target
-    )
+@strawberry.field(
+    description = "Delete or terminate an account.",
+    permission_classes = [Authenticated]
+)
+def delete_account(info: Info, target: TargetAccount = None) -> str:
+    user: FoundUser = info.context.user
+    model = has_access(user, target)
     model.delete()
 
-    return f'Deleted user "{target}".'
+    return f'Deleted user "{target or user.username}".'

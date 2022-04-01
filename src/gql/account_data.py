@@ -1,6 +1,8 @@
 import strawberry
-from .account import AccountCredentials, TargetAccount
+from ..db import FoundUser
+from .account import TargetAccount
 from ..utils import has_access
+from strawberry.types import Info
 
 @strawberry.type
 class User:
@@ -12,10 +14,10 @@ class User:
 
 @strawberry.field(description = 'Get data of a user.')
 def user_data(
-    credentials: AccountCredentials, 
+    info: Info,
     target: TargetAccount = None
 ) -> User:
-    model_dict = has_access(credentials.name, credentials.password, target) \
+    model_dict = has_access(info.context.user, target) \
         .make_dict()
     
     for i in ['_id', 'password']:
