@@ -52,6 +52,8 @@ def delete_comment(info: Info, name: TargetGame, id: str) -> str:
         raise Exception("Could not find comment.")
 
     has_access(user, target["author"])
+    game.comments.remove(target)
+
+    game.update()
 
     return "Successfully deleted comment."
-

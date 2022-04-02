@@ -111,5 +111,5 @@ class ModelProtocol(Protocol[T]):
     def save(self) -> None:
         ...
 
-    def update(self, data: Optional[Union[Model[T], "ModelProtocol[T]"]] = None) -> None:
+    def update(self, data: Optional[Union[Model[T], "ModelProtocol"]] = None) -> None:
         ...

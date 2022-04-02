@@ -16,5 +16,6 @@ class Mutation:
     create_game = create_game
     delete_game = delete_game
     comment_on_game = comment_on_game
+    delete_comment = delete_comment
 
 schema = strawberry.Schema(Query, mutation = Mutation)
