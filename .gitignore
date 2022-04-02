@@ -3,3 +3,6 @@ node_modules/
 yarn.lock
 static/js/dist
 static/css/dist
+test.py
+test.graphql
+schema.graphql

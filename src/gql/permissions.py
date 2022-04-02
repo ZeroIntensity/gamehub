@@ -6,7 +6,12 @@ from typing import Any, Optional
 from strawberry.fastapi import BaseContext
 from ..db import FoundUser
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from ..utils import check_creds
+from ..utils import check_creds, check_perms
+
+__all__ = (
+    'Authenticated',
+    'HasAdmin'
+)
 
 security = HTTPBasic(auto_error = False)
 
@@ -26,7 +31,14 @@ class Authenticated(BasePermission):
     message = "Invalid username or password."
     
     def has_permission(self, _: Any, info: Info, **kwargs) -> bool:
-        if not info.context.user:
-            return False
+        return bool(info.context.user)
 
-        return True
+class HasAdmin(BasePermission):
+    message = "Insufficent permissions."
+
+    def has_permission(self, _: Any, info: Info, **kwargs):
+        try:
+            check_perms(info.context.user.account_type, 'admin')
+            return True
+        except: # function raises Exception, which is default by bare except clause
+            return False

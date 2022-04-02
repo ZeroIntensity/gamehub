@@ -52,13 +52,7 @@ class Model(Generic[T]):
     def make_dict(self) -> dict:
         """Make a dictionary with removed null values from the current data."""
         origin: dict = self.__dict__
-        new: dict = {}
-
-        for key, value in origin.items():
-            if value is not None: # in case of things like 0, '', etc
-                new[key] = value
-
-        return new
+        return {key: value for key, value in origin.items() if value is not None}
     
     def delete(self) -> None:
         """Delete a document based on the current data."""
