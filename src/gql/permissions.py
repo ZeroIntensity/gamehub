@@ -2,7 +2,7 @@ from fastapi import security
 from strawberry import BasePermission
 from strawberry.types import Info
 from fastapi import Depends
-from typing import Any, Optional, Union
+from typing import Any, Optional
 from strawberry.fastapi import BaseContext
 from ..db import FoundUser
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
