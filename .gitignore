@@ -6,4 +6,4 @@ static/css/dist
 test.py
 test.graphql
 schema.graphql
-graphqlrc.yml
+.graphqlrc.yml
