@@ -69,14 +69,14 @@ def promote(
     if len(ORDER) == index:
         raise Exception(f'"{username}" already has the maximum permissions.')
 
-    next = ORDER[index]
-    check_perms(model.account_type, next)
+    next_item = ORDER[index]
+    check_perms(model.account_type, next_item)
     
     ext = UserModel(username = username).find()
-    ext.account_type = next
+    ext.account_type = next_item
     
     target.update(ext)
-    return f'Promoted "{username}" to "{next}"'
+    return f'Promoted "{username}" to "{next_item}"'
 
 @strawberry.field(description = "Demote a user.", permission_classes = [Authenticated])
 def demote(

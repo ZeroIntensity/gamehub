@@ -1,5 +1,13 @@
 from pymongo.collection import Collection
-from typing import Union, overload, Literal, TypeVar, Generic, Protocol
+from typing import (
+    Union,
+    overload,
+    Literal,
+    TypeVar,
+    Generic,
+    Protocol,
+    Optional
+)
 
 __all__ = (
     'Model',
@@ -21,7 +29,7 @@ class Model(Generic[T]):
     def __init_subclass__(cls, **kwargs) -> None:
         cls.collection = kwargs['collection']
     
-    def update(self, data: Union["Model", "ModelProtocol"]) -> None:
+    def update(self, data: Optional[Union["Model[T]", "ModelProtocol[T]"]] = None) -> None:
         """Update the current document."""
         
         if not self._id:
@@ -32,7 +40,7 @@ class Model(Generic[T]):
                 '_id': self._id
             },
             {
-                '$set': data.make_dict()
+                '$set': (data or self).make_dict()
             }
         )
 
@@ -103,5 +111,5 @@ class ModelProtocol(Protocol[T]):
     def save(self) -> None:
         ...
 
-    def update(self, data: Union[Model, "ModelProtocol"]) -> None:
+    def update(self, data: Optional[Union[Model[T], "ModelProtocol[T]"]] = None) -> None:
         ...

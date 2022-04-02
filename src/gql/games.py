@@ -1,7 +1,14 @@
 import strawberry
-from ..db import GameModel, GameInput, Game
+from ..db import GameModel, GameInput, Game, Comment
 from .permissions import Authenticated, HasAdmin
 from ..utils import game_exists
+from typing_extensions import Annotated
+from typing import List
+
+TargetGame = Annotated[
+    str,
+    strawberry.argument("Name of the game.")
+]
 
 @strawberry.field(
     description = "Create a game.",
@@ -16,7 +23,7 @@ def create_game(data: GameInput) -> str:
 
     params = {
         'data': data.data,
-        'likes': 0,
+        'likes': [],
         'comments': []
     }
 
@@ -31,16 +38,22 @@ def create_game(data: GameInput) -> str:
     description = "Delete a game.",
     permission_classes = [Authenticated, HasAdmin]
 )
-def delete_game(name: str) -> str:
+def delete_game(name: TargetGame) -> str:
     game = game_exists(name)
     game.delete()
     return f'Successfully deleted "{game}"'
 
 @strawberry.field(description = "Get game data.")
-def get_game(name: str) -> Game:
+def get_game(name: TargetGame) -> Game:
     game = game_exists(name)
     params = game.make_dict()
 
     del params['_id']
 
-    return Game(**params)
+    comments: List[Comment] = [
+        Comment(**comment) for comment in params['comments']
+    ]
+
+    del params['comments']
+
+    return Game(**params, comments = comments)
