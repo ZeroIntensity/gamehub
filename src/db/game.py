@@ -1,3 +1,4 @@
+# sourcery skip: avoid-builtin-shadow
 from .model import Model, ModelProtocol
 from typing import Optional, Protocol, List
 from dataclasses import dataclass
@@ -19,7 +20,7 @@ class Comment:
     likes: List[str] = strawberry.field(description = "Array containing users who have liked the comment.")
     content: str = strawberry.field(description = "Content of the comment.")
     epoch: float = strawberry.field(description = "UNIX epoch creation date of the comment.")
-    id: str
+    id: str = strawberry.field(description = "ID of the comment.")
 
 class FoundGame(ModelProtocol, Protocol):
     _id: str

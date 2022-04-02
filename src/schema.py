@@ -1,13 +1,14 @@
 import strawberry
 from .gql import *
 
-@strawberry.type
+@strawberry.type(description = "Root type for queries.")
 class Query:
     api_version = api_version
     user_data = user_data
     get_game = get_game
+    can_access = can_access
 
-@strawberry.type
+@strawberry.type(description = "Root type for mutations.")
 class Mutation:
     create_account = create_account
     promote = promote
@@ -17,5 +18,9 @@ class Mutation:
     delete_game = delete_game
     comment_on_game = comment_on_game
     delete_comment = delete_comment
+    like_comment = like_comment
+    unlike_comment = unlike_comment
+    like_game = like_game
+    unlike_game = unlike_game
 
 schema = strawberry.Schema(Query, mutation = Mutation)

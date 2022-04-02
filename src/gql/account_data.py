@@ -1,8 +1,8 @@
 import strawberry
-from ..db import FoundUser
 from .account import TargetAccount
-from ..utils import has_access
+from ..utils import has_access, exists
 from strawberry.types import Info
+from typing_extensions import Annotated
 
 @strawberry.type
 class User:
@@ -24,3 +24,23 @@ def user_data(
         del model_dict[i]    
 
     return User(**model_dict)
+
+@strawberry.field(description = "Check whether a user has access to a target.")
+def can_access(
+    first: Annotated[
+        str,
+        strawberry.argument("Account to check permissions for.")
+    ],
+    second: Annotated[
+        str,
+        strawberry.argument("Account to extract needed permissions from.")
+    ]
+) -> bool:
+    try:
+        has_access(exists(first), second)
+        return True
+    except Exception as e:
+        if e.__cause__:  # should be ValueError
+            raise Exception(f'"{second}" does not exist.') from e
+
+        return False

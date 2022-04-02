@@ -17,6 +17,6 @@ def has_access(
     target_model: FoundUser = exists(target or user.username)
 
     if user.username != target_model.username:
-        check_perms(user.account_type, needed)
+        check_perms(user.account_type, target_model.account_type if target else needed)
 
     return target_model
