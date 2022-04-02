@@ -1,8 +1,16 @@
-from ..db import FoundUser, UserModel, FoundGame, GameModel
+from ..db import (
+    FoundUser,
+    UserModel,
+    FoundGame,
+    GameModel,
+    FoundPost,
+    PostModel
+)
 
 __all__ = (
     'exists',
-    'game_exists'
+    'game_exists',
+    'post_exists'
 )
 
 def exists(username: str) -> FoundUser:
@@ -19,6 +27,14 @@ def game_exists(name: str) -> FoundGame:
     game = GameModel(name = name)
 
     if not game.exists():
-        raise Exception(f'"{name}" does not exist.')
+        raise Exception(f'Game "{name}" does not exist.')
 
     return game.find()
+
+def post_exists(id: str) -> FoundPost:
+    post = PostModel(id = id)
+
+    if not post.exists():
+        raise Exception('Could not find post.')
+
+    return post.find()

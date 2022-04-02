@@ -40,5 +40,5 @@ function makeHeader(username, password) {
     return `Basic ${encoded}`;
 }
 
-make_header("abc", "123"); // Basic YWJjOjEyMw==
+makeHeader("abc", "123"); // Basic YWJjOjEyMw==
 ```

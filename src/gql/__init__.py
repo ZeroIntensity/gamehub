@@ -9,6 +9,9 @@ from .comments_likes import (
     comment_on_game,
     delete_comment,
     like_comment,
-    unlike_comment
+    unlike_comment,
+    edit_comment
 )
 from .game_likes import like_game, unlike_game
+from .post import create_post, delete_post, can_alter_post, edit_post
+from .list_items import games, posts

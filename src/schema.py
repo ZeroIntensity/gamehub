@@ -7,6 +7,9 @@ class Query:
     user_data = user_data
     get_game = get_game
     can_access = can_access
+    can_alter_post = can_alter_post
+    games = games
+    posts = posts
 
 @strawberry.type(description = "Root type for mutations.")
 class Mutation:
@@ -20,7 +23,11 @@ class Mutation:
     delete_comment = delete_comment
     like_comment = like_comment
     unlike_comment = unlike_comment
+    edit_comment = edit_comment
     like_game = like_game
     unlike_game = unlike_game
+    create_post = create_post
+    delete_post = delete_post
+    edit_post = edit_post
 
 schema = strawberry.Schema(Query, mutation = Mutation)

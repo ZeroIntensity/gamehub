@@ -4,6 +4,15 @@ from ..utils import has_access, exists
 from strawberry.types import Info
 from typing_extensions import Annotated
 
+First = Annotated[
+    str,
+    strawberry.argument("Account to check permissions for.")
+]
+Second = Annotated[
+    str,
+    strawberry.argument("Account to extract needed permissions from.")
+]
+
 @strawberry.type
 class User:
     username: str = strawberry.field(
@@ -27,14 +36,8 @@ def user_data(
 
 @strawberry.field(description = "Check whether a user has access to a target.")
 def can_access(
-    first: Annotated[
-        str,
-        strawberry.argument("Account to check permissions for.")
-    ],
-    second: Annotated[
-        str,
-        strawberry.argument("Account to extract needed permissions from.")
-    ]
+    first: First,
+    second: Second
 ) -> bool:
     try:
         has_access(exists(first), second)

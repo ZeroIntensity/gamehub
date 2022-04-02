@@ -1,6 +1,6 @@
 """Module containing database related objects."""
 
-from .connection import db, users, games
+from .connection import db, users, games, posts
 from .model import Model
 from .user import UserModel, FoundUser
 from .game import (
@@ -10,3 +10,4 @@ from .game import (
     GameInput,
     Game
 )
+from .post import Post, PostModel, FoundPost

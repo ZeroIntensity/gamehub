@@ -20,7 +20,6 @@ def create_game(data: GameInput) -> str:
     if model.exists():
         raise Exception(f'Game "{data.name}" already exists.')
     
-
     params = {
         'data': data.data,
         'likes': [],

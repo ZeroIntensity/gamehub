@@ -16,6 +16,16 @@ CommentID = Annotated[
     strawberry.argument("ID of a comment on a game.")
 ]
 
+@strawberry.input(description = "Comment lookup data.")
+class CommentData:
+    id: str = strawberry.field(description = "ID of a comment on a game.")
+    name: str = strawberry.field(description = "Name of the game.")
+
+CommentInput = Annotated[
+    CommentData,
+    strawberry.argument("Data to lookup the comment with.")
+]
+
 @strawberry.field(
     description = "Post a comment on a game.",
     permission_classes = [Authenticated]
@@ -40,11 +50,11 @@ def comment_on_game(info: Info, name: TargetGame, content: Content) -> Comment:
     description = "Delete a comment on a game.",
     permission_classes = [Authenticated]
 )
-def delete_comment(info: Info, name: TargetGame, id: CommentID) -> str:
+def delete_comment(info: Info, data: CommentInput) -> str:
     user: FoundUser = info.context.user
 
-    game = game_exists(name)    
-    comment = get_comment(name, id)    
+    game = game_exists(data.name)
+    comment = get_comment(data.name, data.id)    
 
     has_access(user, comment["author"])
     game.comments.remove(comment)
@@ -57,11 +67,11 @@ def delete_comment(info: Info, name: TargetGame, id: CommentID) -> str:
     description = "Like a comment on a game.",
     permission_classes = [Authenticated]
 )
-def like_comment(info: Info, name: TargetGame, id: CommentID) -> str:
+def like_comment(info: Info, data: CommentInput) -> str:
     user: FoundUser = info.context.user
 
-    game = game_exists(name)
-    comment = get_comment(name, id)
+    game = game_exists(data.name)
+    comment = get_comment(data.name, data.id)
     index: int = game.comments.index(comment)
 
     if user.username in comment['likes']:
@@ -78,12 +88,12 @@ def like_comment(info: Info, name: TargetGame, id: CommentID) -> str:
     description = "Unlike a comment on a game.",
     permission_classes = [Authenticated]
 )
-def unlike_comment(info: Info, name: TargetGame, id: CommentID) -> str:
+def unlike_comment(info: Info, data: CommentInput) -> str:
     # TODO: move this into a seperate function
     user: FoundUser = info.context.user
 
-    game = game_exists(name)
-    comment = get_comment(name, id)
+    game = game_exists(data.name)
+    comment = get_comment(data.name, data.id)
     index: int = game.comments.index(comment)
 
     if user.username not in comment['likes']:
@@ -93,3 +103,22 @@ def unlike_comment(info: Info, name: TargetGame, id: CommentID) -> str:
     game.update()
 
     return "Successfully unliked comment."
+
+@strawberry.field(
+    description = "Edit a comment on a game.",
+    permission_classes = [Authenticated]
+)
+def edit_comment(info: Info, data: CommentInput, content: Content) -> str:
+    user: FoundUser = info.context.user
+
+    game = game_exists(data.name)
+    comment = get_comment(data.name, data.id)
+    index: int = game.comments.index(comment)
+
+    if comment["author"] != user.username:
+        raise Exception("Only the author can update their comment.")
+
+    game.comments[index]["content"] = content
+    game.update()
+
+    return "Successfully updated comment."
