@@ -24,6 +24,7 @@ def exists(username: str) -> FoundUser:
     return target
 
 def game_exists(name: str) -> FoundGame:
+    """Check if a game exists inside a GraphQL resolver."""
     game = GameModel(name = name)
 
     if not game.exists():
@@ -32,6 +33,7 @@ def game_exists(name: str) -> FoundGame:
     return game.find()
 
 def post_exists(id: str) -> FoundPost:
+    """Check if a post exists inside a GraphQL resolver."""
     post = PostModel(id = id)
 
     if not post.exists():

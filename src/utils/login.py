@@ -3,6 +3,8 @@ from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from typing import Optional
 
+__all__ = ('check_creds',)
+
 def check_creds(username: str, password: str) -> Optional[FoundUser]:
     """Check a users credentials."""
 

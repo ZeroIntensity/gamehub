@@ -6,7 +6,7 @@ from .account_data import user_data, can_access
 from .permissions import get_context, Authenticated
 from .games import get_game, create_game, delete_game
 from .comments_likes import (
-    comment_on_game,
+    create_comment,
     delete_comment,
     like_comment,
     unlike_comment,

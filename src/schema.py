@@ -19,7 +19,7 @@ class Mutation:
     delete_account = delete_account
     create_game = create_game
     delete_game = delete_game
-    comment_on_game = comment_on_game
+    create_comment = create_comment
     delete_comment = delete_comment
     like_comment = like_comment
     unlike_comment = unlike_comment

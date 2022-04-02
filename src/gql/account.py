@@ -16,6 +16,14 @@ from .._typing import AccountType
 from .permissions import Authenticated
 from strawberry.types import Info
 
+__all__ = (
+    "create_account",
+    "delete_account",
+    "promote",
+    "demote",
+    "TargetAccount"
+)
+
 @strawberry.input(description = "User authentication data.")
 class UserInput:
     name: str = strawberry.field(description = 'Account username.')

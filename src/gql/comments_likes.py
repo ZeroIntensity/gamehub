@@ -7,6 +7,14 @@ from strawberry.types import Info
 from .games import TargetGame
 from typing_extensions import Annotated
 
+__all__ = (
+    "create_comment",
+    "delete_comment",
+    "like_comment",
+    "unlike_comment",
+    "edit_comment"
+)
+
 Content = Annotated[
    str,
    strawberry.argument("Content of the comment.") 
@@ -30,7 +38,7 @@ CommentInput = Annotated[
     description = "Post a comment on a game.",
     permission_classes = [Authenticated]
 )
-def comment_on_game(info: Info, name: TargetGame, content: Content) -> Comment:
+def create_comment(info: Info, name: TargetGame, content: Content) -> Comment:
     game = game_exists(name)
 
     comment = Comment(

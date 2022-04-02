@@ -10,6 +10,13 @@ TargetGame = Annotated[
     strawberry.argument("Name of the game.")
 ]
 
+__all__ = (
+    "TargetGame",
+    "create_game",
+    "delete_game",
+    "get_game"
+)
+
 @strawberry.field(
     description = "Create a game.",
     permission_classes = [Authenticated, HasAdmin]

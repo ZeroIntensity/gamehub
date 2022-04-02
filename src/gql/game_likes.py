@@ -5,6 +5,11 @@ from ..db import FoundUser
 from .games import TargetGame
 from ..utils import game_exists
 
+__all__ = (
+    "like_game",
+    "unlike_game"
+)
+
 @strawberry.field(
     description = "Like a game.",
     permission_classes = [Authenticated]

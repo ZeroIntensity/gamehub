@@ -1,6 +1,6 @@
 from typing import Dict, Union, NoReturn
 
-__all__ = ['validate']
+__all__ = ('validate',)
 
 def validate(conds: Dict[bool, str]) -> Union[None, NoReturn]:
     """Function for validating conditions in a GraphQL resolver."""

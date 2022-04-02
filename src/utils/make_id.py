@@ -2,7 +2,7 @@ import random
 import string
 from .._typing import PostID
 
-__all__ = ["make_id"]
+__all__ = ("make_id",)
 
 def make_id() -> PostID:
    """Generate an ID for a post."""

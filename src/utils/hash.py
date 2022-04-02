@@ -1,6 +1,8 @@
 from argon2 import PasswordHasher
 from .._typing import Argon2Hash
 
+__all__ = ('hash',)
+
 hasher = PasswordHasher()
 
 def hash(raw: str) -> Argon2Hash:

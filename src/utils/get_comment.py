@@ -2,9 +2,10 @@ from .exists import game_exists
 from typing import Optional
 from .._typing import Comment
 
-__all__ = ['get_comment']
+__all__ = ('get_comment',)
 
 def get_comment(name: str, id: str) -> Comment:
+    """Fetch a comment from a game."""
     game = game_exists(name)    
     target: Optional[Comment] = None
 

@@ -23,6 +23,7 @@ def has_access(
     return target_model
 
 def has_post_access(id: str, target: str) -> FoundPost:
+    """Check if the supplied user can alter the specified post."""
     post = post_exists(id)
     user = exists(target)
 
