@@ -36,7 +36,7 @@ make_header("abc", "123") # Basic YWJjOjEyMw==
 
 ```js
 function makeHeader(username, password) {
-    encoded = btoa(`${username}:${password}`);
+    const encoded = btoa(`${username}:${password}`); // note that btoa is deprecated
     return `Basic ${encoded}`;
 }
 

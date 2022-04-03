@@ -1,5 +1,11 @@
 import strawberry
-from ..db import games as games_col, posts as posts_col, Game, Post
+from ..db import (
+    games as games_col,
+    posts as posts_col,
+    Game,
+    Post,
+    Comment
+)
 from typing import List
 from ..utils import no_id
 
@@ -10,7 +16,18 @@ __all__ = (
 
 @strawberry.field(description = "List all games.")
 def games() -> List[Game]:
-    return [Game(**no_id(game)) for game in games_col.find()]
+    res: List[Game] = []
+
+    for game in games_col.find():
+        params: dict = no_id(game)
+        comments: List[Comment] = [
+            Comment(**comment) for comment in params['comments']
+        ]
+
+        params['comments'] = comments
+        res.append(Game(**params))
+
+    return res
 
 @strawberry.field(description = "List all posts.")
 def posts() -> List[Post]:

@@ -13,7 +13,7 @@ from ..utils import (
 )
 from typing import Optional
 from .._typing import AccountType
-from .permissions import Authenticated
+from .permissions import Authenticated, HasAdmin
 from strawberry.types import Info
 
 __all__ = (
@@ -59,7 +59,10 @@ def create_account(
 
     return "Successfully created account."
 
-@strawberry.field(description = "Promote a user.", permission_classes = [Authenticated])
+@strawberry.field(
+    description = "Promote a user.",
+    permission_classes = [Authenticated, HasAdmin]
+)
 def promote(
     info: Info,
     username: Annotated[
@@ -86,7 +89,10 @@ def promote(
     target.update(ext)
     return f'Promoted "{username}" to "{next_item}"'
 
-@strawberry.field(description = "Demote a user.", permission_classes = [Authenticated])
+@strawberry.field(
+    description = "Demote a user.",
+    permission_classes = [Authenticated]
+)
 def demote(
     info: Info,
     username: Annotated[
