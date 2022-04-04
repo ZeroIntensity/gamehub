@@ -20,21 +20,25 @@
                 </h1>
             </div>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 p-7">
-            <div class="bg-zinc-800 text-white rounded p-4 drop-shadow-md">
-                <p
-                    class="font-thin text-4xl lg:text-2xl xl:text-xl text-zinc-400"
-                >
-                    Announcements - March 23rd, 2022
-                </p>
-                <p class="font-bold text-5xl xl:text-2xl lg:text-3xl">
-                    Minecraft download has just been added!
-                </p>
-                <div class="py-4">
-                    <hr class="w-full border-t border-zinc-700" />
-                </div>
-                <!--
+        <ul
+            class="grid grid-cols-1 md:grid-cols-2 gap-5 p-7 first:pt-4 last:pb-4"
+        >
+            {% for post in posts %}
+            <li>
+                <div class="bg-zinc-800 text-white rounded p-4 drop-shadow-md">
+                    <p
+                        class="font-thin text-4xl lg:text-2xl xl:text-xl text-zinc-400"
+                        data-type="epoch"
+                    >
+                        {{ post.epoch }}
+                    </p>
+                    <p class="font-bold text-5xl xl:text-2xl lg:text-3xl">
+                        {{ post.content }}
+                    </p>
+                    <div class="py-4">
+                        <hr class="w-full border-t border-zinc-700" />
+                    </div>
+                    <!--
                 <div class="grid xl:gap-36 2xl:gap-2 gap-4 xl:grid-cols-6">
                     <button
                         class="text-4xl h-20 lg:text-lg xl:w-32 xl:text-lg lg:h-12 rounded drop-shadow-xl bg-gradient-to-tr from-orange-400 to-orange-700 px-1 md:p-1 xl:p-2 font-bold hover:opacity-50 active:opacity-30 transition-all"
@@ -54,9 +58,11 @@
                         Comment
                     </button>
                 </div>
-            --></div>
-        </div>
-
+            -->
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
         <footer
             class="text-center font-thin text-zinc-400 shadow bg-zinc-800 p-3 bottom-0 fixed w-full"
         >

@@ -1,3 +1,5 @@
+import { Buffer } from "buffer";
+
 function makeHeader(values: Authorization) {
     const encoded = Buffer.from(
         `${values.username}:${values.password}`
@@ -10,6 +12,7 @@ export default async <T>(
     variables: Optional<Variables> = null,
     auth: Optional<Authorization> = null
 ): Promise<T> => {
+    console.log(query);
     const response = await fetch("/graphql", {
         headers: {
             Accept: "application/json",

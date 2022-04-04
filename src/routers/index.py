@@ -1,5 +1,7 @@
-from fastapi import APIRouter, responses
-from ..utils import template
+from fastapi import APIRouter, responses, Request
+from fastapi.templating import Jinja2Templates
+from ..db import posts, PostModel
+from typing import List
 
 __all__ = (
     'router',
@@ -9,9 +11,16 @@ __all__ = (
 router = APIRouter()
 prefix: str = ''
 
+templates = Jinja2Templates('./templates')
+
 @router.get(
     '/',
     response_class = responses.HTMLResponse
 )
-def index():
-    return template('index.html')
+async def index(request: Request):
+    posts_list: List[PostModel] = [PostModel(**post) for post in posts.find()]
+
+    return templates.TemplateResponse('index.html', {
+        'request': request,
+        'posts': posts_list
+    })
