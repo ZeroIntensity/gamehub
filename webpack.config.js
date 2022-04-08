@@ -17,4 +17,6 @@ module.exports = {
     resolve: {
         extensions: [".ts", ".js"],
     },
+    target: "web",
+    mode: "development",
 };

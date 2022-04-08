@@ -1,3 +1,5 @@
+import highlightNav from "./lib/nav";
+
 window.addEventListener("DOMContentLoaded", () => {
     const elements = document.querySelectorAll('[data-type="epoch"]');
 
@@ -9,4 +11,10 @@ window.addEventListener("DOMContentLoaded", () => {
         (element as HTMLElement).style.display = "block";
         element.innerHTML = `${month} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
     });
+
+    highlightNav();
 });
+
+export function clickLogout() {
+    console.log("a");
+}

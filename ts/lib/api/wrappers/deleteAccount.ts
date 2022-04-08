@@ -7,6 +7,8 @@ const query = gql`
     }
 `;
 
-export default async (target: Optional<string>): Promise<string> => {
+export default async (
+    target: Optional<string>
+): APIResponse<{ deleteAccount: string }> => {
     return makeRequest(query, { target });
 };

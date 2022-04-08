@@ -7,9 +7,20 @@ const query = gql`
     }
 `;
 
-export default async (username: string, password: string): Promise<string> => {
+export default async (
+    username: string,
+    password: string
+): APIResponse<{ login: string }> => {
     return makeRequest(query, {
         username,
         password,
     });
 };
+
+export async function logout(): APIResponse<{ logout: string }> {
+    return makeRequest(gql`
+        mutation logout {
+            logout
+        }
+    `);
+}

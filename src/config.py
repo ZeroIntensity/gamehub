@@ -22,6 +22,6 @@ config = Config(**{
     'mongo_port': os.environ.get('MONGO_PORT') or 27017,
     'mongo_host': os.environ.get('MONGO_HOST') or 'localhost',
     'production': bool(os.environ.get('PRODUCTION')),
-    'auth_validation_time': os.environ.get('AUTH_VALIDATION_TIME') or 600
+    'auth_validation_time': os.environ.get('AUTH_VALIDATION_TIME') or 2628000
 })
 

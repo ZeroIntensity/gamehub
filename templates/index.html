@@ -7,13 +7,31 @@
     </head>
 
     <body class="bg-zinc-900">
+        <style>
+            :root {
+                --selection: #34d399;
+            }
+
+            ::-moz-selection {
+                background: var(--selection);
+                color: #fff;
+            }
+
+            ::selection {
+                background: var(--selection);
+                color: #fff;
+            }
+        </style>
         <div class="flex flex-wrap bg-zinc-900 w-full h-screen">
             <div class="w-3/12 bg-zinc-800 rounded p-3 shadow-lg">
                 <div class="flex space-x-4 p-2 mb-5 justify-center">
                     <p
                         class="text-white text-4xl lg:text-5xl font-bold tracking-wide"
                     >
-                        Game<span class="text-orange-400">Hub</span>
+                        Game<span
+                            class="bg-gradient-to-r from-orange-400 to-orange-500 bg-clip-text text-transparent"
+                            >Hub</span
+                        >
                     </p>
 
                     <p></p>
@@ -22,8 +40,9 @@
                 <ul class="space-y-2 text-2xl md:text-xl lg:text-sm">
                     <li>
                         <a
-                            href="#"
-                            class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 bg-zinc-700 focus:shadow-outline"
+                            data-type="navlink"
+                            href="/"
+                            class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 focus:shadow-outline"
                         >
                             <span class="text-white">
                                 <svg
@@ -46,7 +65,8 @@
                     </li>
                     <li>
                         <a
-                            href="#"
+                            data-type="navlink"
+                            href="/games"
                             class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 focus:bg-zinc-700 focus:shadow-outline"
                         >
                             <span class="text-white">
@@ -75,7 +95,8 @@
                     </li>
                     <li>
                         <a
-                            href="#"
+                            data-type="navlink"
+                            href="/chatrooms"
                             class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 focus:bg-zinc-700 focus:shadow-outline"
                         >
                             <span class="text-white">
@@ -99,7 +120,8 @@
                     </li>
                     <li>
                         <a
-                            href="#"
+                            data-type="navlink"
+                            href="/guides"
                             class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 focus:bg-zinc-700 focus:shadow-outline"
                         >
                             <span class="text-white">
@@ -123,7 +145,8 @@
                     </li>
                     <li>
                         <a
-                            href="#"
+                            data-type="navlink"
+                            href="/emulators"
                             class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 focus:bg-zinc-700 focus:shadow-outline"
                         >
                             <span class="text-white">
@@ -147,7 +170,8 @@
                     </li>
                     <li>
                         <a
-                            href="#"
+                            data-type="navlink"
+                            href="/suggestions"
                             class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 focus:bg-zinc-700 focus:shadow-outline"
                         >
                             <span class="text-white"
@@ -170,7 +194,8 @@
                     </li>
                     <li>
                         <a
-                            href="#"
+                            data-type="navlink"
+                            href="/applications"
                             class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 focus:bg-zinc-700 focus:shadow-outline"
                         >
                             <span class="text-white">
@@ -194,7 +219,8 @@
                     </li>
                     <li>
                         <a
-                            href="#"
+                            data-type="navlink"
+                            href="/report"
                             class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 focus:bg-zinc-700 focus:shadow-outline"
                         >
                             <span class="text-white">
@@ -296,41 +322,48 @@
                     <h1
                         class="text-white text-5xl lg:text-6xl font-bold text-center"
                     >
-                        Game<span class="text-orange-400">Hub</span> 2
+                        Game<span
+                            class="bg-gradient-to-r from-orange-400 to-orange-500 bg-clip-text text-transparent"
+                            >Hub</span
+                        >
+                        2
                     </h1>
 
                     <div
-                        class="font-semibold text-center w-3/6 m-auto p-3 text-2xl lg:text-lg"
+                        class="font-semibold text-center w-3/6 m-auto p-5 text-2xl lg:text-lg"
                     >
-                        <button
-                            class="drop-shadow-md bg-orange-400 p-2 font-semibold rounded hover:bg-orange-300 transition-all active:bg-orange-200 text-xl"
+                        <a
+                            href="/games"
+                            class="drop-shadow-md border-solid border-2 border-orange-400 hover:bg-orange-400 p-2 rounded transition-all text-xl"
                         >
                             Browse Games
-                        </button>
+                        </a>
                     </div>
-                    {% if user and user.account_type != "user" %}
-                    <button
-                        class="bg-orange-400 p-2 font-semibold rounded hover:bg-orange-300 transition-all active:bg-orange-200"
-                        alt="Create new post"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-6 w-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                        </svg>
-                    </button>
-                    {% endif %}
                 </div>
                 <div class="p-4">
+                    {% if user and user.account_type != "user" %}
+                    <div class="pl-7">
+                        <button
+                            class="drop-shadow-md border-solid border-2 border-emerald-400 hover:bg-emerald-400 p-2 rounded transition-all"
+                            aria-label="Create new post."
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-7 w-7"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                    {% endif %}
                     <div
                         class="grid grid-cols-1 md:grid-cols-2 gap-5 p-7 first:pt-4 last:pb-4"
                     >
@@ -344,7 +377,7 @@
                                 {{ post.epoch }}
                             </p>
                             <p
-                                class="text-zinc-200 text-5xl xl:text-2xl lg:text-3xl"
+                                class="text-zinc-200 text-3xl xl:text-2xl lg:text-3xl"
                             >
                                 {{ post.title }}
                             </p>

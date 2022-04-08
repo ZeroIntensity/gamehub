@@ -7,7 +7,9 @@ const query = gql`
     }
 `;
 
-export default async (credentials: UserInput): Promise<string> => {
+export default async (
+    credentials: UserInput
+): APIResponse<{ createAccount: string }> => {
     return makeRequest(query, {
         username: credentials.name,
         password: credentials.password,
