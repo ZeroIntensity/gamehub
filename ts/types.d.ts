@@ -14,8 +14,8 @@ type GraphQLError = {
 };
 
 type GraphQLResponse<T> = {
-    data: Optional<T>;
-    errors: Optional<GraphQLError>;
+    data?: T;
+    errors?: GraphQLError;
 };
 
 type AccountType = "user" | "admin" | "owner" | "developer";

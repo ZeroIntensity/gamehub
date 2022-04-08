@@ -9,10 +9,9 @@ function makeHeader(values: Authorization) {
 
 export default async <T>(
     query: string,
-    variables: Optional<Variables> = null,
-    auth: Optional<Authorization> = null
+    variables?: Variables,
+    auth?: Authorization
 ): Promise<T> => {
-    console.log(query);
     const response = await fetch("/graphql", {
         headers: {
             Accept: "application/json",
