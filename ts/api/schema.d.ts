@@ -28,6 +28,7 @@ type Post = {
     content: string;
     epoch: number;
     id: string;
+    title: string;
 };
 
 type User = {

@@ -1,10 +1,5 @@
 type Optional<T> = T | null;
 
-type Authorization = {
-    username: string;
-    password: string;
-};
-
 type GraphQLError = {
     message: string;
     locations: {
@@ -15,7 +10,7 @@ type GraphQLError = {
 
 type GraphQLResponse<T> = {
     data?: T;
-    errors?: GraphQLError;
+    errors?: Array<GraphQLError>;
 };
 
 type AccountType = "user" | "admin" | "owner" | "developer";

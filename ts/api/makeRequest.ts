@@ -1,22 +1,12 @@
-import { Buffer } from "buffer";
-
-function makeHeader(values: Authorization) {
-    const encoded = Buffer.from(
-        `${values.username}:${values.password}`
-    ).toString("base64");
-    return `Basic ${encoded}`;
-}
-
 export default async <T>(
     query: string,
     variables?: Variables,
-    auth?: Authorization
+    auth?: string
 ): Promise<T> => {
     const response = await fetch("/graphql", {
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: auth ? makeHeader(auth) : "",
         },
         method: "POST",
         body: JSON.stringify({
@@ -27,8 +17,12 @@ export default async <T>(
 
     const json: GraphQLResponse<T> = await response.json();
 
-    if (!response.ok) {
-        throw new Error(`GraphQL request failed: ${json.errors!.message}`);
+    if (json.errors) {
+        throw new Error(
+            `GraphQL request failed: ${json.errors!.forEach(message =>
+                console.log(message)
+            )}`
+        );
     }
 
     return json.data!;

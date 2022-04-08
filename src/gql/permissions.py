@@ -1,28 +1,64 @@
-from fastapi import security
+from fastapi import security, Request, HTTPException
 from strawberry import BasePermission
 from strawberry.types import Info
 from fastapi import Depends
 from typing import Any, Optional
 from strawberry.fastapi import BaseContext
-from ..db import FoundUser
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from ..utils import check_creds, check_perms
+from ..db import FoundUser, UserModel
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from ..utils import check_perms, decode_jwt, not_null
 
 __all__ = (
     'Authenticated',
-    'HasAdmin'
+    'HasAdmin',
+    'ctx_dependency',
+    'get_context'
 )
 
-security = HTTPBasic(auto_error = False)
+class JWTBearer(HTTPBearer):
+    def __init__(self):
+        super(JWTBearer, self).__init__(auto_error = False)
+
+    async def __call__(self, request: Request):
+        credentials: Optional[HTTPAuthorizationCredentials] = \
+            await super(JWTBearer, self).__call__(request)
+
+        if not credentials:
+            token: Optional[str] = request.cookies.get('auth')
+
+            if not token:
+                return None
+
+            credentials = HTTPAuthorizationCredentials(
+                scheme = "Bearer",
+                credentials = token
+            )
+        
+        if credentials.scheme != "Bearer":
+            raise HTTPException(status_code = 403, detail="Invalid authentication scheme.")
+        
+        if not self.verify_jwt(credentials.credentials):
+            raise HTTPException(status_code = 403, detail="Invalid token or expired token.")
+        
+        return credentials.credentials
+
+    def verify_jwt(self, token: str) -> bool:
+        return bool(decode_jwt(token))
+
+security = JWTBearer()
 
 class Context(BaseContext):
     def __init__(self, user: Optional[FoundUser]) -> None:
         self.user = user
 
-def ctx_dependency(credentials: HTTPBasicCredentials = Depends(security)) -> Context:
-    user = check_creds(credentials.username, credentials.password) \
-            if credentials else None
-    return Context(user = user)
+def ctx_dependency(
+    credentials: Optional[str] = Depends(security)
+) -> Context:
+    if not credentials:
+        return Context(user = None)
+
+    payload = not_null(decode_jwt(credentials))
+    return Context(user = UserModel(username = payload["user_id"]).find())
 
 async def get_context(ctx = Depends(ctx_dependency)):
     return ctx
@@ -40,5 +76,5 @@ class HasAdmin(BasePermission):
         try:
             check_perms(info.context.user.account_type, 'admin')
             return True
-        except: # function raises Exception, which is default by bare except clause
+        except Exception:
             return False

@@ -1,10 +1,11 @@
 import strawberry
 from .permissions import Authenticated, HasAdmin
 from strawberry.types import Info
-from ..db import Post, PostModel, FoundUser
+from ..db import Post, PostModel, FoundUser, PostInput
 from typing_extensions import Annotated
 import time
-from ..utils import make_id, has_post_access
+from ..utils import make_id, has_post_access, validate
+import re
 
 __all__ = (
     'create_post',
@@ -13,13 +14,21 @@ __all__ = (
     'can_alter_post'
 )
 
+def validate_post(data: PostInput):
+    validate({
+        bool(re.match("<.*>", data.content)): "Invalid content.",
+        len(data.content) > 300: "Post content cannot exceed 300 characters.",
+        len(data.title) > 30: "Post title cannot exceed 30 characters.",
+        bool(re.match("<.*>", data.title)): "Invalid title.",
+    })
+
 PostID = Annotated[
     str,
     strawberry.argument("ID of the post.")
 ]
-Content = Annotated[
-    str,
-    strawberry.argument("Content of the post.")
+PostData = Annotated[
+    PostInput,
+    strawberry.argument("Post data.")
 ]
 
 @strawberry.field(
@@ -28,14 +37,16 @@ Content = Annotated[
 )
 def create_post(
     info: Info,
-    content: Content
+    data: PostData
 ) -> Post:
     user: FoundUser = info.context.user
+
+    validate_post(data)
     params: dict = {
-        "content": content,
         "author": user.username,
         "epoch": time.time(),
-        "id": make_id()
+        "id": make_id(),
+        **data.__dict__
     }
 
     post = PostModel(**params)
@@ -66,16 +77,19 @@ def can_alter_post(
     try:
         has_post_access(id, target)
         return True
-    except:
+    except Exception:
         return False
 
 @strawberry.field(
     description = "Edit a post.",
     permission_classes = [Authenticated, HasAdmin]
 )
-def edit_post(info: Info, id: PostID, content: Content) -> str:
+def edit_post(info: Info, id: PostID, data: PostData) -> str:
     post = has_post_access(id, info.context.user.username)
-    post.content = content
+    validate_post(data)
+
+    post.content = data.content
+    post.title = data.title
     post.update()
 
     return "Successfully updated post."

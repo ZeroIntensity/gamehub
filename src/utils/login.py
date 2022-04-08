@@ -14,7 +14,7 @@ def check_creds(username: str, password: str) -> Optional[FoundUser]:
     try:
         model = tmp.find()
         hasher.verify(model.password, password)
-    except (ValueError, VerifyMismatchError) as e:
+    except (ValueError, VerifyMismatchError):
         return None
 
     return model

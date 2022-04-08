@@ -1,4 +1,10 @@
-from ..utils import game_exists, make_id, has_access, get_comment
+from ..utils import (
+    game_exists,
+    make_id,
+    has_access,
+    get_comment,
+    validate
+)
 import strawberry
 from .permissions import Authenticated
 from ..db import Comment, FoundUser
@@ -6,6 +12,7 @@ import time
 from strawberry.types import Info
 from .games import TargetGame
 from typing_extensions import Annotated
+import re
 
 __all__ = (
     "create_comment",
@@ -24,6 +31,12 @@ CommentID = Annotated[
     strawberry.argument("ID of a comment on a game.")
 ]
 
+def validate_comment(content: str):
+    validate({
+        bool(re.match("<.*>", content)): "Invalid content.",
+        len(content) > 300: "Comment content cannot exceed 300 characters."
+    })
+
 @strawberry.input(description = "Comment lookup data.")
 class CommentData:
     id: str = strawberry.field(description = "ID of a comment on a game.")
@@ -40,7 +53,8 @@ CommentInput = Annotated[
 )
 def create_comment(info: Info, name: TargetGame, content: Content) -> Comment:
     game = game_exists(name)
-
+    
+    validate_comment(content)
     comment = Comment(
         author = info.context.user.username,
         likes = [],
@@ -125,6 +139,8 @@ def edit_comment(info: Info, data: CommentInput, content: Content) -> str:
 
     if comment["author"] != user.username:
         raise Exception("Only the author can update their comment.")
+
+    validate_comment(content)
 
     game.comments[index]["content"] = content
     game.update()

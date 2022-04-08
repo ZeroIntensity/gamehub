@@ -10,4 +10,4 @@ from .game import (
     GameInput,
     Game
 )
-from .post import Post, PostModel, FoundPost
+from .post import Post, PostModel, FoundPost, PostInput

@@ -8,7 +8,8 @@ from .connection import posts
 __all__ = (
     'FoundPost',
     'PostModel',
-    'Post'
+    'Post',
+    'PostInput'
 )
 
 class FoundPost(ModelProtocol, Protocol):
@@ -17,6 +18,7 @@ class FoundPost(ModelProtocol, Protocol):
     content: str
     epoch: float
     id: str
+    title: str
 
 @dataclass
 class PostModel(Model[FoundPost], collection = posts):
@@ -25,6 +27,7 @@ class PostModel(Model[FoundPost], collection = posts):
     content: Optional[str] = None
     epoch: Optional[float] = None
     id: Optional[str] = None
+    title: Optional[str] = None
 
 @strawberry.type(description = "Post object.")
 class Post:
@@ -32,3 +35,9 @@ class Post:
     content: str = strawberry.field(description = "Content of the post.")
     epoch: float = strawberry.field(description = "UNIX epoch creation date of the post.")
     id: str = strawberry.field(description = "ID of the post.")
+    title: str = strawberry.field(description = "Title of the post.")
+
+@strawberry.input(description = "Comment creation data.")
+class PostInput:
+    title: str = strawberry.field(description = "Title of the post.")
+    content: str  = strawberry.field(description = "Content of the post.")

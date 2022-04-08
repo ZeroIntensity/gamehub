@@ -126,6 +126,30 @@
                             href="#"
                             class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 focus:bg-zinc-700 focus:shadow-outline"
                         >
+                            <span class="text-white">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                                    />
+                                </svg>
+                            </span>
+                            <span>Emulators</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 focus:bg-zinc-700 focus:shadow-outline"
+                        >
                             <span class="text-white"
                                 ><svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -192,32 +216,147 @@
                             <span>Report</span>
                         </a>
                     </li>
+                    <div class="py-4">
+                        <hr class="w-full border-t border-zinc-700" />
+                    </div>
+                    <li>
+                        <a
+                            href="https://github.com/gamehub-2/gamehub"
+                            class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 focus:bg-zinc-700 focus:shadow-outline"
+                        >
+                            <span class="text-white">
+                                {% if user %}
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                                    />
+                                </svg>
+                                {% else %}
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                                    />
+                                </svg>
+                                {% endif %}
+                            </span>
+                            <span>
+                                {% if user %} Logout {% else %} Login {% endif
+                                %}
+                            </span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="https://github.com/gamehub-2/gamehub"
+                            class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 focus:bg-zinc-700 focus:shadow-outline"
+                        >
+                            <span class="text-white">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                                    />
+                                </svg>
+                            </span>
+                            <span>Source</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
 
-            <div class="w-9/12">
-                <div class="p-4 text-white">
-                    <ul
+            <div class="w-9/12 text-white">
+                <div class="p-4">
+                    <h1
+                        class="text-white text-5xl lg:text-6xl font-bold text-center"
+                    >
+                        Game<span class="text-orange-400">Hub</span> 2
+                    </h1>
+
+                    <div
+                        class="font-semibold text-center w-3/6 m-auto p-3 text-2xl lg:text-lg"
+                    >
+                        <button
+                            class="drop-shadow-md bg-orange-400 p-2 font-semibold rounded hover:bg-orange-300 transition-all active:bg-orange-200 text-xl"
+                        >
+                            Browse Games
+                        </button>
+                    </div>
+                    {% if user and user.account_type != "user" %}
+                    <button
+                        class="bg-orange-400 p-2 font-semibold rounded hover:bg-orange-300 transition-all active:bg-orange-200"
+                        alt="Create new post"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                        </svg>
+                    </button>
+                    {% endif %}
+                </div>
+                <div class="p-4">
+                    <div
                         class="grid grid-cols-1 md:grid-cols-2 gap-5 p-7 first:pt-4 last:pb-4"
                     >
                         {% for post in posts %}
-                        <li>
-                            <div
-                                class="bg-zinc-800 text-white rounded p-4 drop-shadow-lg"
+                        <div class="bg-zinc-800 rounded p-4 drop-shadow-lg">
+                            <p
+                                class="font-thin text-4xl lg:text-2xl xl:text-xl text-zinc-400"
+                                data-type="epoch"
+                                style="display: none"
                             >
-                                <p
-                                    class="font-thin text-4xl lg:text-2xl xl:text-xl text-zinc-400"
-                                    data-type="epoch"
-                                    style="display: none"
-                                >
-                                    {{ post.epoch }}
-                                </p>
-                                <p
-                                    class="text-zinc-200 text-4xl xl:text-xl lg:text-2xl"
-                                >
-                                    {{ post.content }}
-                                </p>
-                                <!--
+                                {{ post.epoch }}
+                            </p>
+                            <p
+                                class="text-zinc-200 text-5xl xl:text-2xl lg:text-3xl"
+                            >
+                                {{ post.title }}
+                            </p>
+                            <div class="py-4">
+                                <hr class="w-full border-t border-zinc-700" />
+                            </div>
+                            <p
+                                class="text-zinc-300 text-3xl xl:text-lg lg:text-xl font-thin"
+                            >
+                                {{ post.content }}
+                            </p>
+                            <!--
                 <div class="grid xl:gap-36 2xl:gap-2 gap-4 xl:grid-cols-6">
                     <button
                         class="text-4xl h-20 lg:text-lg xl:w-32 xl:text-lg lg:h-12 rounded drop-shadow-xl bg-gradient-to-tr from-orange-400 to-orange-700 px-1 md:p-1 xl:p-2 font-bold hover:opacity-50 active:opacity-30 transition-all"
@@ -236,10 +375,9 @@
                     </button>
                 </div>
             -->
-                            </div>
-                        </li>
+                        </div>
                         {% endfor %}
-                    </ul>
+                    </div>
                 </div>
             </div>
         </div>
