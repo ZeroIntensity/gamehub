@@ -5,10 +5,103 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="/static/js/dist/index.js"></script>
         <link rel="stylesheet" href="/static/css/selection.css" />
+        <link rel="stylesheet" href="/static/css/placeholder.css" />
     </head>
 
     <body class="bg-zinc-900">
         <div class="flex flex-wrap bg-zinc-900 w-full">
+            <div
+                class="fixed z-10 inset-0 overflow-y-auto hidden"
+                aria-labelledby="modal-title"
+                role="dialog"
+                aria-modal="true"
+                data-type="modal"
+                id="post-modal"
+            >
+                <div
+                    class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+                >
+                    <div
+                        class="fixed inset-0 bg-zinc-900 bg-opacity-75 transition-opacity"
+                        aria-hidden="true"
+                    ></div>
+
+                    <span
+                        class="hidden sm:inline-block sm:align-middle sm:h-screen"
+                        aria-hidden="true"
+                        >&#8203;</span
+                    >
+                    <div
+                        class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+                    >
+                        <div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                            <form class="space-y-6" action="#" id="post-form">
+                                <div class="flex">
+                                    <p
+                                        class="justify-start text-xl font-medium text-white"
+                                    >
+                                        Create Post
+                                    </p>
+                                    <button
+                                        type="button"
+                                        class="justify-end rounded-lg text-sm ml-auto text-zinc-500 hover:text-zinc-400 transition-all"
+                                        data-type="modalclose"
+                                    >
+                                        <svg
+                                            class="w-6 h-6"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                clip-rule="evenodd"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div>
+                                    <label
+                                        for="text"
+                                        class="block mb-2 text-sm font-medium text-zinc-400"
+                                        >Title</label
+                                    >
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        id="post-title"
+                                        class="bg-zinc-900 text-sm rounded-lg block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+                                        placeholder="I commit several war crimes in 2019..."
+                                    />
+                                    <small></small>
+                                </div>
+                                <div>
+                                    <label
+                                        for="password"
+                                        class="block mb-2 text-sm font-medium text-zinc-400"
+                                        >Content</label
+                                    >
+                                    <textarea
+                                        name="content"
+                                        id="post-content"
+                                        placeholder="The Industrial Revolution and its consequences have been a disaster for the human race..."
+                                        class="bg-zinc-900 text-sm rounded-lg block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+                                    ></textarea>
+                                    <small></small>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    class="font-bold drop-shadow-md border-solid border-2 border-emerald-400 hover:bg-emerald-400 p-2 rounded transition-all duration-300 w-full text-white bg-zinc-900"
+                                >
+                                    Create
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {{ nav|safe }}
 
             <div class="w-9/12 text-white">
@@ -36,10 +129,11 @@
                 </div>
                 <div class="p-4">
                     {% if user and user.account_type != "user" %}
-                    <div class="pl-7">
+                    <div class="pl-7 group">
                         <button
                             class="drop-shadow-md border-solid border-2 border-emerald-400 hover:bg-emerald-400 p-2 rounded transition-all duration-300"
                             aria-label="Create new post."
+                            onclick="createPostModal()"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

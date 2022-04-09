@@ -11,11 +11,11 @@ from ..utils import no_id
 
 __all__ = (
     'games',
-    'posts'
+    'posts',
+    'get_games'
 )
 
-@strawberry.field(description = "List all games.")
-def games() -> List[Game]:
+def get_games() -> List[Game]:
     res: List[Game] = []
 
     for game in games_col.find():
@@ -28,6 +28,10 @@ def games() -> List[Game]:
         res.append(Game(**params))
 
     return res
+
+@strawberry.field(description = "List all games.")
+def games() -> List[Game]:
+    return get_games()
 
 @strawberry.field(description = "List all posts.")
 def posts() -> List[Post]:

@@ -9,6 +9,6 @@ const parseCookie = (str: string) =>
             return acc;
         }, {});
 
-const cookies = parseCookie(document.cookie);
+const cookies = document.cookie ? parseCookie(document.cookie) : {};
 export const isAuthenticated = cookies.hasOwnProperty("auth");
 export default cookies;

@@ -14,5 +14,5 @@ from .comments_likes import (
 )
 from .game_likes import like_game, unlike_game
 from .post import create_post, delete_post, can_alter_post, edit_post
-from .list_items import games, posts
+from .list_items import games, posts, get_games
 from .login import login, logout

@@ -24,3 +24,16 @@ type GQLHeaders = {
 };
 
 type APIResponse<T extends object> = Promise<GraphQLResponse<T>>;
+
+class ExtendedWindow extends Window {
+    createPostModal(): void;
+}
+
+type ValidatorResponse = { success: boolean; message?: string };
+
+type Validator = (value: string) => ValidatorResponse;
+
+type WrapperResponse = {
+    ok: boolean;
+    message?: string;
+};
