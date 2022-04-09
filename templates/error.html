@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Home - GameHub</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="/static/js/dist/index.js"></script>
+        <link rel="stylesheet" href="/static/css/selection.css" />
+    </head>
+
+    <body class="bg-zinc-900">
+        <div class="flex flex-wrap bg-zinc-900 w-full h-screen">
+            {{ nav|safe }}
+
+            <div class="w-9/12 text-white m-auto">
+                <div class="p-4 w-3/6 m-auto">
+                    <h1
+                        class="text-white text-5xl lg:text-6xl font-bold text-center"
+                    >
+                        Error
+                        <span
+                            class="bg-gradient-to-r from-orange-400 to-orange-500 bg-clip-text text-transparent"
+                            >{{ error }}</span
+                        >
+                    </h1>
+                    <h2 class="p-2 text-2xl lg:text-3xl font-bold text-center">
+                        {{ message }}
+                    </h2>
+
+                    <div
+                        class="font-semibold text-center w-3/6 m-auto p-5 text-2xl lg:text-lg"
+                    >
+                        <a
+                            href="/"
+                            class="drop-shadow-md border-solid border-2 border-orange-400 hover:bg-orange-400 p-2 rounded transition-all text-xl duration-300"
+                        >
+                            Go to home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

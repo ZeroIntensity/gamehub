@@ -14,7 +14,3 @@ window.addEventListener("DOMContentLoaded", () => {
 
     highlightNav();
 });
-
-export function clickLogout() {
-    console.log("a");
-}

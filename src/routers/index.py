@@ -3,6 +3,7 @@ from fastapi.templating import Jinja2Templates
 from ..db import posts, PostModel
 from typing import List
 from ..gql import ctx_dependency
+from ..utils import nav
 
 __all__ = (
     'router',
@@ -20,9 +21,9 @@ templates = Jinja2Templates('./templates')
 )
 async def index(request: Request, ctx = Depends(ctx_dependency)):
     posts_list: List[PostModel] = [PostModel(**post) for post in posts.find()]
-
     return templates.TemplateResponse('index.html', {
         'request': request,
         'posts': reversed(posts_list),
-        'user': ctx.user
+        'user': ctx.user,
+        'nav': await nav(ctx.user)
     })

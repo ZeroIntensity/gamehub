@@ -12,5 +12,5 @@ export async function logOut() {
     if (!isAuthenticated) throw new Error("not logged in");
     const response = await logout();
 
-    return handleErrors(response, "");
+    return handleErrors(response);
 }
