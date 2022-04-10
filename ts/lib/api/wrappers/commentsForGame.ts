@@ -1,5 +1,6 @@
 import gql from "../_gql";
 import makeRequest from "../makeRequest";
+import { Comment } from "../schema";
 
 const query = gql`
     query commentsForGame($gameName: String!) {
@@ -18,12 +19,14 @@ export default async (
     gameName: string
 ): APIResponse<{
     getGame: {
-        comments: Array<{
-            epoch: number;
-            author: string;
-            likes: Array<string>;
-            content: string;
-        }>;
+        comments: Array<
+            {
+                epoch: number;
+                author: string;
+                likes: Array<string>;
+                content: string;
+            } & Array<Comment>
+        >;
     };
 }> => {
     return makeRequest(query, { gameName });

@@ -1,4 +1,4 @@
-type Comment = {
+export type CommentSchema = {
     author: string;
     likes: Array<string>;
     content: string;
@@ -6,24 +6,24 @@ type Comment = {
     id: string;
 };
 
-type CommentData = {
+export type CommentDataSchema = {
     id: string;
     name: string;
 };
 
-type Game = {
+export type GameSchema = {
     name: string;
     likes: Array<string>;
     comments: Array<Comment>;
     data: string;
 };
 
-type GameInput = {
+export type GameInputSchema = {
     name: string;
     data: string;
 };
 
-type Post = {
+export type PostSchema = {
     author: string;
     content: string;
     epoch: number;
@@ -31,12 +31,22 @@ type Post = {
     title: string;
 };
 
-type User = {
+export type UserSchema = {
     name: string;
     accountType: AccountType;
 };
 
-type UserInput = {
+export type UserInputSchema = {
     name: string;
     password: string;
 };
+
+export type Comment = Partial<CommentSchema>;
+
+export type CommentData = Partial<CommentDataSchema>;
+
+export type Game = Partial<GameSchema>;
+
+export type Post = Partial<PostSchema>;
+
+export type User = Partial<UserSchema>;

@@ -1,4 +1,5 @@
 import makeRequest from "../makeRequest";
+import { UserInputSchema } from "../schema";
 import gql from "../_gql";
 
 const query = gql`
@@ -8,7 +9,7 @@ const query = gql`
 `;
 
 export default async (
-    credentials: UserInput
+    credentials: UserInputSchema
 ): APIResponse<{ createAccount: string }> => {
     return makeRequest(query, {
         username: credentials.name,

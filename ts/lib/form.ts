@@ -8,7 +8,7 @@ export class Input {
     }
 
     private displayMsg(message: string, type: "success" | "error"): void {
-        const target = this.element.parentNode?.querySelector("small")!;
+        const target = this.element.parentNode!.querySelector("small")!;
         target.innerHTML = message;
 
         let a = type == "success" ? "text-emerald-400" : "text-rose-400";
@@ -53,6 +53,7 @@ export class Form {
         this.submitCallback = () => {};
 
         Array.from(this.element.elements).forEach(item => {
+            if (item.getAttribute("data-form-exclude") == "true") return;
             this.inputs[item.id] = new Input(<HTMLInputElement>item);
         });
 
@@ -83,6 +84,7 @@ export class Form {
                 key => (data[key] = this.inputs[key].data())
             );
 
+            this.clear();
             this.submitCallback(event, data);
         });
     }

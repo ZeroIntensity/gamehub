@@ -5,6 +5,7 @@ import { Form } from "./lib/form";
 import noMatch from "./lib/utils/noMatch";
 import handleEpoch from "./lib/handleEpoch";
 import registerModalClosers from "./lib/registerModalClosers";
+import formResponse from "./lib/utils/formResponse";
 
 window.addEventListener("DOMContentLoaded", () => {
     highlightNav();
@@ -71,17 +72,8 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     form.setCallback((_, data) => {
-        form.clear();
         const resp = createPost(data["post-title"], data["post-content"]);
-        resp.then(data => {
-            if (!data.ok) {
-                form.error(`Server error: ${data.message!}`);
-            } else window.location.reload();
-        });
-
-        resp.catch(_ => {
-            form.error("Something went wrong.");
-        });
+        formResponse(resp, form, window.location.reload);
     });
 });
 

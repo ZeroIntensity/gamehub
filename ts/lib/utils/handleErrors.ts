@@ -1,4 +1,4 @@
-export default (response: GraphQLResponse<unknown>): WrapperResponse => {
+export default <T>(response: GraphQLResponse<T>): WrapperResponse => {
     const json = response.json;
 
     if ((response.status == 200 && json.errors) || json.errors?.length! > 1) {

@@ -1,4 +1,4 @@
-export default (response: GraphQLResponse<unknown>): void => {
+export default <T>(response: GraphQLResponse<T>): void => {
     const json = response.json;
 
     if (json.errors) {
