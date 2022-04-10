@@ -1,6 +1,8 @@
 module.exports = {
     entry: {
         index: "./ts/index.ts",
+        games: "./ts/games.ts",
+        error: "./ts/error.ts",
     },
     module: {
         rules: [

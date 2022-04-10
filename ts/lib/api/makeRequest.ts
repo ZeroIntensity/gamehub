@@ -8,7 +8,6 @@ export default async <T extends object>(
     variables?: Variables,
     auth?: string
 ): Promise<GraphQLResponse<T>> => {
-    console.log(query);
     if (auth) headers["Authorization"] = auth;
 
     const response = await fetch("/graphql", {

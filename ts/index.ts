@@ -3,36 +3,13 @@ import { Modal } from "./lib/modal";
 import { createPost } from "./lib/post";
 import { Form } from "./lib/form";
 import noMatch from "./lib/utils/noMatch";
+import handleEpoch from "./lib/handleEpoch";
+import registerModalClosers from "./lib/registerModalClosers";
 
 window.addEventListener("DOMContentLoaded", () => {
-    const elements = document.querySelectorAll('[data-type="epoch"]');
-
-    elements.forEach(element => {
-        const epoch = Number(element.innerHTML);
-        const date = new Date(epoch * 1000);
-        const month = date.toLocaleString("default", { month: "long" });
-
-        (element as HTMLElement).style.display = "block";
-        element.innerHTML = `${month} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
-    });
-
     highlightNav();
-
-    const modalClosers = document.querySelectorAll('[data-type="modalclose"]');
-
-    modalClosers.forEach(element => {
-        const origin = <HTMLElement>element;
-        let parent: HTMLElement = origin;
-
-        for (let i = 0; i < 10; i++) {
-            if (parent.getAttribute("data-type") == "modal") break;
-            parent = parent.parentElement!;
-        }
-
-        origin.onclick = () => {
-            parent.classList.add("hidden");
-        };
-    });
+    handleEpoch();
+    registerModalClosers();
 
     const form = new Form("post-form");
 
@@ -94,6 +71,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     form.setCallback((_, data) => {
+        form.clear();
         const resp = createPost(data["post-title"], data["post-content"]);
         resp.then(data => {
             if (!data.ok) {

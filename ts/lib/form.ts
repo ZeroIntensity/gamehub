@@ -33,6 +33,10 @@ export class Input {
     public data(): string {
         return this.element.value;
     }
+
+    public clear() {
+        this.displayMsg("", "error");
+    }
 }
 
 export class Form {
@@ -115,5 +119,12 @@ export class Form {
 
     public success(message: string) {
         this.displayMsg(message, "success");
+    }
+
+    public clear() {
+        Object.keys(this.inputs).forEach(key => {
+            this.inputs[key].clear();
+        });
+        this.displayMsg("", "error");
     }
 }
