@@ -21,7 +21,7 @@
                 </div>
                 <div class="p-4">
                     <div
-                        class="grid grid-cols-1 md:grid-cols-2 gap-5 p-7 first:pt-4 last:pb-4"
+                        class="grid grid-cols-1 lg:grid-cols-2 gap-5 p-7 first:pt-4 last:pb-4"
                     >
                         {% for game in games %}
                         <div class="bg-zinc-800 rounded p-4 drop-shadow-lg">
@@ -30,7 +30,7 @@
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5"
+                                    class="h-12 w-12 lg:h-5 lg:w-5"
                                     viewBox="0 0 20 20"
                                     fill="currentColor"
                                 >
@@ -38,11 +38,13 @@
                                         d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"
                                     />
                                 </svg>
-                                <p class="font-bold select-none">
+                                <p
+                                    class="font-bold select-none text-3xl lg:text-lg"
+                                >
                                     {{ len(game.likes) }}
                                 </p>
                                 <span
-                                    class="group-hover:scale-100 absolute w-auto p-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-zinc-700 text-xs font-bold transition-all duration-100 scale-0 origin-left"
+                                    class="lg:group-hover:scale-100 absolute w-auto p-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-zinc-700 text-xs font-bold transition-all duration-100 scale-0 origin-left"
                                     >{{ 'Unlike' if liked(user.username,
                                     game.likes) else 'Like' }}</span
                                 >
@@ -53,7 +55,7 @@
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6"
+                                    class="h-12 w-12 lg:h-6 lg:w-6"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -65,16 +67,18 @@
                                         d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
                                     />
                                 </svg>
-                                <p class="font-bold select-none">
+                                <p
+                                    class="font-bold select-none text-3xl lg:text-lg"
+                                >
                                     {{ len(game.comments) }}
                                 </p>
                                 <span
-                                    class="group-hover:scale-100 absolute w-auto p-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-zinc-700 text-xs font-bold transition-all duration-100 scale-0 origin-left"
+                                    class="lg:group-hover:scale-100 absolute w-auto p-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-zinc-700 text-xs font-bold transition-all duration-100 scale-0 origin-left"
                                     >Comments</span
                                 >
                             </div>
                             <p
-                                class="text-zinc-200 text-3xl xl:text-2xl lg:text-3xl"
+                                class="text-zinc-200 text-5xl xl:text-3xl lg:text-xl"
                             >
                                 {{ game.name }}
                             </p>
@@ -85,7 +89,7 @@
                             <div class="grid grid-cols-3 text-center">
                                 <a
                                     href="{{ game.data }}"
-                                    class="bg-zinc-900 drop-shadow-md border-solid border-2 border-orange-400 hover:bg-orange-400 p-2 rounded transition-all text-xl duration-300"
+                                    class="drop-shadow-lg lg:bg-zinc-800 bg-orange-400 border-solid border-2 border-orange-400 lg:hover:bg-orange-400 p-4 lg:p-2 rounded transition-all text-3xl lg:text-xl duration-300"
                                 >
                                     Play
                                 </a>

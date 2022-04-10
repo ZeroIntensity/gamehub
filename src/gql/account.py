@@ -9,13 +9,13 @@ from ..utils import (
     ORDER, 
     exists,
     has_access,
-    not_null
+    not_null,
+    exception
 )
 from typing import Optional
 from .._typing import AccountType
 from .permissions import Authenticated, HasAdmin
 from strawberry.types import Info
-from fastapi import Response
 
 __all__ = (
     "create_account",
@@ -37,6 +37,7 @@ TargetAccount = Annotated[
 
 @strawberry.field(description = "Create a new account.")
 def create_account(
+    info: Info,
     credentials: Annotated[
         UserInput,
         strawberry.argument("Credentials to account from.")
@@ -45,7 +46,7 @@ def create_account(
     model = UserModel(username = credentials.name)
     pattern = r'.*(<|>|\(|\)|\*|&|@|\'|\"|,|\{|\}|\[|\]).*'
 
-    validate({
+    validate(info, {
         model.exists(): f'Name "{credentials.name}" is already taken.',
         len(credentials.name) < 4: "Username must be at least 4 characters.",
         len(credentials.name) > 20: "Username cannot exceed 20 characters.",
@@ -72,17 +73,17 @@ def promote(
     ]
 ) -> str:
     model: FoundUser = info.context.user
-    target = exists(username)
+    target = exists(info, username)
 
     typ: AccountType = not_null(target.account_type)
     
     index = ORDER.index(typ) + 1
 
     if len(ORDER) == index:
-        raise Exception(f'"{username}" already has the maximum permissions.')
+        exception(info, f'"{username}" already has the maximum permissions.')
 
     next_item = ORDER[index]
-    check_perms(model.account_type, next_item)
+    check_perms(info, model.account_type, next_item)
     
     ext = UserModel(username = username).find()
     ext.account_type = next_item
@@ -102,17 +103,20 @@ def demote(
     ]
 ) -> str:
     model: FoundUser = info.context.user
-    target = exists(username)
+    target = exists(info, username)
 
     typ: AccountType = target.account_type
 
     index = ORDER.index(typ) - 1
 
     if index < 0:
-        raise Exception(f'"{username}" already has the minimum permissions.')
+        exception(
+            info,
+            f'"{username}" already has the minimum permissions.'
+        )
 
     pre = ORDER[index]
-    check_perms(model.account_type, typ)
+    check_perms(info, model.account_type, typ)
 
     ext = UserModel(username = username).find()
     ext.account_type = pre
@@ -126,7 +130,7 @@ def demote(
 )
 def delete_account(info: Info, target: TargetAccount = None) -> str:
     user: FoundUser = info.context.user
-    model = has_access(user, target)
+    model = has_access(info, user, target)
     model.delete()
 
     return f'Deleted user "{target or user.username}".'

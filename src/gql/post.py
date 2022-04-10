@@ -14,8 +14,9 @@ __all__ = (
     'can_alter_post'
 )
 
-def validate_post(data: PostInput):
-    validate({
+def validate_post(info: Info, data: PostInput):
+    validate(info, 
+    {
         bool(re.match("<.*>", data.content)): "Invalid content.",
         len(data.content) > 300: "Post content cannot exceed 300 characters.",
         len(data.title) > 30: "Post title cannot exceed 30 characters.",
@@ -41,7 +42,7 @@ def create_post(
 ) -> Post:
     user: FoundUser = info.context.user
 
-    validate_post(data)
+    validate_post(info, data)
     params: dict = {
         "author": user.username,
         "epoch": time.time(),
@@ -59,7 +60,11 @@ def create_post(
     permission_classes = [Authenticated, HasAdmin]
 )
 def delete_post(info: Info, id: PostID) -> str:
-    post = has_post_access(id, info.context.user.username)
+    post = has_post_access(
+        info,
+        id,
+        info.context.user.username
+    )
     post.delete()
 
     return "Successfully deleted post."
@@ -68,6 +73,7 @@ def delete_post(info: Info, id: PostID) -> str:
     description = "Check whether a user can alter a post."
 )
 def can_alter_post(
+    info: Info,
     id: PostID,
     target: Annotated[
         str,
@@ -75,7 +81,7 @@ def can_alter_post(
     ]
 ) -> bool:
     try:
-        has_post_access(id, target)
+        has_post_access(info, id, target)
         return True
     except Exception:
         return False
@@ -85,8 +91,12 @@ def can_alter_post(
     permission_classes = [Authenticated, HasAdmin]
 )
 def edit_post(info: Info, id: PostID, data: PostData) -> str:
-    post = has_post_access(id, info.context.user.username)
-    validate_post(data)
+    post = has_post_access(
+        info,
+        id,
+        info.context.user.username
+    )
+    validate_post(info, data)
 
     post.content = data.content
     post.title = data.title

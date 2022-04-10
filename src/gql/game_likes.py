@@ -3,7 +3,7 @@ from .permissions import Authenticated
 from strawberry.types import Info
 from ..db import FoundUser
 from .games import TargetGame
-from ..utils import game_exists
+from ..utils import game_exists, exception
 
 __all__ = (
     "like_game",
@@ -16,10 +16,10 @@ __all__ = (
 )
 def like_game(info: Info, name: TargetGame) -> str:
     user: FoundUser = info.context.user
-    game = game_exists(name)
+    game = game_exists(info, name)
 
     if user.username in game.likes:
-        raise Exception("You have already liked this game.")
+        exception(info, "You have already liked this game.")
 
     game.likes.append(user.username)
     game.update()
@@ -32,10 +32,10 @@ def like_game(info: Info, name: TargetGame) -> str:
 )
 def unlike_game(info: Info, name: TargetGame) -> str:
     user: FoundUser = info.context.user
-    game = game_exists(name)
+    game = game_exists(info, name)
 
     if user.username not in game.likes:
-        raise Exception("You have not liked this game.")
+        exception(info, "You have not liked this game.")
 
     game.likes.remove(user.username)
     game.update()

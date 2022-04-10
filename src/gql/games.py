@@ -1,9 +1,10 @@
 import strawberry
 from ..db import GameModel, GameInput, Game, Comment
 from .permissions import Authenticated, HasAdmin
-from ..utils import game_exists
+from ..utils import game_exists, exception
 from typing_extensions import Annotated
 from typing import List
+from strawberry.types import Info
 
 TargetGame = Annotated[
     str,
@@ -21,11 +22,11 @@ __all__ = (
     description = "Create a game.",
     permission_classes = [Authenticated, HasAdmin]
 )
-def create_game(data: GameInput) -> str:
+def create_game(info: Info, data: GameInput) -> str:
     model = GameModel(name = data.name)
 
     if model.exists():
-        raise Exception(f'Game "{data.name}" already exists.')
+        exception(info, f'Game "{data.name}" already exists.')
     
     params = {
         'data': data.data,
@@ -44,14 +45,14 @@ def create_game(data: GameInput) -> str:
     description = "Delete a game.",
     permission_classes = [Authenticated, HasAdmin]
 )
-def delete_game(name: TargetGame) -> str:
-    game = game_exists(name)
+def delete_game(info: Info, name: TargetGame) -> str:
+    game = game_exists(info, name)
     game.delete()
     return f'Successfully deleted "{game}"'
 
 @strawberry.field(description = "Get game data.")
-def get_game(name: TargetGame) -> Game:
-    game = game_exists(name)
+def get_game(info: Info, name: TargetGame) -> Game:
+    game = game_exists(info, name)
     params = game.make_dict()
 
     del params['_id']

@@ -74,7 +74,7 @@ class HasAdmin(BasePermission):
 
     def has_permission(self, _: Any, info: Info, **kwargs):
         try:
-            check_perms(info.context.user.account_type, 'admin')
+            check_perms(info, info.context.user.account_type, 'admin')
             return True
         except Exception:
             return False

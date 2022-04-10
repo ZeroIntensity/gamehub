@@ -1,13 +1,9 @@
 import post from "./api/wrappers/createPost";
+import handleErrors from "./utils/handleErrors";
 
 export async function createPost(
     title: string,
     content: string
-): Promise<string> {
-    const response = await post(title, content);
-
-    if (response.errors) {
-    }
-
-    return response.data!.createPost.id;
+): Promise<WrapperResponse> {
+    return handleErrors(await post(content, title));
 }

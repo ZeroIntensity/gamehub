@@ -3,7 +3,6 @@ from .gql import *
 
 @strawberry.type(description = "Root type for queries.")
 class Query:
-    api_version = api_version
     user_data = user_data
     get_game = get_game
     can_access = can_access

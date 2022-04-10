@@ -3,7 +3,7 @@ from strawberry.types import Info
 from fastapi import Response
 from .account import UserInput
 from ..config import config
-from ..utils import check_creds, sign_jwt
+from ..utils import check_creds, sign_jwt, exception
 from typing_extensions import Annotated
 from .permissions import Authenticated
 
@@ -23,7 +23,7 @@ def login(
     response: Response = info.context.response
 
     if not check_creds(credentials.name, credentials.password):
-        raise Exception("Invalid username or password.")
+        exception(info, "Invalid username or password.")
 
     token: str = sign_jwt(credentials.name)
 

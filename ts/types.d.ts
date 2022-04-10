@@ -9,8 +9,11 @@ type GraphQLError = {
 };
 
 type GraphQLResponse<T> = {
-    data?: T;
-    errors?: Array<GraphQLError>;
+    json: {
+        data?: T;
+        errors?: Array<GraphQLError>;
+    };
+    status: number;
 };
 
 type AccountType = "user" | "admin" | "owner" | "developer";

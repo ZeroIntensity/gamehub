@@ -17,7 +17,8 @@ templates = Jinja2Templates('./templates')
 
 @router.get(
     '/',
-    response_class = responses.HTMLResponse
+    response_class = responses.HTMLResponse,
+    summary = 'Get the home page.'
 )
 async def index(request: Request, ctx = Depends(ctx_dependency)):
     posts_list: List[PostModel] = [PostModel(**post) for post in posts.find()]
@@ -33,7 +34,8 @@ def liked(name: str, likes: list):
 
 @router.get(
     '/games',
-    response_class = responses.HTMLResponse
+    response_class = responses.HTMLResponse,
+    summary = "Get the games page."
 )
 async def games(request: Request, ctx = Depends(ctx_dependency)):
     return templates.TemplateResponse('games.html', {

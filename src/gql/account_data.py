@@ -1,6 +1,6 @@
 import strawberry
 from .account import TargetAccount
-from ..utils import has_access, exists
+from ..utils import has_access, exists, exception
 from strawberry.types import Info
 from typing_extensions import Annotated
 
@@ -31,7 +31,7 @@ def user_data(
     info: Info,
     target: TargetAccount = None
 ) -> User:
-    model_dict = has_access(info.context.user, target) \
+    model_dict = has_access(info, info.context.user, target) \
         .make_dict()
     
     for i in ['_id', 'password']:
@@ -41,14 +41,15 @@ def user_data(
 
 @strawberry.field(description = "Check whether a user has access to a target.")
 def can_access(
+    info: Info,
     first: First,
     second: Second
 ) -> bool:
     try:
-        has_access(exists(first), second)
+        has_access(info, exists(info, first), second)
         return True
     except Exception as e:
         if e.__cause__:  # should be ValueError
-            raise Exception(f'"{second}" does not exist.') from e
+            exception(info, f'"{second}" does not exist.', from_exc = e)
 
         return False

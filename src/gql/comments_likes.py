@@ -3,7 +3,8 @@ from ..utils import (
     make_id,
     has_access,
     get_comment,
-    validate
+    validate,
+    exception
 )
 import strawberry
 from .permissions import Authenticated
@@ -31,8 +32,9 @@ CommentID = Annotated[
     strawberry.argument("ID of a comment on a game.")
 ]
 
-def validate_comment(content: str):
-    validate({
+def validate_comment(info: Info, content: str):
+    validate(info, 
+    {
         bool(re.match("<.*>", content)): "Invalid content.",
         len(content) > 300: "Comment content cannot exceed 300 characters."
     })
@@ -52,9 +54,9 @@ CommentInput = Annotated[
     permission_classes = [Authenticated]
 )
 def create_comment(info: Info, name: TargetGame, content: Content) -> Comment:
-    game = game_exists(name)
+    game = game_exists(info, name)
     
-    validate_comment(content)
+    validate_comment(info, content)
     comment = Comment(
         author = info.context.user.username,
         likes = [],
@@ -75,10 +77,10 @@ def create_comment(info: Info, name: TargetGame, content: Content) -> Comment:
 def delete_comment(info: Info, data: CommentInput) -> str:
     user: FoundUser = info.context.user
 
-    game = game_exists(data.name)
-    comment = get_comment(data.name, data.id)    
+    game = game_exists(info, data.name)
+    comment = get_comment(info, data.name, data.id)    
 
-    has_access(user, comment["author"])
+    has_access(info, user, comment["author"])
     game.comments.remove(comment)
 
     game.update()
@@ -92,12 +94,12 @@ def delete_comment(info: Info, data: CommentInput) -> str:
 def like_comment(info: Info, data: CommentInput) -> str:
     user: FoundUser = info.context.user
 
-    game = game_exists(data.name)
-    comment = get_comment(data.name, data.id)
+    game = game_exists(info, data.name)
+    comment = get_comment(info, data.name, data.id)
     index: int = game.comments.index(comment)
 
     if user.username in comment['likes']:
-        raise Exception('You have already liked this comment.')
+        exception(info, 'You have already liked this comment.')
 
     comment["likes"].append(user.username)
     game.comments[index] = comment
@@ -114,12 +116,12 @@ def unlike_comment(info: Info, data: CommentInput) -> str:
     # TODO: move this into a seperate function
     user: FoundUser = info.context.user
 
-    game = game_exists(data.name)
-    comment = get_comment(data.name, data.id)
+    game = game_exists(info, data.name)
+    comment = get_comment(info, data.name, data.id)
     index: int = game.comments.index(comment)
 
     if user.username not in comment['likes']:
-        raise Exception('You have not liked this comment.')
+        exception(info, 'You have not liked this comment.')
 
     game.comments[index]["likes"].remove(user.username)
     game.update()
@@ -133,14 +135,14 @@ def unlike_comment(info: Info, data: CommentInput) -> str:
 def edit_comment(info: Info, data: CommentInput, content: Content) -> str:
     user: FoundUser = info.context.user
 
-    game = game_exists(data.name)
-    comment = get_comment(data.name, data.id)
+    game = game_exists(info, data.name)
+    comment = get_comment(info, data.name, data.id)
     index: int = game.comments.index(comment)
 
     if comment["author"] != user.username:
-        raise Exception("Only the author can update their comment.")
+        exception(info, "Only the author can update their comment.", 403)
 
-    validate_comment(content)
+    validate_comment(info, content)
 
     game.comments[index]["content"] = content
     game.update()

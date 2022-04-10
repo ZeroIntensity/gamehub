@@ -94,8 +94,16 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     form.setCallback((_, data) => {
-        createPost(data["post-title"], data["post-content"]);
-        window.location.reload();
+        const resp = createPost(data["post-title"], data["post-content"]);
+        resp.then(data => {
+            if (!data.ok) {
+                form.error(`Server error: ${data.message!}`);
+            } else window.location.reload();
+        });
+
+        resp.catch(_ => {
+            form.error("Something went wrong.");
+        });
     });
 });
 

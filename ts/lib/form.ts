@@ -95,4 +95,25 @@ export class Form {
     ) {
         this.submitCallback = callback;
     }
+
+    // TODO: optimize this section
+
+    private displayMsg(message: string, type: "success" | "error"): void {
+        const target = this.element.querySelector("small")!;
+        target.innerHTML = message;
+
+        let a = type == "success" ? "text-emerald-400" : "text-rose-400";
+        let b = type == "success" ? "text-rose-400" : "text-emerald-400";
+
+        target.classList.add(a);
+        target.classList.remove(b);
+    }
+
+    public error(message: string) {
+        this.displayMsg(message, "error");
+    }
+
+    public success(message: string) {
+        this.displayMsg(message, "success");
+    }
 }
