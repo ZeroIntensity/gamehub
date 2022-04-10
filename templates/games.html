@@ -59,20 +59,14 @@
                                     </svg>
                                 </button>
                             </div>
-                            <ul
-                                id="commentBody"
-                                class="overflow-y-scroll relative h-72"
-                            >
+                            <span class="overflow-y-scroll h-72 hidden"></span>
+                            <!-- so these classes get picked up by tailwind -->
+                            <ul id="commentBody">
                                 <div class="text-center p-4">
                                     <p
-                                        class="text-white text-lg font-bold lg:text-md"
+                                        class="text-rose-400 text-lg font-bold lg:text-md"
                                     >
-                                        No Comments
-                                    </p>
-                                    <p
-                                        class="text-zinc-400 font-thin text-md lg:text-sm"
-                                    >
-                                        Be the first to make a comment.
+                                        Failed to fetch comments
                                     </p>
                                 </div>
                             </ul>
@@ -87,13 +81,14 @@
 
                                 <div class="flex h-fit">
                                     <div class="w-full">
-                                        <textarea
+                                        <input
+                                            type="text"
                                             name="content"
                                             id="comment-content"
                                             placeholder="The FitnessGram Pacer test is a multistage aerobic capacity test..."
                                             class="bg-zinc-900 w-full text-3xl lg:text-sm rounded-lg bloc p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
-                                        ></textarea>
-                                        <small></small>
+                                        ></input>
+                                        <small class="z-20"></small>
                                     </div>
                                     <div class="pl-2">
                                         <button

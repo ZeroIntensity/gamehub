@@ -1,17 +1,17 @@
 import highlightNav from "./lib/nav";
 import { Modal } from "./lib/modal";
-import { createPost } from "./lib/post";
 import { Form } from "./lib/form";
 import noMatch from "./lib/utils/noMatch";
 import handleEpoch from "./lib/handleEpoch";
 import registerModalClosers from "./lib/registerModalClosers";
-import formResponse from "./lib/utils/formResponse";
+import { GraphQLClient } from "./lib/api/executor";
 
 window.addEventListener("DOMContentLoaded", () => {
     highlightNav();
     handleEpoch();
     registerModalClosers();
 
+    const graphql = new GraphQLClient();
     const form = new Form("post-form");
 
     const titleInput = form.getInput("post-title");
@@ -72,8 +72,16 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     form.setCallback((_, data) => {
-        const resp = createPost(data["post-title"], data["post-content"]);
-        formResponse(resp, form, window.location.reload);
+        const resp = graphql.createPost(
+            data["post-title"],
+            data["post-content"]
+        );
+
+        resp.then(data => {
+            if (!data.ok) {
+                form.error(data.message!);
+            } else window.location.reload();
+        });
     });
 });
 

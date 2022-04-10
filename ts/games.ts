@@ -1,13 +1,11 @@
 import highlightNav from "./lib/nav";
 import handleEpoch from "./lib/handleEpoch";
 import registerModalClosers from "./lib/registerModalClosers";
-import getComments from "./lib/comments";
 import { Modal } from "./lib/modal";
 import { Form } from "./lib/form";
 import noMatch from "./lib/utils/noMatch";
-import createComment from "./lib/comment";
 import { Comment } from "./lib/api/schema";
-import handleErrors from "./lib/utils/handleErrors";
+import { GraphQLClient } from "./lib/api/executor";
 
 function addComment(
     list: HTMLElement,
@@ -39,6 +37,7 @@ window.addEventListener("DOMContentLoaded", () => {
     highlightNav();
     handleEpoch();
     registerModalClosers();
+    const graphql = new GraphQLClient();
 
     const commentOpeners = document.querySelectorAll(
         '[data-type="opencomments"]'
@@ -90,8 +89,9 @@ window.addEventListener("DOMContentLoaded", () => {
             );
             list.innerHTML = "";
 
-            const comments = getComments(gameName);
-            comments.then(data => {
+            const comments = graphql.getComments(gameName);
+            comments.then(resp => {
+                const data = resp.response.json.data!.getGame.comments;
                 if (!data.length) {
                     list.innerHTML = `<div class="text-center p-4">
                                     <p class="text-white font-semibold text-lg lg:text-md">
@@ -101,7 +101,7 @@ window.addEventListener("DOMContentLoaded", () => {
                                         Be the first to make a comment.
                                     </p>
                                 </div>`;
-                }
+                } else list.classList.add("h-72", "overflow-y-scroll");
 
                 data.forEach(comment => addComment(list, comment));
             });
@@ -109,24 +109,27 @@ window.addEventListener("DOMContentLoaded", () => {
             if (formShowed) {
                 form.setCallback(
                     (_: SubmitEvent, inputData: Record<string, string>) => {
-                        const resp = createComment(
+                        const resp = graphql.createComment(
                             gameName,
                             inputData["comment-content"]
                         );
                         resp.then(data => {
-                            let handled: WrapperResponse;
+                            if (!data.ok) {
+                                form.error(data.message!);
+                            } else {
+                                if (!list.classList.contains("h-72")) {
+                                    list.classList.add(
+                                        "h-72",
+                                        "overflow-y-scroll"
+                                    );
+                                    list.innerHTML = "";
+                                }
 
-                            try {
-                                handled = handleErrors(data);
-                            } catch (e) {
-                                form.error("Something went wrong.");
-                                throw e;
+                                addComment(
+                                    list,
+                                    data.response.json.data!.createComment
+                                );
                             }
-
-                            if (!handled.ok) {
-                                form.error(`Server error: ${handled.message!}`);
-                            } else
-                                addComment(list, data.json.data!.createComment);
                         });
 
                         resp.catch(err => {

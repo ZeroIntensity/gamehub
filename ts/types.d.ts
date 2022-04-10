@@ -20,14 +20,6 @@ type AccountType = "user" | "admin" | "owner" | "developer";
 
 type Variables = { [key: string]: Optional<string> };
 
-type GQLHeaders = {
-    Accept: string;
-    "Content-Type": string;
-    Authorization?: string;
-};
-
-type APIResponse<T extends object> = Promise<GraphQLResponse<T>>;
-
 class ExtendedWindow extends Window {
     createPostModal(): void;
 }
@@ -36,7 +28,16 @@ type ValidatorResponse = { success: boolean; message?: string };
 
 type Validator = (value: string) => ValidatorResponse;
 
-type WrapperResponse = {
+type GraphQLScheme = "mutation" | "query";
+
+type APIResponse<T> = {
     ok: boolean;
+    response: GraphQLResponse<T>;
     message?: string;
+};
+
+type GQLHeaders = {
+    Accept: string;
+    "Content-Type": string;
+    Authorization?: string;
 };
