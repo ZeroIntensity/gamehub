@@ -8,6 +8,7 @@ export class Input {
 	}
 
 	private displayMsg(message: string, type: "success" | "error"): void {
+		console.log(this.element.parentNode, this.element);
 		const target = this.element.parentNode!.querySelector("small")!;
 		target.innerHTML = message;
 
@@ -53,7 +54,7 @@ export class Form {
 		this.submitCallback = () => {};
 
 		Array.from(this.element.elements).forEach(item => {
-			if (item.getAttribute("data-form-exclude") == "true") return;
+			if (item.getAttribute("data-form-exclude")) return;
 			this.inputs[item.id] = new Input(<HTMLInputElement>item);
 		});
 
