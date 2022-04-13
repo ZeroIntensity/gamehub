@@ -1,208 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Home - GameHub</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="/static/js/dist/index.js"></script>
-        <link rel="stylesheet" href="/static/css/selection.css" />
-        <link rel="stylesheet" href="/static/css/placeholder.css" />
-    </head>
+	<head>
+		<title>Home - GameHub</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script src="/static/js/dist/index.js"></script>
+		<link rel="stylesheet" href="/static/css/selection.css" />
+		<link rel="stylesheet" href="/static/css/placeholder.css" />
+	</head>
 
-    <body class="bg-zinc-900">
-        <div class="flex flex-wrap bg-zinc-900 w-full">
-            <div
-                class="fixed z-10 inset-0 overflow-y-auto hidden"
-                aria-labelledby="modal-title"
-                role="dialog"
-                aria-modal="true"
-                data-type="modal"
-                id="post-modal"
-            >
-                <div
-                    class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-                >
-                    <div
-                        class="fixed inset-0 bg-zinc-900 bg-opacity-75 transition-opacity"
-                        aria-hidden="true"
-                    ></div>
+	<body class="bg-zinc-900">
+		<div class="flex flex-wrap bg-zinc-900 w-full">
+			<div
+				class="fixed z-10 inset-0 overflow-y-auto hidden"
+				aria-labelledby="modal-title"
+				role="dialog"
+				aria-modal="true"
+				data-type="modal"
+				id="post-modal"
+			>
+				<div
+					class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+				>
+					<div
+						class="fixed inset-0 bg-zinc-900 bg-opacity-75 transition-opacity"
+						aria-hidden="true"
+					></div>
 
-                    <span
-                        class="hidden md:inline-block sm:align-middle sm:h-screen"
-                        aria-hidden="true"
-                        >&#8203;</span
-                    >
-                    <div
-                        class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-                    >
-                        <div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                            <form class="space-y-6" action="#" id="post-form">
-                                <div class="flex">
-                                    <p
-                                        class="justify-start text-6xl lg:text-xl font-medium text-white"
-                                    >
-                                        Create Post
-                                    </p>
-                                    <button
-                                        type="button"
-                                        class="justify-end rounded-lg lg:text-sm ml-auto text-zinc-500 hover:text-zinc-400 transition-all"
-                                        data-type="modalclose"
-                                    >
-                                        <svg
-                                            class="w-12 h-12 lg:w-6 lg:h-6"
-                                            fill="currentColor"
-                                            viewBox="0 0 20 20"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                fill-rule="evenodd"
-                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                                clip-rule="evenodd"
-                                            ></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <small></small>
-                                <div>
-                                    <label
-                                        for="text"
-                                        class="block mb-2 text-4xl lg:text-sm font-medium text-zinc-400"
-                                        >Title</label
-                                    >
-                                    <input
-                                        type="text"
-                                        name="title"
-                                        id="post-title"
-                                        class="bg-zinc-900 text-4xl lg:text-sm rounded-lg block h-32 lg:h-fit w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
-                                        placeholder="I commit several war crimes in 2019..."
-                                    />
-                                    <small></small>
-                                </div>
-                                <div>
-                                    <label
-                                        for="content"
-                                        class="block mb-2 text-4xl lg:text-sm font-medium text-zinc-400"
-                                        >Content</label
-                                    >
-                                    <textarea
-                                        name="content"
-                                        id="post-content"
-                                        placeholder="The Industrial Revolution and its consequences have been a disaster for the human race..."
-                                        class="bg-zinc-900 text-3xl lg:text-sm rounded-lg h-32 lg:h-fit block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
-                                    ></textarea>
-                                    <small></small>
-                                </div>
+					<span
+						class="hidden md:inline xl:text-xl-block sm:align-middle sm:h-screen"
+						aria-hidden="true"
+						>&#8203;</span
+					>
+					<div
+						class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+					>
+						<div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+							<form class="space-y-6" action="#" id="post-form">
+								<div class="flex">
+									<p
+										class="justify-start text-6xl lg:text-xl font-medium text-white"
+									>
+										Create Post
+									</p>
+									<button
+										type="button"
+										class="justify-end rounded-lg lg:text-sm ml-auto text-zinc-500 hover:text-zinc-400 transition-all"
+										data-type="modalclose"
+									>
+										<svg
+											class="w-12 h-12 lg:w-6 lg:h-6"
+											fill="currentColor"
+											viewBox="0 0 20 20"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												fill-rule="evenodd"
+												d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+												clip-rule="evenodd"
+											></path>
+										</svg>
+									</button>
+								</div>
+								<small></small>
+								<div>
+									<label
+										for="text"
+										class="block mb-2 text-4xl lg:text-sm font-medium text-zinc-400"
+										>Title</label
+									>
+									<input
+										type="text"
+										name="title"
+										id="post-title"
+										class="bg-zinc-900 text-4xl lg:text-sm rounded-lg block h-32 lg:h-fit w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+										placeholder="I commit several war crimes in 2019..."
+									/>
+									<small></small>
+								</div>
+								<div>
+									<label
+										for="content"
+										class="block mb-2 text-4xl lg:text-sm font-medium text-zinc-400"
+										>Content</label
+									>
+									<textarea
+										name="content"
+										id="post-content"
+										placeholder="The Industrial Revolution and its consequences have been a disaster for the human race..."
+										class="bg-zinc-900 text-3xl lg:text-sm rounded-lg h-32 lg:h-fit block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+									></textarea>
+									<small></small>
+								</div>
 
-                                <button
-                                    data-form-exclude="true"
-                                    type="submit"
-                                    class="font-bold text-5xl lg:text-xl drop-shadow-md border-solid border-2 border-emerald-400 hover:bg-emerald-400 p-6 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
-                                >
-                                    Create
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{ nav|safe }}
+								<button
+									data-form-exclude="true"
+									type="submit"
+									class="font-bold text-5xl lg:text-xl drop-shadow-md border-solid border-2 border-emerald-400 hover:bg-emerald-400 p-6 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
+								>
+									Create
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			{{ nav|safe }}
 
-            <div class="w-9/12 text-white">
-                <div class="p-4">
-                    <h1
-                        class="text-white text-8xl lg:text-6xl font-bold text-center"
-                    >
-                        Game<span
-                            class="bg-gradient-to-r from-orange-400 to-orange-500 bg-clip-text text-transparent"
-                            >Hub</span
-                        >
-                        2
-                    </h1>
+			<div class="w-9/12 text-white">
+				<div class="p-4">
+					<h1 class="text-white text-6xl font-bold text-center">
+						Game<spa
+							class="bg-gradient-to-r from-orange-400 to-orange-500 bg-clip-text text-transparent"
+							>Hub</spa
+						>
+						2
+					</h1>
 
-                    <div
-                        class="font-semibold text-center w-5/6 lg:w-3/6 m-auto p-9 lg:p-5"
-                    >
-                        <a
-                            href="/games"
-                            class="text-6xl bg-orange-400 lg:bg-zinc-900 lg:text-xl drop-shadow-md border-solid border-2 border-orange-400 lg:hover:bg-orange-400 p-2 rounded-lg lg:rounded transition-all duration-300"
-                        >
-                            Browse Games
-                        </a>
-                    </div>
-                </div>
-                <div class="p-4">
-                    {% if user and user.account_type != "user" %}
-                    <div class="pl-7 group">
-                        <button
-                            class="drop-shadow-md border-solid bg-emerald-400 lg:bg-zinc-900 border-2 border-emerald-400 lg:hover:bg-emerald-400 p-2 rounded-lg lg:rounded transition-all duration-300"
-                            aria-label="Create new post."
-                            onclick="createPostModal()"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-24 w-24 lg:h-7 lg:w-7"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                            </svg>
-                        </button>
-                    </div>
-                    {% endif %}
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 p-7">
-                        {% for post in posts %}
-                        <div
-                            class="bg-zinc-800 rounded p-8 lg:p-4 drop-shadow-lg"
-                        >
-                            <p
-                                class="font-thin text-7xl lg:text-2xl xl:text-xl text-zinc-400"
-                                data-type="epoch"
-                                style="display: none"
-                            >
-                                {{ post.epoch }}
-                            </p>
-                            <p
-                                class="text-zinc-200 text-7xl xl:text-2xl lg:text-3xl"
-                            >
-                                {{ post.title }}
-                            </p>
-                            <div class="py-4">
-                                <hr class="w-full border-t border-zinc-700" />
-                            </div>
-                            <p
-                                class="text-zinc-300 text-6xl xl:text-lg lg:text-xl font-thin"
-                            >
-                                {{ post.content }}
-                            </p>
-                            <!--
-                <div class="grid xl:gap-36 2xl:gap-2 gap-4 xl:grid-cols-6">
-                    <button
-                        class="text-4xl h-20 lg:text-lg xl:w-32 xl:text-lg lg:h-12 rounded drop-shadow-xl bg-gradient-to-tr from-orange-400 to-orange-700 px-1 md:p-1 xl:p-2 font-bold hover:opacity-50 active:opacity-30 transition-all"
-                    >
-                        Download
-                    </button>
-                    <button
-                        class="text-4xl h-20 lg:text-lg xl:w-32 xl:text-lg lg:h-12 rounded drop-shadow-xl bg-gradient-to-tr from-green-400 to-green-700 px-1 md:p-1 xl:p-2 font-bold hover:opacity-50 active:opacity-30 transition-all"
-                    >
-                        Like
-                    </button>
-                    <button
-                        class="text-4xl h-20 lg:text-lg xl:w-32 xl:text-lg lg:h-12 rounded drop-shadow-xl bg-gradient-to-tr from-blue-400 to-blue-700 px-1 md:p-1 xl:p-2 font-bold hover:opacity-50 active:opacity-30 transition-all"
-                    >
-                        Comment
-                    </button>
-                </div>
-            -->
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </body>
+					<div
+						class="font-semibold text-center w-5/6 lg:w-3/6 m-auto p-9 lg:p-5"
+					>
+						<a
+							href="/games"
+							class="drop-shadow-lg md:bg-zinc-900 bg-orange-400 border-solid border-2 border-orange-400 md:hover:bg-orange-400 p-2 rounded transition-all text-2xl duration-300"
+						>
+							Browse Games
+						</a>
+					</div>
+				</div>
+				<div class="p-4">
+					{% if user and user.account_type != "user" %}
+					<div class="pl-7 group">
+						<button
+							class="drop-shadow-lg md:bg-zinc-900 bg-emerald-400 border-solid border-2 border-emerald-400 md:hover:bg-emerald-400 p-2 rounded transition-all duration-300"
+							aria-label="Create new post."
+							onclick="createPostModal()"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-10 w-10 md:h-8 md:w-8 lg:h-7 lg:w-7"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+								/>
+							</svg>
+						</button>
+					</div>
+					{% endif %}
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-5 p-7">
+						{% for post in posts %}
+
+						<div class="bg-zinc-800 rounded p-4 drop-shadow-lg">
+							<p
+								class="text-zinc-400 text-3xl md:text-2xl font-thin"
+								data-type="epoch"
+								style="display: none"
+							>
+								{{ post.epoch }}
+							</p>
+							<p class="text-zinc-200 text-3xl md:text-2xl">{{ post.title }}</p>
+							<div class="py-4">
+								<hr class="w-full border-t border-zinc-700" />
+							</div>
+							<p class="text-zinc-300 text-3xl md:text-2xl font-thin">
+								{{ post.content }}
+							</p>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

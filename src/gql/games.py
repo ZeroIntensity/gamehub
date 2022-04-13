@@ -5,6 +5,7 @@ from ..utils import game_exists, exception
 from typing_extensions import Annotated
 from typing import List
 from strawberry.types import Info
+import time
 
 TargetGame = Annotated[
     str,
@@ -22,7 +23,13 @@ __all__ = (
     description = "Create a game.",
     permission_classes = [Authenticated, HasAdmin]
 )
-def create_game(info: Info, data: GameInput) -> str:
+def create_game(
+    info: Info,
+    data: Annotated[
+        GameInput,
+        strawberry.argument("Data to create game from.")
+    ]
+) -> str:
     model = GameModel(name = data.name)
 
     if model.exists():

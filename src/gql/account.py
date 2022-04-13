@@ -133,4 +133,7 @@ def delete_account(info: Info, target: TargetAccount = None) -> str:
     model = has_access(info, user, target)
     model.delete()
 
+    if not target:
+        info.context.response.delete_cookie('auth')
+
     return f'Deleted user "{target or user.username}".'

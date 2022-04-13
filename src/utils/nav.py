@@ -8,7 +8,7 @@ __all__ = (
 
 SVG_LOGOUT = """<svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-7 w-7 md:h-6 md:w-6"
+                        class="h-7 w-7 md:h-6 md:w-6 xl:w-8 xl:h-8"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -22,7 +22,7 @@ SVG_LOGOUT = """<svg
                     </svg>"""
 SVG_LOGIN = """<svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-7 w-7 md:h-6 md:w-6"
+                        class="h-7 w-7 md:h-6 md:w-6 xl:w-8 xl:h-8"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
