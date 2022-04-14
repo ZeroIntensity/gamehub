@@ -32,13 +32,13 @@
 						>&#8203;</span
 					>
 					<div
-						class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+						class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full"
 					>
-						<div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+						<div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full">
 							<form class="space-y-6" action="#" id="post-form">
 								<div class="flex">
 									<p
-										class="justify-start text-6xl lg:text-xl font-medium text-white"
+										class="justify-start text-2xl md:text-xl font-medium text-white"
 									>
 										Create Post
 									</p>
@@ -49,7 +49,7 @@
 										data-type="modalclose"
 									>
 										<svg
-											class="w-12 h-12 lg:w-6 lg:h-6"
+											class="w-8 h-8 md:w-6 md:h-6"
 											fill="currentColor"
 											viewBox="0 0 20 20"
 											xmlns="http://www.w3.org/2000/svg"
@@ -66,14 +66,14 @@
 								<div>
 									<label
 										for="text"
-										class="block mb-2 text-4xl lg:text-sm font-medium text-zinc-400"
+										class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
 										>Title</label
 									>
 									<input
 										type="text"
 										name="title"
 										id="post-title"
-										class="bg-zinc-900 text-4xl lg:text-sm rounded-lg block h-32 lg:h-fit w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+										class="bg-zinc-900 lg:text-sm rounded-lg block h-fit w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
 										placeholder="I commit several war crimes in 2019..."
 									/>
 									<small></small>
@@ -81,14 +81,14 @@
 								<div>
 									<label
 										for="content"
-										class="block mb-2 text-4xl lg:text-sm font-medium text-zinc-400"
+										class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
 										>Content</label
 									>
 									<textarea
 										name="content"
 										id="post-content"
 										placeholder="The Industrial Revolution and its consequences have been a disaster for the human race..."
-										class="bg-zinc-900 text-3xl lg:text-sm rounded-lg h-32 lg:h-fit block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+										class="bg-zinc-900 lg:text-sm rounded-lg h-fit block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
 									></textarea>
 									<small></small>
 								</div>
@@ -96,7 +96,7 @@
 								<button
 									data-form-exclude="true"
 									type="submit"
-									class="font-bold text-5xl lg:text-xl drop-shadow-md border-solid border-2 border-emerald-400 hover:bg-emerald-400 p-6 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
+									class="font-bold text-xl drop-shadow-md border-solid border-2 border-emerald-400 hover:bg-emerald-400 p-3 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
 								>
 									Create
 								</button>
@@ -105,6 +105,7 @@
 					</div>
 				</div>
 			</div>
+
 			{{ nav|safe }}
 
 			<div class="w-9/12 text-white">

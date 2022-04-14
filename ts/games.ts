@@ -6,6 +6,9 @@ import { Form } from "./lib/form";
 import noMatch from "./lib/utils/noMatch";
 import { Comment } from "./lib/api/schema";
 import { GraphQLClient } from "./lib/api/executor";
+import startMsg from "./lib/startMessage";
+
+startMsg();
 
 function addComment(
 	list: HTMLElement,
@@ -140,7 +143,6 @@ window.addEventListener("DOMContentLoaded", () => {
 									list.innerHTML = "";
 								}
 
-								document.getElementById("temp-spinner")!.remove();
 								addComment(list, data.response.json.data!.createComment, true);
 								const len = document.querySelectorAll(
 									`[data-type="commentlen"][data-game-name="${element.getAttribute(
