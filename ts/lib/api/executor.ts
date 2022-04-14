@@ -106,7 +106,6 @@ export class GraphQLClient {
 			getGame: {
 				comments: Array<{
 					author: string;
-					likes: Array<string>;
 					content: string;
 					epoch: number;
 					accountType: AccountType;

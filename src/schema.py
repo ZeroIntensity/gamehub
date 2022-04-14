@@ -20,8 +20,6 @@ class Mutation:
     delete_game = delete_game
     create_comment = create_comment
     delete_comment = delete_comment
-    like_comment = like_comment
-    unlike_comment = unlike_comment
     edit_comment = edit_comment
     like_game = like_game
     unlike_game = unlike_game

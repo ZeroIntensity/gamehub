@@ -70,7 +70,7 @@
 									</svg>
 								</button>
 							</div>
-							<ul id="commentBody" class="overflow-y-auto h-72">
+							<ul id="commentBody" class="overflow-y-auto h-72 hidden">
 								<svg
 									role="status"
 									class="p-3 mr-2 w-14 h-14 text-zinc-700 animate-spin fill-orange-400"
@@ -87,6 +87,24 @@
 										fill="currentFill"
 									/>
 								</svg>
+							</ul>
+							<ul id="commentBody" class="overflow-y-auto h-72">
+								<li class="p-2">
+									<div
+										class="text-white bg-zinc-700 rounded-lg p-2 break-words"
+									>
+										<div class="flex">
+											<p class="font-semibold">ZeroIntensity</p>
+											<p
+												data-type="epoch"
+												class="font-semibold pl-3 text-zinc-500"
+											>
+												April 14, 2022
+											</p>
+										</div>
+										<p class="font-thin text-zinc-400">this is a test</p>
+									</div>
+								</li>
 							</ul>
 
 							{% if user %}

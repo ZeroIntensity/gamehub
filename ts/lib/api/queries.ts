@@ -6,7 +6,6 @@ export default {
 			getGame(name: $gameName) {
 				comments {
 					author
-					likes
 					content
 					epoch
 					accountType

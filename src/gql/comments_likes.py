@@ -18,8 +18,6 @@ import re
 __all__ = (
     "create_comment",
     "delete_comment",
-    "like_comment",
-    "unlike_comment",
     "edit_comment"
 )
 
@@ -60,7 +58,6 @@ def create_comment(info: Info, name: TargetGame, content: Content) -> Comment:
     validate_comment(info, content)
     comment = Comment(
         author = user.username,
-        likes = [],
         content = content,
         epoch = time.time(),
         id = make_id(),
@@ -88,47 +85,6 @@ def delete_comment(info: Info, data: CommentInput) -> str:
     game.update()
 
     return "Successfully deleted comment."
-
-@strawberry.field(
-    description = "Like a comment on a game.",
-    permission_classes = [Authenticated]
-)
-def like_comment(info: Info, data: CommentInput) -> str:
-    user: FoundUser = info.context.user
-
-    game = game_exists(info, data.name)
-    comment = get_comment(info, data.name, data.id)
-    index: int = game.comments.index(comment)
-
-    if user.username in comment['likes']:
-        exception(info, 'You have already liked this comment.')
-
-    comment["likes"].append(user.username)
-    game.comments[index] = comment
-
-    game.update()
-
-    return "Successfully liked comment."
-
-@strawberry.field(
-    description = "Unlike a comment on a game.",
-    permission_classes = [Authenticated]
-)
-def unlike_comment(info: Info, data: CommentInput) -> str:
-    # TODO: move this into a seperate function
-    user: FoundUser = info.context.user
-
-    game = game_exists(info, data.name)
-    comment = get_comment(info, data.name, data.id)
-    index: int = game.comments.index(comment)
-
-    if user.username not in comment['likes']:
-        exception(info, 'You have not liked this comment.')
-
-    game.comments[index]["likes"].remove(user.username)
-    game.update()
-
-    return "Successfully unliked comment."
 
 @strawberry.field(
     description = "Edit a comment on a game.",

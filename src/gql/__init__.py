@@ -7,8 +7,6 @@ from .games import get_game, create_game, delete_game
 from .comments_likes import (
     create_comment,
     delete_comment,
-    like_comment,
-    unlike_comment,
     edit_comment
 )
 from .game_likes import like_game, unlike_game

@@ -17,7 +17,6 @@ __all__ = (
 @strawberry.type(description = "Comment object.")
 class Comment:
     author: str = strawberry.field(description = "Author of the comment")
-    likes: List[str] = strawberry.field(description = "Array containing users who have liked the comment.")
     content: str = strawberry.field(description = "Content of the comment.")
     epoch: float = strawberry.field(description = "UNIX epoch creation date of the comment.")
     id: str = strawberry.field(description = "ID of the comment.")

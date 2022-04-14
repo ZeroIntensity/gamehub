@@ -1,6 +1,5 @@
 export type CommentSchema = {
 	author: string;
-	likes: Array<string>;
 	content: string;
 	epoch: number;
 	id: string;
