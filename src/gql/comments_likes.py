@@ -55,14 +55,16 @@ CommentInput = Annotated[
 )
 def create_comment(info: Info, name: TargetGame, content: Content) -> Comment:
     game = game_exists(info, name)
-    
+    user: FoundUser = info.context.user
+
     validate_comment(info, content)
     comment = Comment(
-        author = info.context.user.username,
+        author = user.username,
         likes = [],
         content = content,
         epoch = time.time(),
-        id = make_id()
+        id = make_id(),
+        account_type = user.account_type
     )
 
     game.comments.append(comment.__dict__)  # type: ignore

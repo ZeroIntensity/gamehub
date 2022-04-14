@@ -2,7 +2,7 @@
 from .model import Model, ModelProtocol
 from typing import Optional, Protocol, List
 from dataclasses import dataclass
-from .._typing import Comment as CommentType, PostID
+from .._typing import Comment as CommentType
 from .connection import games
 import strawberry
 
@@ -21,6 +21,7 @@ class Comment:
     content: str = strawberry.field(description = "Content of the comment.")
     epoch: float = strawberry.field(description = "UNIX epoch creation date of the comment.")
     id: str = strawberry.field(description = "ID of the comment.")
+    account_type: str = strawberry.field(description = "Account type of the comment author.")
 
 class FoundGame(ModelProtocol, Protocol):
     _id: str

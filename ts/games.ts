@@ -12,27 +12,84 @@ startMsg();
 
 function addComment(
 	list: HTMLElement,
-	comment: { author: string; epoch: number; content: string } & Comment,
+	comment: {
+		author: string;
+		epoch: number;
+		content: string;
+		accountType: AccountType;
+	} & Comment,
 	scroll: boolean = false
 ) {
-	const item = document.createElement("li");
+	let item = document.createElement("li");
 	item.classList.add("p-2");
-	item.innerHTML = `<div
-                                        class="text-white bg-zinc-700 rounded-lg p-2 break-words"
-                                    >
-                                        <div class="flex">
-                                            <p class="font-semibold">
-                                                ${comment.author}
-                                            </p>
-                                            <p
-                                                data-type="epoch"
-                                                class="font-semibold pl-3 text-zinc-500"
-                                            >${comment.epoch}</p>
-                                        </div>
-                                        <p class="font-thin text-zinc-400">
-                                            ${comment.content}
-                                        </p>
-                                    </div>`;
+
+	if (comment.accountType != "user") {
+		const svg =
+			comment.accountType == "developer"
+				? `<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-6 w-6"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+					/>
+				</svg>`
+				: `<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-6 w-6"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+					/>
+				</svg>`;
+		item.innerHTML = `<div
+							class="text-white bg-zinc-700 rounded-lg p-2 break-words"
+						>
+							<div class="flex">
+								<div class="space-x-1 flex">
+									${svg}
+									<p class="font-semibold">${comment.author}</p>
+								</div>
+								<p
+									data-type="epoch"
+									class="font-semibold pl-3 text-zinc-500"
+								>${comment.epoch}</p>
+							</div>
+							<p class="font-thin text-zinc-400">
+								${comment.content}
+							</p>
+						</div>`;
+	} else {
+		item.innerHTML = `<div
+											class="text-white bg-zinc-700 rounded-lg p-2 break-words"
+										>
+											<div class="flex">
+												<p class="font-semibold">
+													${comment.author}
+												</p>
+												<p
+													data-type="epoch"
+													class="font-semibold pl-3 text-zinc-500"
+												>${comment.epoch}</p>
+											</div>
+											<p class="font-thin text-zinc-400">
+												${comment.content}
+											</p>
+										</div>`;
+	}
+	// no way in hell am i making this a ternary statement
 	list.appendChild(item);
 	if (scroll) item.scrollIntoView();
 	handleEpoch();
@@ -110,7 +167,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			comments.then(resp => {
 				const data = resp.response.json.data!.getGame.comments;
 				if (!data.length) {
-					list.innerHTML = `<div class="text-center p-4">
+					list.innerHTML = `<div class="text-center p-4 grid place-items-center">
                                     <p class="text-white font-semibold text-lg lg:text-md">
                                         No Comments
                                     </p>
@@ -120,7 +177,6 @@ window.addEventListener("DOMContentLoaded", () => {
                                 </div>`;
 				} else {
 					list.innerHTML = "";
-					list.classList.add("h-72", "overflow-y-scroll");
 				}
 
 				data.forEach(comment => addComment(list, comment));
@@ -139,7 +195,7 @@ window.addEventListener("DOMContentLoaded", () => {
 								form.error(data.message!);
 							} else {
 								if (!list.classList.contains("h-72")) {
-									list.classList.add("h-72", "overflow-y-scroll");
+									list.classList.add("h-72");
 									list.innerHTML = "";
 								}
 
@@ -160,6 +216,34 @@ window.addEventListener("DOMContentLoaded", () => {
 			}
 
 			modal.open();
+		};
+	});
+
+	const likeButtons = document.querySelectorAll('[data-type="likebutton"]');
+
+	likeButtons.forEach(element => {
+		const gameName: string = element.getAttribute("data-game-name")!;
+		const count = element.querySelector("p")!;
+
+		(element as HTMLElement).onclick = () => {
+			const isLiked = document
+				.querySelector(`[data-type="likebutton"][data-game-name="${gameName}"`)! // the attribute is cached when using element
+				.getAttribute("data-liked");
+
+			if (isLiked == "True") {
+				count.innerHTML = String(Number(count.innerHTML) - 1);
+				element.classList.remove("text-rose-500", "hover:text-rose-400");
+				element.classList.add("text-zinc-400", "hover:text-zinc-300");
+				element.setAttribute("data-liked", "False");
+				graphql.unlikeGame(gameName);
+			} else {
+				count.innerHTML = String(Number(count.innerHTML) + 1);
+				element.classList.add("text-rose-500", "hover:text-rose-400");
+				element.classList.remove("text-zinc-400", "hover:text-zinc-300");
+				element.setAttribute("data-liked", "True");
+				graphql.likeGame(gameName);
+			}
+			// not sure if theres a better way to do this
 		};
 	});
 });
