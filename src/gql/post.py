@@ -5,7 +5,7 @@ from ..db import Post, PostModel, FoundUser, PostInput
 from typing_extensions import Annotated
 import time
 from ..utils import make_id, has_post_access, validate
-import re
+import bleach
 
 __all__ = (
     'create_post',
@@ -17,10 +17,8 @@ __all__ = (
 def validate_post(info: Info, data: PostInput):
     validate(info, 
     {
-        bool(re.match("<.*>", data.content)): "Invalid content.",
         len(data.content) > 300: "Post content cannot exceed 300 characters.",
         len(data.title) > 30: "Post title cannot exceed 30 characters.",
-        bool(re.match("<.*>", data.title)): "Invalid title.",
     })
 
 PostID = Annotated[
@@ -43,17 +41,16 @@ def create_post(
     user: FoundUser = info.context.user
 
     validate_post(info, data)
-    params: dict = {
-        "author": user.username,
-        "epoch": time.time(),
-        "id": make_id(),
-        **data.__dict__
-    }
-
-    post = PostModel(**params)
+    post = PostModel(
+        author = user.username,
+        epoch = time.time(),
+        id = make_id(),
+        content = bleach.linkify(bleach.clean(data.content)),
+        title = bleach.clean(data.title)
+    )
     post.save()
 
-    return Post(**params)  # type: ignore
+    return Post(**post.make_dict())  # type: ignore
 
 @strawberry.field(
     description = "Delete a post.",
@@ -98,8 +95,8 @@ def edit_post(info: Info, id: PostID, data: PostData) -> str:
     )
     validate_post(info, data)
 
-    post.content = data.content
-    post.title = data.title
+    post.content = bleach.linkify(bleach.clean(data.content))
+    post.title = bleach.clean(data.title)
     post.update()
 
     return "Successfully updated post."

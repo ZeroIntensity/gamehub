@@ -90,6 +90,7 @@ function addComment(
 										</div>`;
 	}
 	// no way in hell am i making this a ternary statement
+
 	list.appendChild(item);
 	if (scroll) item.scrollIntoView();
 	handleEpoch();
@@ -164,6 +165,7 @@ window.addEventListener("DOMContentLoaded", () => {
 								</svg>`;
 
 			const comments = graphql.getComments(gameName);
+
 			comments.then(resp => {
 				const data = resp.response.json.data!.getGame.comments;
 				if (!data.length) {

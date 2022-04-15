@@ -8,7 +8,6 @@ export class Input {
 	}
 
 	private displayMsg(message: string, type: "success" | "error"): void {
-		console.log(this.element.parentNode, this.element);
 		const target = this.element.parentNode!.querySelector("small")!;
 		target.innerHTML = message;
 
@@ -85,8 +84,8 @@ export class Form {
 				key => (data[key] = this.inputs[key].data())
 			);
 
-			this.clear();
 			this.submitCallback(event, data);
+			this.clear();
 		});
 	}
 

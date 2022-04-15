@@ -9,23 +9,15 @@ from .permissions import Authenticated
 
 __all__ = (
     "login",
-    "logout"
+    "logout",
+    "handle_login"
 )
 
-@strawberry.field(description = "Log in to an account.")
-def login(
-    info: Info,
-    credentials: Annotated[
-        UserInput,
-        strawberry.argument("Account credentials.")
-    ]
-) -> str:
-    response: Response = info.context.response
+def handle_login(response: Response, username: str, password: str):
+    if not check_creds(username, password):
+        return False
 
-    if not check_creds(credentials.name, credentials.password):
-        exception(info, "Invalid username or password.")
-
-    token: str = sign_jwt(credentials.name)
+    token: str = sign_jwt(username)
 
     response.set_cookie(
         "auth", token,
@@ -35,6 +27,21 @@ def login(
     )
 
     return token
+
+@strawberry.field(description = "Log in to an account.")
+def login(
+    info: Info,
+    credentials: Annotated[
+        UserInput,
+        strawberry.argument("Account credentials.")
+    ]
+) -> str:
+    response = handle_login(info.context.response, credentials.name, credentials.password)
+
+    if not response:
+        exception(info, "Invalid username or password.")
+
+    return response
 
 @strawberry.field(
     description = "Log out of the current account.",

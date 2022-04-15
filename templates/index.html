@@ -170,7 +170,7 @@
 								<hr class="w-full border-t border-zinc-700" />
 							</div>
 							<p class="text-zinc-300 text-3xl md:text-2xl font-thin">
-								{{ post.content }}
+								{{ post.content|safe }}
 							</p>
 						</div>
 						{% endfor %}

@@ -13,7 +13,7 @@ import time
 from strawberry.types import Info
 from .games import TargetGame
 from typing_extensions import Annotated
-import re
+import bleach
 
 __all__ = (
     "create_comment",
@@ -31,9 +31,9 @@ CommentID = Annotated[
 ]
 
 def validate_comment(info: Info, content: str):
+    # add other things here if you need to
     validate(info, 
     {
-        bool(re.match("<.*>", content)): "Invalid content.",
         len(content) > 300: "Comment content cannot exceed 300 characters."
     })
 
@@ -58,7 +58,7 @@ def create_comment(info: Info, name: TargetGame, content: Content) -> Comment:
     validate_comment(info, content)
     comment = Comment(
         author = user.username,
-        content = content,
+        content = bleach.linkify(bleach.clean(content)),
         epoch = time.time(),
         id = make_id(),
         account_type = user.account_type
@@ -102,7 +102,7 @@ def edit_comment(info: Info, data: CommentInput, content: Content) -> str:
 
     validate_comment(info, content)
 
-    game.comments[index]["content"] = content
+    game.comments[index]["content"] = bleach.linkify(bleach.clean(content))
     game.update()
 
     return "Successfully updated comment."
