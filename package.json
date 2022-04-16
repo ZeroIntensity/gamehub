@@ -2,10 +2,12 @@
     "private": true,
     "license": "MIT",
     "devDependencies": {
+        "@tailwindcss/forms": "^0.5.0",
         "autoprefixer": "^10.4.4",
-        "cssnano": "^5.1.5",
+        "cssnano": "^5.1.7",
         "postcss": "^8.4.12",
         "postcss-cli": "^9.1.0",
+        "postcss-import": "^14.1.0",
         "tailwindcss": "^3.0.23",
         "ts-loader": "^9.2.8",
         "typescript": "^4.5.5",
@@ -17,5 +19,7 @@
         "build": "npm run css:build && npm run ts:build",
         "ts:build": "webpack"
     },
-    "dependencies": {}
+    "dependencies": {
+        "dotenv": "^16.0.0"
+    }
 }

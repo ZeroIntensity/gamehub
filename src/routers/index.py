@@ -1,9 +1,9 @@
 from fastapi import APIRouter, responses, Request, Depends
-from fastapi.templating import Jinja2Templates
 from ..db import posts, PostModel
 from typing import List
 from ..gql import ctx_dependency, get_games
 from ..utils import nav
+from ..utils.template import template  # circular dependency issues
 
 __all__ = (
     'router',
@@ -13,8 +13,6 @@ __all__ = (
 router = APIRouter()
 prefix: str = ''
 
-templates = Jinja2Templates('./templates')
-
 @router.get(
     '/',
     response_class = responses.HTMLResponse,
@@ -22,12 +20,13 @@ templates = Jinja2Templates('./templates')
 )
 async def index(request: Request, ctx = Depends(ctx_dependency)):
     posts_list: List[PostModel] = [PostModel(**post) for post in posts.find()]
-    return templates.TemplateResponse('index.html', {
-        'request': request,
-        'posts': reversed(posts_list),
-        'user': ctx.user,
-        'nav': await nav(ctx.user)
-    })
+
+    return template(
+        'index.html',
+        request,
+        ctx,
+        posts = reversed(posts_list)
+    )
 
 def liked(name: str, likes: list):
     return name in likes
@@ -38,11 +37,11 @@ def liked(name: str, likes: list):
     summary = "Get the games page."
 )
 async def games(request: Request, ctx = Depends(ctx_dependency)):
-    return templates.TemplateResponse('games.html', {
-        'request': request,
-        'user': ctx.user,
-        'nav': await nav(ctx.user),
-        'games': get_games(),
-        'len': len,
-        'liked': liked
-    })
+    return template(
+        'games.html',
+        request,
+        ctx,
+        games = get_games(),
+        len = len,
+        liked = liked
+    )

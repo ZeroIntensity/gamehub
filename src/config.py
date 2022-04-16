@@ -3,6 +3,8 @@ from dataclasses import dataclass
 
 __all__ = ['config']
 
+VERSION: str = '1.0.0'
+
 @dataclass
 class Config:
     port: int
@@ -12,6 +14,7 @@ class Config:
     mongo_host: str
     production: bool
     auth_validation_time: int
+    version: str
 
 _reload = os.environ.get('RELOAD')
 
@@ -22,6 +25,7 @@ config = Config(**{
     'mongo_port': os.environ.get('MONGO_PORT') or 27017,
     'mongo_host': os.environ.get('MONGO_HOST') or 'localhost',
     'production': bool(os.environ.get('PRODUCTION')),
-    'auth_validation_time': os.environ.get('AUTH_VALIDATION_TIME') or 2628000
+    'auth_validation_time': os.environ.get('AUTH_VALIDATION_TIME') or 2628000,
+    'version': os.environ.get('VERSION') or VERSION
 })
 

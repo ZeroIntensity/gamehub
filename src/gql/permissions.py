@@ -12,7 +12,8 @@ __all__ = (
     'Authenticated',
     'HasAdmin',
     'ctx_dependency',
-    'get_context'
+    'get_context',
+    'Context'
 )
 
 class JWTBearer(HTTPBearer):
