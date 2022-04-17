@@ -8,7 +8,7 @@ from ..utils import (
 )
 import strawberry
 from .permissions import Authenticated
-from ..db import Comment, FoundUser
+from ..db import Comment, FoundUser, ProfileComment
 import time
 from strawberry.types import Info
 from .games import TargetGame
@@ -62,16 +62,25 @@ def create_comment(info: Info, name: TargetGame, content: Content) -> Comment:
         exception(info, "You cannot create more than 5 comments on a single game.")
 
     validate_comment(info, content)
+    epoch: float = time.time()
+    cleaned: str = bleach.linkify(bleach.clean(content))
+
     comment = Comment(
         author = user.username,
-        content = bleach.linkify(bleach.clean(content)),
-        epoch = time.time(),
+        content = cleaned,
+        epoch = epoch,
         id = make_id(),
         account_type = user.account_type
     )
 
+    user.comments.append({
+        'game': game.name,
+        'epoch': epoch,
+        'content': cleaned
+    })
     game.comments.append(comment.__dict__)  # type: ignore
     game.update()
+    user.update()
 
     return comment
 

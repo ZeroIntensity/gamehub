@@ -3,6 +3,7 @@ from .account import TargetAccount
 from ..utils import has_access, exists, exception
 from strawberry.types import Info
 from typing_extensions import Annotated
+from ..db import User
 
 __all__ = (
     "user_data",
@@ -17,14 +18,6 @@ Second = Annotated[
     str,
     strawberry.argument("Account to extract needed permissions from.")
 ]
-
-@strawberry.type
-class User:
-    username: str = strawberry.field(
-        description = "Account username.",
-        name = "name"
-    )
-    account_type: str = strawberry.field(description = "Account permissions.")
 
 @strawberry.field(description = 'Get data of a user.')
 def user_data(

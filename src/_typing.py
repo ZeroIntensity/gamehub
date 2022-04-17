@@ -9,5 +9,10 @@ class Comment(TypedDict):
     epoch: float
     id: PostID
 
+class ProfileComment(TypedDict):
+    game: str 
+    epoch: float
+    content: str
+
 Argon2Hash = NewType("Argon2Hash", str)
 AccountType = Literal["user", "admin", "owner", "developer"]

@@ -28,5 +28,8 @@ class Mutation:
     edit_post = edit_post
     login = login
     logout = logout
+    suggestion = suggestion
+    report = report
+    apply = apply
 
 schema = strawberry.Schema(Query, mutation = Mutation)

@@ -6,6 +6,7 @@ module.exports = {
 		games: "./ts/games.ts",
 		error: "./ts/error.ts",
 		login: "./ts/login.ts",
+		profile: "./ts/profile.ts",
 	},
 	module: {
 		rules: [

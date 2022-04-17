@@ -1,8 +1,10 @@
 import os
 from dataclasses import dataclass
+from dotenv import load_dotenv
 
 __all__ = ['config']
 
+load_dotenv()
 VERSION: str = '1.0.0'
 
 @dataclass
@@ -15,6 +17,9 @@ class Config:
     production: bool
     auth_validation_time: int
     version: str
+    suggest_webhook: str
+    report_webhook: str
+    apply_webhook: str
 
 _reload = os.environ.get('RELOAD')
 
@@ -26,6 +31,9 @@ config = Config(**{
     'mongo_host': os.environ.get('MONGO_HOST') or 'localhost',
     'production': bool(os.environ.get('PRODUCTION')),
     'auth_validation_time': os.environ.get('AUTH_VALIDATION_TIME') or 2628000,
-    'version': os.environ.get('VERSION') or VERSION
+    'version': os.environ.get('VERSION') or VERSION,
+    'suggest_webhook': os.environ['SUGGEST_WEBHOOK'],
+    'report_webhook': os.environ['REPORT_WEBHOOK'],
+    'apply_webhook': os.environ['APPLY_WEBHOOK'],
 })
 

@@ -21,8 +21,10 @@ def like_game(info: Info, name: TargetGame) -> str:
     if user.username in game.likes:
         exception(info, "You have already liked this game.")
 
+    user.likes.append(game.name)
     game.likes.append(user.username)
     game.update()
+    user.update()
 
     return "Successfully liked game."
 
@@ -37,7 +39,9 @@ def unlike_game(info: Info, name: TargetGame) -> str:
     if user.username not in game.likes:
         exception(info, "You have not liked this game.")
 
+    user.likes.remove(game.name)
     game.likes.remove(user.username)
     game.update()
+    user.update()
 
     return "Successfully unliked game."

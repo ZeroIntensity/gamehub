@@ -1,11 +1,8 @@
-from dotenv import load_dotenv
 import os
 from typing import Optional
 import jwt
 import time
 from ..config import config
-
-load_dotenv()
 
 __all__ = (
     "sign_jwt",

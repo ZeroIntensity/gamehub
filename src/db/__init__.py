@@ -2,7 +2,7 @@
 
 from .connection import db, users, games, posts
 from .model import Model
-from .user import UserModel, FoundUser
+from .user import UserModel, FoundUser, ProfileComment, User
 from .game import (
     GameModel, 
     FoundGame,

@@ -43,11 +43,16 @@ def create_account(
         strawberry.argument("Credentials to account from.")
     ]
 ) -> str:
-    model = UserModel(username = credentials.name)
+    model = UserModel(
+        username = credentials.name,
+        account_type = "user",
+        likes = [],
+        comments = []
+    )
     pattern = r'.*(<|>|\(|\)|\*|&|@|\'|\"|,|\{|\}|\[|\]).*'
 
     validate(info, {
-        model.exists(): f'Name "{credentials.name}" is already taken.',
+        UserModel(username = credentials.name).exists(): f'Name "{credentials.name}" is already taken.',
         len(credentials.name) < 4: "Username must be at least 4 characters.",
         len(credentials.name) > 20: "Username cannot exceed 20 characters.",
         bool(re.match(pattern, credentials.name)): "Invalid username.",
@@ -55,7 +60,6 @@ def create_account(
     })
 
     model.password = hash(credentials.password)
-    model.account_type = "user"
     
     model.save()
 

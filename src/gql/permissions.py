@@ -59,7 +59,10 @@ def ctx_dependency(
         return Context(user = None)
 
     payload = not_null(decode_jwt(credentials))
-    return Context(user = UserModel(username = payload["user_id"]).find())
+    try:
+        return Context(user = UserModel(username = payload["user_id"]).find())
+    except ValueError:
+        return Context(user = None)
 
 async def get_context(ctx = Depends(ctx_dependency)):
     return ctx
