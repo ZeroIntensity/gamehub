@@ -50,7 +50,6 @@ export class Form {
 	constructor(id: string) {
 		this.element = <HTMLFormElement>document.getElementById(id)!;
 		this.inputs = {};
-		this.submitCallback = () => {};
 
 		Array.from(this.element.elements).forEach(item => {
 			if (item.getAttribute("data-form-exclude")) return;
@@ -75,7 +74,6 @@ export class Form {
 			});
 
 			if (!validated) return;
-
 			if (!this.submitCallback) throw new Error("callback is not set");
 
 			const data: Record<string, string> = {};

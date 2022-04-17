@@ -3,7 +3,12 @@
 	<head>
 		<title>Error {{ error }} - GameHub</title>
 		<script src="/static/js/dist/error.js"></script>
+		{% if production %}
 		<link rel="stylesheet" href="/static/css/dist/error.css" />
+		{% else %}
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link rel="stylesheet" href="/static/css/dev/selection.css" />
+		{% endif %}
 	</head>
 
 	<body class="bg-zinc-900">

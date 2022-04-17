@@ -4,6 +4,7 @@ from typing import Any, Optional
 from .nav import nav
 from ..db import FoundUser
 from ..gql import Context
+from ..config import config
 
 templates = Jinja2Templates('./templates')
 
@@ -17,7 +18,8 @@ def template(name: str, request: Request, ctx: Context, **kwargs: Any):
     params: dict = {
         'request': request,
         'user': user,
-        'nav': nav(user)
+        'nav': nav(user),
+        'production': config.production
     }
 
     return templates.TemplateResponse(name, {**params, **kwargs})

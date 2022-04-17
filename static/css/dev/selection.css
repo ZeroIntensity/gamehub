@@ -1,0 +1,13 @@
+:root {
+	--selection: #34d399;
+}
+
+::selection {
+	background: var(--selection);
+	color: #fff;
+}
+
+::-moz-selection {
+	background: var(--selection);
+	color: #fff;
+}

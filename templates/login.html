@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Login - GameHub</title>
+		<script src="/static/js/dist/login.js"></script>
+		{% if production %}
+		<link rel="stylesheet" href="/static/css/dist/login.css" />
+		{% else %}
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link rel="stylesheet" href="/static/css/dev/selection.css" />
+		<link rel="stylesheet" href="/static/css/dev/placeholder.css" />
+		<link rel="stylesheet" href="/static/css/dev/autofill.css" />
+		{% endif %}
+	</head>
+
+	<body class="bg-zinc-900">
+		<div class="flex flex-wrap bg-zinc-900 w-full h-screen">
+			<nav
+				class="w-3/12 bg-zinc-800 rounded p-3 shadow-lg self-start sticky top-0 h-screen overflow-y-auto"
+			>
+				<div class="flex space-x-4 p-2 mb-5 justify-center">
+					<p
+						class="text-white hidden lg:inline lg:text-3xl xl:text-5xl font-bold tracking-wide"
+					>
+						Game<span
+							class="bg-gradient-to-r from-orange-400 to-orange-500 bg-clip-text text-transparent"
+							>Hub</span
+						>
+					</p>
+
+					<p></p>
+				</div>
+
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-7 w-7 md:h-6 md:w-6 2xl:w-8 2xl:h-8 hidden"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"
+					/>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"
+					/>
+				</svg>
+				<!-- ^^ makes sure the svg classes are compiled by tailwind -->
+
+				<ul class="space-y-2">
+					{% for navitem in nav %} {% if not navitem.marker %}
+					<li>
+						<a
+							data-type="navlink"
+							href="{{ navitem.href }}"
+							class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 focus:shadow-outline"
+						>
+							<span class="text-white m-auto md:m-0">
+								{{ navitem.svg|safe }}
+							</span>
+							<span class="hidden md:inline 2xl:text-xl"
+								>{{ navitem.title }}</span
+							>
+						</a>
+					</li>
+					{% else %}
+					<div class="py-4">
+						<hr class="w-full border-t border-zinc-700" />
+					</div>
+					{% endif %} {% endfor %}
+				</ul>
+			</nav>
+
+			<div class="w-9/12 text-white">
+				<div class="flex flex-col h-screen">
+					<div class="p-4 m-auto drop-shadow-lg w-3/4 bg-zinc-800 rounded-lg">
+						<form class="space-y-6" action="#" id="login-form">
+							<p
+								class="justify-start text-2xl md:text-xl font-medium text-white"
+							>
+								Log in
+							</p>
+
+							<small></small>
+							<div>
+								<label
+									for="text"
+									class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
+									>Username</label
+								>
+								<input
+									type="text"
+									name="title"
+									id="login-username"
+									class="bg-zinc-900 lg:text-sm rounded-lg block h-fit w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+									placeholder="testicle_enjoyer23"
+								/>
+								<small></small>
+							</div>
+							<div>
+								<label
+									for="password"
+									class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
+									>Password</label
+								>
+								<input
+									type="password"
+									name="password"
+									id="login-password"
+									placeholder="•••••••"
+									class="bg-zinc-900 lg:text-sm rounded-lg h-fit block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+								/>
+								<small></small>
+							</div>
+
+							<button
+								data-form-exclude="true"
+								type="submit"
+								class="font-bold text-xl drop-shadow-md border-solid border-2 border-orange-400 hover:bg-orange-400 p-3 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
+							>
+								Login
+							</button>
+						</form>
+					</div>
+
+					<div
+						class="pt-8 p-4 m-auto drop-shadow-lg w-3/4 bg-zinc-800 rounded-lg"
+					>
+						<form class="space-y-6" id="signup-form">
+							<p
+								class="justify-start text-2xl md:text-xl font-medium text-white"
+							>
+								Sign Up
+							</p>
+
+							<small></small>
+							<div>
+								<label
+									for="text"
+									class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
+									>Username</label
+								>
+								<input
+									type="text"
+									name="signup-username"
+									id="signup-username"
+									class="bg-zinc-900 lg:text-sm rounded-lg block h-fit w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+									placeholder="faze_boner_xx"
+								/>
+								<small></small>
+							</div>
+							<div>
+								<label
+									for="password"
+									class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
+									>Content</label
+								>
+								<input
+									type="password"
+									name="signup-password"
+									id="signup-password"
+									placeholder="•••••••••"
+									class="bg-zinc-900 lg:text-sm rounded-lg h-fit block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+								/>
+								<small></small>
+							</div>
+
+							<button
+								data-form-exclude="true"
+								type="submit"
+								class="font-bold text-xl drop-shadow-md border-solid border-2 border-emerald-400 hover:bg-emerald-400 p-3 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
+							>
+								Sign Up
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

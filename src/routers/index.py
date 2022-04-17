@@ -1,8 +1,8 @@
 from fastapi import APIRouter, responses, Request, Depends
+from fastapi.responses import FileResponse
 from ..db import posts, PostModel
 from typing import List
 from ..gql import ctx_dependency, get_games
-from ..utils import nav
 from ..utils.template import template  # circular dependency issues
 
 __all__ = (
@@ -45,3 +45,7 @@ async def games(request: Request, ctx = Depends(ctx_dependency)):
         len = len,
         liked = liked
     )
+
+@router.get('/favicon.ico')
+def favicon():
+    return FileResponse('./static/assets/favicon.ico')

@@ -3,117 +3,18 @@
 	<head>
 		<title>Home - GameHub</title>
 		<script src="/static/js/dist/index.js"></script>
+		{% if production %}
 		<link rel="stylesheet" href="/static/css/dist/index.css" />
+		{% else %}
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link rel="stylesheet" href="/static/css/dev/selection.css" />
+		<link rel="stylesheet" href="/static/css/dev/placeholder.css" />
+
+		{% endif %}
 	</head>
 
 	<body class="bg-zinc-900">
 		<div class="flex flex-wrap bg-zinc-900 w-full">
-			<div
-				class="fixed z-10 inset-0 overflow-y-auto"
-				aria-labelledby="modal-title"
-				role="dialog"
-				aria-modal="true"
-				data-type="modal"
-				id="login-modal"
-			>
-				<div
-					class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-				>
-					<div
-						class="fixed inset-0 bg-zinc-900 bg-opacity-75 transition-opacity"
-						aria-hidden="true"
-					></div>
-
-					<span
-						class="hidden md:inline xl:text-xl-block sm:align-middle sm:h-screen"
-						aria-hidden="true"
-						>&#8203;</span
-					>
-					<div
-						class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full"
-					>
-						<div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full">
-							<form class="space-y-6" action="#" id="login-form">
-								<div class="flex">
-									<p
-										class="justify-start text-2xl md:text-xl font-medium text-white"
-									>
-										Login
-									</p>
-									<button
-										data-form-exclude="true"
-										type="button"
-										class="justify-end rounded-lg lg:text-sm ml-auto text-zinc-500 hover:text-zinc-400 transition-all"
-										data-type="modalclose"
-									>
-										<svg
-											class="w-8 h-8 md:w-6 md:h-6"
-											fill="currentColor"
-											viewBox="0 0 20 20"
-											xmlns="http://www.w3.org/2000/svg"
-										>
-											<path
-												fill-rule="evenodd"
-												d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-												clip-rule="evenodd"
-											></path>
-										</svg>
-									</button>
-								</div>
-								<small></small>
-								<div>
-									<label
-										for="text"
-										class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
-										>Username</label
-									>
-									<input
-										type="text"
-										name="title"
-										id="post-title"
-										class="bg-zinc-900 lg:text-sm rounded-lg block h-fit w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
-										placeholder="ballslover32..."
-									/>
-									<small></small>
-								</div>
-								<div>
-									<label
-										for="password"
-										class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
-										>Password</label
-									>
-									<input
-										type="password"
-										name="password"
-										id="login-password"
-										placeholder="••••••"
-										class="bg-zinc-900 lg:text-sm rounded-lg h-fit block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none active:bg-emerald-400"
-									/>
-									<small></small>
-								</div>
-								<div>
-									<label>
-										<label
-											class="inline-block text-zinc-500"
-											for="flexCheckDefault"
-										>
-											Don't have an account?
-										</label>
-									</label>
-								</div>
-
-								<button
-									data-form-exclude="true"
-									type="submit"
-									class="font-bold text-xl drop-shadow-md border-solid border-2 border-emerald-400 hover:bg-emerald-400 p-3 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
-								>
-									Login
-								</button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
 			<div
 				class="fixed z-10 inset-0 overflow-y-auto hidden"
 				aria-labelledby="modal-title"

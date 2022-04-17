@@ -2,7 +2,13 @@
 <html lang="en">
 	<head>
 		<title>Games - GameHub</title>
+		{% if production %}
 		<link rel="stylesheet" href="/static/css/dist/games.css" />
+		{% else %}
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link rel="stylesheet" href="/static/css/dev/selection.css" />
+		<link rel="stylesheet" href="/static/css/dev/placeholder.css" />
+		{% endif %}
 		<script src="/static/js/dist/games.js"></script>
 	</head>
 
@@ -131,8 +137,19 @@
 										</button>
 									</div>
 								</div>
-								<small></small>
 							</form>
+							{% else %}
+							<div>
+								<p class="text-zinc-500">
+									You must be logged in to comment. Click
+									<a
+										href="/login"
+										class="text-orange-400 hover:text-orange-300 transition-all"
+										>here</a
+									>
+									to login
+								</p>
+							</div>
 							{% endif %}
 						</div>
 					</div>

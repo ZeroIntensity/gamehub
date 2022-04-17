@@ -48,4 +48,14 @@ export default {
 			unlikeGame(name: $gameName)
 		}
 	`,
+	createAccount: gql`
+		mutation createAccount($username: String!, $password: String!) {
+			createAccount(credentials: { name: $username, password: $password })
+		}
+	`,
+	login: gql`
+		mutation login($username: String!, $password: String!) {
+			login(credentials: { name: $username, password: $password })
+		}
+	`,
 };

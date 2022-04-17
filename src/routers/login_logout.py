@@ -1,4 +1,4 @@
-from fastapi import Response, APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from ..utils.template import template
@@ -18,9 +18,10 @@ class UserPasswordInput(BaseModel):
     summary = "Log out of the current account.",
     response_description = "Redirected to the home page.",
 )
-async def logout(response: Response):
+async def logout():
+    response = RedirectResponse('/')
     response.delete_cookie('auth')
-    return RedirectResponse('/')
+    return response
 
 @router.get(
     '/login',
@@ -29,4 +30,7 @@ async def login(
     request: Request,
     ctx = Depends(ctx_dependency)
 ):
-    return template('login.html', request, ctx)
+    if not ctx.user:
+        return template('login.html', request, ctx)
+    
+    return RedirectResponse('/')

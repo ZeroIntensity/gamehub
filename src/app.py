@@ -48,14 +48,16 @@ async def handle_errors(request: Request, exc: StarletteHTTPException):
         (request.headers.get("Accept") == "application/json")
     ):
         status: int = exc.status_code
-
         token: Optional[str] = request.cookies.get('auth')
-        credentials = HTTPAuthorizationCredentials(
-            scheme = "Bearer",
-            credentials = token
-        )
-        decode = decode_jwt(credentials.credentials)
-        user = UserModel(username = decode['user_id']).find() if decode else None
+        user = None
+
+        if token:
+            credentials = HTTPAuthorizationCredentials(
+                scheme = "Bearer",
+                credentials = token
+            )
+            decode = decode_jwt(credentials.credentials)
+            user = UserModel(username = decode['user_id']).find() if decode else None
 
         return templates.TemplateResponse(
             'error.html',

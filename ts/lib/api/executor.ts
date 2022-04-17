@@ -147,4 +147,26 @@ export class GraphQLClient {
 	> {
 		return this.executeQuery(queries.unlikeGame, { gameName });
 	}
+
+	public async createAccount(
+		username: string,
+		password: string
+	): Promise<
+		APIResponse<{
+			createAccount: string;
+		}>
+	> {
+		return this.executeQuery(queries.createAccount, { username, password });
+	}
+
+	public async login(
+		username: string,
+		password: string
+	): Promise<
+		APIResponse<{
+			login: string;
+		}>
+	> {
+		return this.executeQuery(queries.login, { username, password });
+	}
 }
