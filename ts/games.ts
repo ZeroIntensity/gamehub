@@ -211,23 +211,22 @@ window.addEventListener("DOMContentLoaded", () => {
 
 						resp.then(data => {
 							if (!data.ok) {
-								form.error(data.message!);
-							} else {
-								if (!list.classList.contains("h-72")) {
-									list.classList.add("h-72");
-									list.innerHTML = "";
-								}
-
-								addComment(list, data.response.json.data!.createComment, true);
-								const len = document.querySelectorAll(
-									`[data-type="commentlen"][data-game-name="${element.getAttribute(
-										"data-game-name"
-									)}"]`
-								)[0];
-
-								len.innerHTML = String(Number(len.innerHTML) + 1);
-								form.clear();
+								return form.error(data.message!);
 							}
+							if (!list.classList.contains("h-72")) {
+								list.classList.add("h-72");
+								list.innerHTML = "";
+							}
+
+							addComment(list, data.response.json.data!.createComment, true);
+							const len = document.querySelectorAll(
+								`[data-type="commentlen"][data-game-name="${element.getAttribute(
+									"data-game-name"
+								)}"]`
+							)[0];
+
+							len.innerHTML = String(Number(len.innerHTML) + 1);
+							form.clear();
 						});
 
 						resp.catch(err => console.error(`Failed to post comment: ${err}`));

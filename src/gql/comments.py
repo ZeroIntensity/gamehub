@@ -56,6 +56,11 @@ def create_comment(info: Info, name: TargetGame, content: Content) -> Comment:
     game = game_exists(info, name)
     user: FoundUser = info.context.user
 
+    users = [comment['author'] for comment in game.comments]
+    
+    if users.count(user.username) >= 5:
+        exception(info, "You cannot create more than 5 comments on a single game.")
+
     validate_comment(info, content)
     comment = Comment(
         author = user.username,
