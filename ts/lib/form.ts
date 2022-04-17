@@ -46,6 +46,7 @@ export class Form {
 		event: SubmitEvent,
 		data: Record<string, string>
 	) => void;
+	private manualClear: boolean = false;
 
 	constructor(id: string) {
 		this.element = <HTMLFormElement>document.getElementById(id)!;
@@ -83,7 +84,7 @@ export class Form {
 			);
 
 			this.submitCallback(event, data);
-			this.clear();
+			if (!this.manualClear) this.clear();
 		});
 	}
 
@@ -95,9 +96,11 @@ export class Form {
 	}
 
 	public setCallback(
-		callback: (event: SubmitEvent, data: Record<string, string>) => void
-	) {
+		callback: (event: SubmitEvent, data: Record<string, string>) => void,
+		manualClear: boolean = false
+	): void {
 		this.submitCallback = callback;
+		this.manualClear = manualClear;
 	}
 
 	// TODO: optimize this section

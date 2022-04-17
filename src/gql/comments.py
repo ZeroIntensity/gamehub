@@ -14,6 +14,7 @@ from strawberry.types import Info
 from .games import TargetGame
 from typing_extensions import Annotated
 import bleach
+import time
 
 __all__ = (
     "create_comment",

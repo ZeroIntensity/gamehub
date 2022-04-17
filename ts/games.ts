@@ -188,10 +188,6 @@ window.addEventListener("DOMContentLoaded", () => {
 			if (formShowed) {
 				form.setCallback(
 					(_: SubmitEvent, inputData: Record<string, string>) => {
-						const resp = graphql.createComment(
-							gameName,
-							inputData["comment-content"]
-						);
 						form.element.querySelector("small")!.innerHTML = `<svg
 						role="status"
 						class="p-3 mr-2 w-14 h-14 text-zinc-700 animate-spin fill-orange-400"
@@ -208,6 +204,10 @@ window.addEventListener("DOMContentLoaded", () => {
 							fill="currentFill"
 						/>
 					</svg>`;
+						const resp = graphql.createComment(
+							gameName,
+							inputData["comment-content"]
+						);
 
 						resp.then(data => {
 							if (!data.ok) {
@@ -226,11 +226,13 @@ window.addEventListener("DOMContentLoaded", () => {
 								)[0];
 
 								len.innerHTML = String(Number(len.innerHTML) + 1);
+								form.clear();
 							}
 						});
 
 						resp.catch(err => console.error(`Failed to post comment: ${err}`));
-					}
+					},
+					true
 				);
 			}
 

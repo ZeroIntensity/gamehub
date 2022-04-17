@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 module.exports = {
 	entry: {
 		index: "./ts/index.ts",
@@ -21,5 +23,5 @@ module.exports = {
 		extensions: [".ts", ".js"],
 	},
 	target: "web",
-	mode: "development",
+	mode: process.env.PRODUCTION ? "production" : "development",
 };

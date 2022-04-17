@@ -71,7 +71,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		firstRes.then(data => {
 			if (!data.ok) return signup.error(`${data.message!}`);
 			const nextRes = graphql.login(username, password);
-			handleFormPromise(nextRes, signup, () => window.location.reload());
+			handleFormPromise(nextRes, signup, () => window.location.reload);
 		});
 	});
 });
