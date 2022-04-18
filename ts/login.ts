@@ -3,6 +3,7 @@ import startMsg from "./lib/startMessage";
 import { Form } from "./lib/form";
 import { GraphQLClient } from "./lib/api/executor";
 import handleFormPromise from "./lib/utils/handleFormPromise";
+import noMatch from "./lib/utils/noMatch";
 
 startMsg();
 
@@ -32,6 +33,12 @@ window.addEventListener("DOMContentLoaded", () => {
 		if (data.length > 20)
 			return { success: false, message: "Cannot exceed 20 characters." };
 
+		if (!noMatch(data, /.*(<|>|\(|\)|\*|&|@|\'|\"|,|\{|\}|\[|\]| ).*/)) {
+			return {
+				success: false,
+				message: "Cannot contain any special characters.",
+			};
+		}
 		return { success: true };
 	});
 

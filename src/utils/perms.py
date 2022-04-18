@@ -5,10 +5,19 @@ from .exception import exception
 
 __all__ = (
     'check_perms',
-    'ORDER'
+    'ORDER',
+    'check_perms_bool'
 )
 
 ORDER: List[AccountType] = ["user", "admin", "owner", "developer"]
+
+def check_perms_bool(
+    actual: AccountType,   
+    needed: AccountType
+) -> bool:
+    """Check if a user has required permissions."""
+    return not ORDER.index(actual) < ORDER.index(needed)
+
 
 def check_perms(
     info: Info,
@@ -16,5 +25,5 @@ def check_perms(
     needed: AccountType
 ) -> None:
     """Check if a user has required permissions."""
-    if ORDER.index(actual) < ORDER.index(needed):
+    if not check_perms_bool(actual, needed):
         exception(info, 'Insufficent permissions.', 403)

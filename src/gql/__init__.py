@@ -20,5 +20,5 @@ from .post import create_post, delete_post, can_alter_post, edit_post
 from .list_items import games, posts, get_games
 from .login import login, logout, handle_login
 from .suggestions import suggestion
-from .report import report
+from .report import issue_report, user_report
 from .apply import apply

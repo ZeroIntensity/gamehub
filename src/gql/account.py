@@ -49,7 +49,7 @@ def create_account(
         likes = [],
         comments = []
     )
-    pattern = r'.*(<|>|\(|\)|\*|&|@|\'|\"|,|\{|\}|\[|\]).*'
+    pattern = r'.*(<|>|\(|\)|\*|&|@|\'|\"|,|\{|\}|\[|\]| ).*'
 
     validate(info, {
         UserModel(username = credentials.name).exists(): f'Name "{credentials.name}" is already taken.',

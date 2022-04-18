@@ -29,7 +29,8 @@ class Mutation:
     login = login
     logout = logout
     suggestion = suggestion
-    report = report
+    issue_report = issue_report
+    user_report = user_report
     apply = apply
 
 schema = strawberry.Schema(Query, mutation = Mutation)

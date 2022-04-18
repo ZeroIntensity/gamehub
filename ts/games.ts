@@ -61,7 +61,7 @@ function addComment(
 							<div class="flex">
 								<div class="space-x-1 flex">
 									${svg}
-									<p class="font-semibold">${comment.author}</p>
+									<a href="/profile/${comment.author}" class="font-semibold hover:opacity-50 transition-all">${comment.author}</a>
 								</div>
 								<p
 									data-type="epoch"
@@ -77,9 +77,9 @@ function addComment(
 											class="text-white bg-zinc-700 rounded-lg p-2 break-words"
 										>
 											<div class="flex">
-												<p class="font-semibold">
+												<a href="/profile/${comment.author}" class="font-semibold hover:opacity-50 transition-all">
 													${comment.author}
-												</p>
+												</a>
 												<p
 													data-type="epoch"
 													class="font-semibold pl-3 text-zinc-500"
@@ -170,7 +170,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			comments.then(resp => {
 				const data = resp.response.json.data!.getGame.comments;
 				if (!data.length) {
-					list.innerHTML = `<div class="text-center p-4 grid place-items-center">
+					list.innerHTML = `<div class="text-center p-4">
                                     <p class="text-white font-semibold text-lg lg:text-md">
                                         No Comments
                                     </p>

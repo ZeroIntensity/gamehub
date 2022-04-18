@@ -13,6 +13,87 @@
 
 	<body class="bg-zinc-900">
 		<div class="flex flex-wrap bg-zinc-900 w-full h-screen">
+			<div
+				class="fixed z-10 inset-0 overflow-y-auto hidden"
+				aria-labelledby="modal-title"
+				role="dialog"
+				aria-modal="true"
+				data-type="modal"
+				id="report-modal"
+			>
+				<div
+					class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+				>
+					<div
+						class="fixed inset-0 bg-zinc-900 bg-opacity-75 transition-opacity"
+						aria-hidden="true"
+					></div>
+
+					<span
+						class="hidden md:inline xl:text-xl-block sm:align-middle sm:h-screen"
+						aria-hidden="true"
+						>&#8203;</span
+					>
+					<div
+						class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full"
+					>
+						<div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full">
+							<form class="space-y-6" action="#" id="post-form">
+								<div class="flex">
+									<p
+										class="justify-start text-2xl md:text-xl font-medium text-white"
+									>
+										Report
+									</p>
+									<button
+										data-form-exclude="true"
+										type="button"
+										class="justify-end rounded-lg lg:text-sm ml-auto text-zinc-500 hover:text-zinc-400 transition-all"
+										data-type="modalclose"
+									>
+										<svg
+											class="w-8 h-8 md:w-6 md:h-6"
+											fill="currentColor"
+											viewBox="0 0 20 20"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												fill-rule="evenodd"
+												d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+												clip-rule="evenodd"
+											></path>
+										</svg>
+									</button>
+								</div>
+								<small></small>
+
+								<div>
+									<label
+										for="reason"
+										class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
+										>Reason</label
+									>
+									<textarea
+										name="reason"
+										id="report-reason"
+										placeholder="Owns a slave ring in the middle east..."
+										class="bg-zinc-900 lg:text-sm rounded-lg h-fit block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+									></textarea>
+									<small></small>
+								</div>
+
+								<button
+									data-form-exclude="true"
+									type="submit"
+									class="font-bold text-xl drop-shadow-md border-solid border-2 border-rose-400 hover:bg-rose-400 p-3 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
+								>
+									Report
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 			<nav
 				class="w-3/12 bg-zinc-800 rounded p-3 shadow-lg self-start sticky top-0 h-screen overflow-y-auto"
 			>
@@ -80,7 +161,7 @@
 						<div class="flex">
 							<div>
 								<div class="flex space-x-3 drop-shadow-lg">
-									{% if account.account_type == "admin" %}
+									{% if account.account_type in ("admin", "owner") %}
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										class="h-12 w-12"
@@ -121,6 +202,7 @@
 							<div class="self-center ml-auto flex space-x-2">
 								<div
 									class="bg-zinc-700 hover:bg-rose-400 rounded-lg p-1 transition-all"
+									onclick="openReportModal()"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -139,7 +221,8 @@
 								</div>
 								{% if (user) and (user.account_type != "user") %}
 								<!-- this is just here so prettier doesnt merge these jinja statments -->
-								{% if account.account_type != "developer" %}
+								{% if (account.account_type != "developer") and
+								(has_access(user.account_type, account.account_type)) %}
 								<div
 									class="bg-emerald-700 hover:bg-emerald-500 rounded-lg p-1 transition-all"
 								>
@@ -160,9 +243,10 @@
 								</div>
 								{% endif %}
 								<!-- this is just here so prettier doesnt merge these jinja statments -->
-								{% if account.account_type != "user" %}
+								{% if (account.account_type != "user") and
+								(has_access(user.account_type, account.account_type)) %}
 								<div
-									class="bg-rose-500 hover:bg-rose-400 rounded-lg p-1 transition-all"
+									class="bg-rose-500 hover:bg-rose-300 rounded-lg p-1 transition-all"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -179,7 +263,8 @@
 										/>
 									</svg>
 								</div>
-								{% endif %}
+								{% endif %} {% if (has_access(user.account_type,
+								account.account_type)) %}
 								<div
 									class="bg-rose-900 hover:bg-rose-700 rounded-lg p-1 transition-all"
 								>
@@ -198,7 +283,7 @@
 										/>
 									</svg>
 								</div>
-								{% endif %}
+								{% endif %} {% endif %}
 							</div>
 						</div>
 
@@ -207,9 +292,9 @@
 						</div>
 						{% if account.likes %}
 						<p class="text-2xl">Likes</p>
-						<ul>
+						<ul class="overflow-y-auto h-40">
 							{% for game in account.likes %}
-							<li>{{ game }}</li>
+							<li class="font-thin text-zinc-400">{{ game }}</li>
 							{% endfor %}
 						</ul>
 						{% else %}
@@ -223,7 +308,7 @@
 						{% if account.comments %}
 
 						<p class="text-2xl">Comments</p>
-						<ul class="pt-2">
+						<ul class="pt-2 overflow-y-auto h-96">
 							{% for comment in account.comments %}
 							<li class="pt-2">
 								<div class="text-white bg-zinc-700 rounded-lg p-2 break-words">
