@@ -58,4 +58,9 @@ export default {
 			login(credentials: { name: $username, password: $password })
 		}
 	`,
+	userReport: gql`
+		mutation userReport($target: String!, $content: String!) {
+			userReport(content: $content, target: $target)
+		}
+	`,
 };

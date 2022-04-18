@@ -5,7 +5,7 @@ from typing_extensions import Annotated
 from strawberry.types import Info
 from datetime import datetime
 from ..config import config
-from ..utils import exists
+from ..utils import exists, exception
 from ..db import FoundUser
 
 __all__ = ('issue_report', 'user_report')
@@ -27,6 +27,9 @@ def issue_report(
     ]
 ) -> str:
     user: FoundUser = info.context.user
+
+    if len(content) > 400:
+        exception(info, "Content cannot be above 400 characters.")
 
     embed = Embed(
         title = "Issue Report",
@@ -58,6 +61,9 @@ def user_report(
     ]
 ) -> str:
     user: FoundUser = info.context.user
+
+    if len(content) > 300:
+        exception(info, "Content cannot be above 300 characters.")
 
     exists(info, target)
     embed = Embed(

@@ -169,4 +169,15 @@ export class GraphQLClient {
 	> {
 		return this.executeQuery(queries.login, { username, password });
 	}
+
+	public async userReport(
+		content: string,
+		target: string
+	): Promise<
+		APIResponse<{
+			userReport: string;
+		}>
+	> {
+		return this.executeQuery(queries.userReport, { content, target });
+	}
 }

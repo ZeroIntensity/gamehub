@@ -38,7 +38,12 @@
 						class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full"
 					>
 						<div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full">
-							<form class="space-y-6" action="#" id="post-form">
+							<form
+								class="space-y-6"
+								action="#"
+								id="report-form"
+								data-user-name="{{ account.username }}"
+							>
 								<div class="flex">
 									<p
 										class="justify-start text-2xl md:text-xl font-medium text-white"
@@ -219,7 +224,8 @@
 										/>
 									</svg>
 								</div>
-								{% if (user) and (user.account_type != "user") %}
+								{% if (user) and (user.account_type != "user") and
+								(user.username != account.username) %}
 								<!-- this is just here so prettier doesnt merge these jinja statments -->
 								{% if (account.account_type != "developer") and
 								(has_access(user.account_type, account.account_type)) %}
