@@ -99,6 +99,59 @@
 					</div>
 				</div>
 			</div>
+			<div
+				class="fixed z-10 inset-0 overflow-y-auto hidden"
+				aria-labelledby="modal-title"
+				role="dialog"
+				aria-modal="true"
+				data-type="modal"
+				id="terminate-modal"
+			>
+				<div
+					class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+				>
+					<div
+						class="fixed inset-0 bg-zinc-900 bg-opacity-75 transition-opacity"
+						aria-hidden="true"
+					></div>
+
+					<span
+						class="hidden md:inline xl:text-xl-block sm:align-middle sm:h-screen"
+						aria-hidden="true"
+						>&#8203;</span
+					>
+					<div
+						class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full"
+					>
+						<div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full">
+							<div class="text-center">
+								<p class="text-xl text-white font-bold">
+									Are you sure you want to terminate this account?
+								</p>
+								<p class="text-lg text-zinc-400 font-semibold">
+									This action is irreversible!
+								</p>
+							</div>
+
+							<div class="flex pt-8 space-x-6">
+								<button
+									data-type="modalclose"
+									type="submit"
+									class="font-bold text-xl drop-shadow-md border-solid border-2 border-zinc-400 hover:bg-zinc-400 p-3 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
+								>
+									Cancel
+								</button>
+								<button
+									id="terminate-btn"
+									class="font-bold text-xl drop-shadow-md border-solid border-2 border-rose-600 hover:bg-rose-600 p-3 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
+								>
+									Terminate
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<nav
 				class="w-3/12 bg-zinc-800 rounded p-3 shadow-lg self-start sticky top-0 h-screen overflow-y-auto"
 			>
@@ -273,6 +326,7 @@
 								account.account_type)) %}
 								<div
 									class="bg-rose-900 hover:bg-rose-700 rounded-lg p-1 transition-all"
+									onclick="terminateModal()"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"

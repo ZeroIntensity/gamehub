@@ -42,3 +42,8 @@ window.openReportModal = () => {
 	const modal = new Modal("report-modal");
 	modal.open();
 };
+
+window.terminateModal = () => {
+	const modal = new Modal("terminate-modal");
+	modal.open();
+};
