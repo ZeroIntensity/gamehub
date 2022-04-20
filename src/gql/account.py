@@ -1,7 +1,7 @@
 import strawberry
 import re
 from typing_extensions import Annotated
-from ..db import UserModel, FoundUser
+from ..db import UserModel, FoundUser, Termination
 from ..utils import (
     validate, 
     hash, 
@@ -56,7 +56,8 @@ def create_account(
         len(credentials.name) < 4: "Username must be at least 4 characters.",
         len(credentials.name) > 20: "Username cannot exceed 20 characters.",
         bool(re.match(pattern, credentials.name)): "Invalid username.",
-        len(credentials.password) < 6: "Password must be at least 6 characters."
+        len(credentials.password) < 6: "Password must be at least 6 characters.",
+        Termination(username = credentials.name).exists(): f'Name "{credentials.name}" is already taken.'
     })
 
     model.password = hash(credentials.password)
@@ -132,7 +133,19 @@ def demote(
     description = "Delete or terminate an account.",
     permission_classes = [Authenticated]
 )
-def delete_account(info: Info, target: TargetAccount = None) -> str:
+def delete_account(
+    info: Info,
+    target: TargetAccount = None,
+    reason: Annotated[
+        Optional[str],
+        strawberry.argument("Reason for account termination. Only used if target is not null.")
+    ] = None
+) -> str:
+    if target:
+        if not reason:
+            exception(info, "A reason must be specified.")
+        Termination(username = target, reason = reason).save()
+
     user: FoundUser = info.context.user
     model = has_access(info, user, target)
     model.delete()

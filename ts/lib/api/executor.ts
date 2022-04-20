@@ -180,4 +180,12 @@ export class GraphQLClient {
 	> {
 		return this.executeQuery(queries.userReport, { content, target });
 	}
+
+	public async deleteAccount(target: Optional<string> = null): Promise<
+		APIResponse<{
+			deleteAccount: string;
+		}>
+	> {
+		return this.executeQuery(queries.deleteAccount, { target });
+	}
 }

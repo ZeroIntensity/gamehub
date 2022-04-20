@@ -24,6 +24,7 @@ class ExtendedWindow extends Window {
 	createPostModal(): void;
 	openReportModal(): void;
 	terminateModal(): void;
+	terminateAccount(): void;
 }
 
 type ValidatorResponse = { success: boolean; message?: string };

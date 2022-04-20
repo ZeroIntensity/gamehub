@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Path, Request, Depends, HTTPException
 from ..utils.template import template
 from ..gql import ctx_dependency
-from ..db import UserModel
+from ..db import UserModel, Termination
 from ..utils import check_perms_bool
 
 prefix: str = '/profile'
@@ -13,7 +13,17 @@ async def profile(
     username: str = Path(..., title = "The account to find."),
     ctx = Depends(ctx_dependency)
 ):
-    
+    if username == "me":
+        username = ctx.user.username 
+
+    if Termination(username = username).exists():
+        return template(
+            "terminated.html",
+            request,
+            ctx,
+            username = username
+        )
+
     try:
         user = UserModel(username = username).find()
     except ValueError as e:

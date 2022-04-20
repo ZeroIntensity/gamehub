@@ -14,10 +14,10 @@ window.addEventListener("DOMContentLoaded", () => {
 	handleEpoch();
 	registerModalClosers();
 
-	const graphql = new GraphQLClient();
+	const username = document.body.getAttribute("data-user-name")!;
 	const form = new Form("report-form");
 	const reason = form.getInput("report-reason");
-	const username = form.element.getAttribute("data-user-name")!;
+	const graphql = new GraphQLClient();
 
 	reason.addValidator(data => {
 		if (data.length > 300) {
@@ -34,6 +34,11 @@ window.addEventListener("DOMContentLoaded", () => {
 		const promise = graphql.userReport(data["report-reason"], username);
 		handleFormPromise(promise, form, () => window.location.reload());
 	});
+
+	window.terminateAccount = () => {
+		const promise = graphql.deleteAccount(username);
+		promise.then(data => window.location.reload());
+	};
 });
 
 declare let window: ExtendedWindow;

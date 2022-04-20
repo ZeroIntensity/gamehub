@@ -4,7 +4,7 @@ from strawberry.types import Info
 from fastapi import Depends
 from typing import Any, Optional
 from strawberry.fastapi import BaseContext
-from ..db import FoundUser, UserModel
+from ..db import FoundUser, UserModel, Termination
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from ..utils import check_perms, decode_jwt, not_null
 
@@ -36,15 +36,19 @@ class JWTBearer(HTTPBearer):
             )
         
         if credentials.scheme != "Bearer":
-            raise HTTPException(status_code = 403, detail="Invalid authentication scheme.")
+            raise HTTPException(status_code = 403, detail = "Invalid authentication scheme.")
         
-        if not self.verify_jwt(credentials.credentials):
-            raise HTTPException(status_code = 403, detail="Invalid token or expired token.")
-        
-        return credentials.credentials
+        decoded = decode_jwt(credentials.credentials)
 
-    def verify_jwt(self, token: str) -> bool:
-        return bool(decode_jwt(token))
+        if not decoded:
+            raise HTTPException(status_code = 403, detail = "Invalid or expired token.")
+        
+        termination = Termination(username = decoded['user_id'])
+
+        if termination.exists():
+            raise HTTPException(status_code = 410, detail = f"Account has been terminated: {termination.find().reason}")
+
+        return credentials.credentials
 
 security = JWTBearer()
 

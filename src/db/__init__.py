@@ -11,3 +11,4 @@ from .game import (
     Game
 )
 from .post import Post, PostModel, FoundPost, PostInput
+from .terminations import Termination

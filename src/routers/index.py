@@ -1,4 +1,4 @@
-from fastapi import APIRouter, responses, Request, Depends
+from fastapi import APIRouter, responses, Request, Depends, Response
 from fastapi.responses import FileResponse
 from ..db import posts, PostModel
 from typing import List
@@ -20,7 +20,7 @@ prefix: str = ''
 )
 async def index(request: Request, ctx = Depends(ctx_dependency)):
     posts_list: List[PostModel] = [PostModel(**post) for post in posts.find()]
-
+    
     return template(
         'index.html',
         request,

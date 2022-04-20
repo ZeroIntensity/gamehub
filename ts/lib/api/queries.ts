@@ -63,4 +63,9 @@ export default {
 			userReport(content: $content, target: $target)
 		}
 	`,
+	deleteAccount: gql`
+		mutation deleteAccount($target: String) {
+			deleteAccount(target: $target)
+		}
+	`,
 };

@@ -1,5 +1,5 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, Request, Response
+from fastapi.responses import JSONResponse, RedirectResponse
 from .schema import schema
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -43,7 +43,7 @@ async def handle_errors(request: Request, exc: StarletteHTTPException):
     if (
         (request.method == "GET") 
         or 
-        (request.headers.get("Accept") == "application/json")
+        (request.headers.get("Accept") != "application/json")
     ):
         status: int = exc.status_code
         token: Optional[str] = request.cookies.get('auth')
@@ -56,6 +56,11 @@ async def handle_errors(request: Request, exc: StarletteHTTPException):
             )
             decode = decode_jwt(credentials.credentials)
             user = UserModel(username = decode['user_id']).find() if decode else None
+
+        if status in {410, 403}:
+            response = RedirectResponse('/')
+            response.delete_cookie('auth')
+            return response
 
         return templates.TemplateResponse(
             'error.html',
@@ -83,3 +88,8 @@ for root, dirs, files in os.walk('./src/routers'):
             lib = importlib.import_module(f'{mods}.{file[:-3]}')
 
             app.include_router(lib.router, prefix = lib.prefix)
+
+@app.get('/a')
+def a(response: Response):
+    response.set_cookie('auth', 'test')
+    return {'a': 'b'}

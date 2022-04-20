@@ -6,6 +6,7 @@ from ..config import config
 from ..utils import check_creds, sign_jwt, exception
 from typing_extensions import Annotated
 from .permissions import Authenticated
+from ..db import Termination
 
 __all__ = (
     "login",
@@ -36,6 +37,11 @@ def login(
         strawberry.argument("Account credentials.")
     ]
 ) -> str:
+    termination = Termination(username = credentials.name)
+
+    if termination.exists():
+        exception(info, f"Account has been terminated: {termination.find().reason}", 410)
+
     response = handle_login(info.context.response, credentials.name, credentials.password)
 
     if not response:
