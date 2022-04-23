@@ -28,15 +28,15 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	usernameInput.addValidator(data => {
 		if (data.length < 4)
-			return { success: false, message: "Must be at least 4 characters." };
+			return { success: false, message: "Must be at least 4 characters" };
 
 		if (data.length > 20)
-			return { success: false, message: "Cannot exceed 20 characters." };
+			return { success: false, message: "Cannot exceed 20 characters" };
 
 		if (!noMatch(data, /.*(<|>|\(|\)|\*|&|@|\'|\"|,|\{|\}|\[|\]| ).*/)) {
 			return {
 				success: false,
-				message: "Cannot contain any special characters.",
+				message: "Cannot contain any special characters",
 			};
 		}
 		return { success: true };
@@ -44,7 +44,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	passwordInput.addValidator(data => {
 		if (data.length < 6)
-			return { success: false, message: "Must be at least 6 characters." };
+			return { success: false, message: "Must be at least 6 characters" };
 
 		return { success: true };
 	});

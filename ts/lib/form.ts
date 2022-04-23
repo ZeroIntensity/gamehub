@@ -1,21 +1,18 @@
-export class Input {
-	readonly element: HTMLInputElement;
-	public validators: Array<Validator>;
+class Output {
+	readonly targetElement: HTMLElement;
 
-	constructor(element: HTMLInputElement) {
-		this.element = element;
-		this.validators = [];
+	constructor(element: HTMLElement) {
+		this.targetElement = element;
 	}
 
-	private displayMsg(message: string, type: "success" | "error"): void {
-		const target = this.element.parentNode!.querySelector("small")!;
-		target.innerHTML = message;
+	protected displayMsg(message: string, type: "success" | "error"): void {
+		this.targetElement.innerHTML = message;
 
 		let a = type == "success" ? "text-emerald-400" : "text-rose-400";
 		let b = type == "success" ? "text-rose-400" : "text-emerald-400";
 
-		target.classList.add(a);
-		target.classList.remove(b);
+		this.targetElement.classList.add(a);
+		this.targetElement.classList.remove(b);
 	}
 
 	public error(message: string) {
@@ -26,6 +23,21 @@ export class Input {
 		this.displayMsg(message, "success");
 	}
 
+	public clear() {
+		this.displayMsg("", "error");
+	}
+}
+
+export class Input extends Output {
+	readonly element: HTMLInputElement;
+	public validators: Array<Validator>;
+
+	constructor(element: HTMLInputElement) {
+		super(element.parentNode!.querySelector("small")!);
+		this.element = element;
+		this.validators = [];
+	}
+
 	public addValidator(callback: Validator) {
 		this.validators.push(callback);
 	}
@@ -33,13 +45,9 @@ export class Input {
 	public data(): string {
 		return this.element.value;
 	}
-
-	public clear() {
-		this.displayMsg("", "error");
-	}
 }
 
-export class Form {
+export class Form extends Output {
 	readonly element: HTMLFormElement;
 	public inputs: Record<string, Input>;
 	private submitCallback?: (
@@ -47,9 +55,13 @@ export class Form {
 		data: Record<string, string>
 	) => void;
 	private manualClear: boolean = false;
+	public validators: Array<{ callback: CustomValidator; hook: Output }> = [];
 
 	constructor(id: string) {
-		this.element = <HTMLFormElement>document.getElementById(id)!;
+		let element = <HTMLFormElement>document.getElementById(id)!;
+		super(element.querySelector("small")!);
+
+		this.element = element;
 		this.inputs = {};
 
 		Array.from(this.element.elements).forEach(item => {
@@ -72,6 +84,15 @@ export class Form {
 						validated = false;
 					}
 				});
+			});
+
+			this.validators.forEach(validator => {
+				const response = validator.callback();
+
+				if (!response.success) {
+					validator.hook.error(response.message!);
+					validated = false;
+				}
 			});
 
 			if (!validated) return;
@@ -103,32 +124,15 @@ export class Form {
 		this.manualClear = manualClear;
 	}
 
-	// TODO: optimize this section
-
-	private displayMsg(message: string, type: "success" | "error"): void {
-		const target = this.element.querySelector("small")!;
-		target.innerHTML = message;
-
-		let a = type == "success" ? "text-emerald-400" : "text-rose-400";
-		let b = type == "success" ? "text-rose-400" : "text-emerald-400";
-
-		target.classList.add(a);
-		target.classList.remove(b);
-	}
-
-	public error(message: string) {
-		this.displayMsg(message, "error");
-	}
-
-	public success(message: string) {
-		this.displayMsg(message, "success");
-	}
-
 	public clear() {
 		Object.keys(this.inputs).forEach(key => {
 			this.inputs[key].clear();
 			this.inputs[key].element.value = "";
 		});
 		this.displayMsg("", "error");
+	}
+
+	public addValidator(callback: CustomValidator, hook: HTMLElement) {
+		this.validators.push({ hook: new Output(hook), callback });
 	}
 }

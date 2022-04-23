@@ -8,6 +8,7 @@
 		{% else %}
 		<script src="https://cdn.tailwindcss.com"></script>
 		<link rel="stylesheet" href="/static/css/dev/selection.css" />
+		<link rel="stylesheet" href="/static/css/scheme.css" />
 		{% endif %}
 	</head>
 
@@ -367,7 +368,8 @@
 							<div class="self-center ml-auto flex space-x-2">
 								<div
 									class="bg-zinc-700 hover:bg-rose-400 rounded-lg p-1 transition-all"
-									onclick="openReportModal()"
+									data-type="modalopen"
+									data-target="report-modal"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -391,7 +393,8 @@
 								(has_access(user.account_type, account.account_type)) %}
 								<div
 									class="bg-zinc-700 hover:bg-emerald-500 rounded-lg p-1 transition-all"
-									onclick="promoteModal()"
+									data-type="modalopen"
+									data-target="promote-modal"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -413,7 +416,8 @@
 								{% if (account.account_type != "user") and
 								(has_access(user.account_type, account.account_type)) %}
 								<div
-									onclick="demoteModal()"
+									data-type="modalopen"
+									data-target="demote-modal"
 									class="bg-zinc-700 hover:bg-rose-500 rounded-lg p-1 transition-all"
 								>
 									<svg
@@ -435,7 +439,8 @@
 								account.account_type)) %}
 								<div
 									class="bg-rose-900 hover:bg-rose-700 rounded-lg p-1 transition-all"
-									onclick="terminateModal()"
+									data-type="modalopen"
+									data-target="terminate-modal"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"

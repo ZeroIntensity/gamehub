@@ -18,15 +18,10 @@ type GraphQLResponse<T> = {
 
 type AccountType = "user" | "admin" | "owner" | "developer";
 
-type Variables = { [key: string]: Optional<string> };
+type Variables = { [key: string]: Optional<string | boolean> };
 
 class ExtendedWindow extends Window {
-	createPostModal(): void;
-	openReportModal(): void;
-	terminateModal(): void;
 	terminateAccount(): void;
-	promoteModal(): void;
-	demoteModal(): void;
 	promoteAccount(): void;
 	demoteAccount(): void;
 	deleteGame(): void;
@@ -49,3 +44,5 @@ type GQLHeaders = {
 	"Content-Type": string;
 	Authorization?: string;
 };
+
+type CustomValidator = () => ValidatorResponse;

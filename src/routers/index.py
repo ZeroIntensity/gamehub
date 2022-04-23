@@ -28,6 +28,18 @@ async def index(request: Request, ctx = Depends(ctx_dependency)):
         posts = reversed(posts_list)
     )
 
+@router.get(
+    '/applications',
+    response_class = responses.HTMLResponse,
+    summary = 'Get the applications page.'
+)
+async def apply(request: Request, ctx = Depends(ctx_dependency)):
+    return template(
+        'apply.html',
+        request,
+        ctx
+    )
+
 def liked(name: str, likes: list):
     return name in likes
 

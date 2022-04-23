@@ -6,6 +6,7 @@ import { Modal } from "./lib/modal";
 import { Form } from "./lib/form";
 import { GraphQLClient } from "./lib/api/executor";
 import handleFormPromise from "./lib/utils/handleFormPromise";
+import registerModalOpener from "./lib/registerModalOpeners";
 
 startMsg();
 
@@ -13,6 +14,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	highlightNav();
 	handleEpoch();
 	registerModalClosers();
+	registerModalOpener();
 
 	const username = document.body.getAttribute("data-user-name")!;
 	const form = new Form("report-form");
@@ -23,7 +25,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		if (data.length > 300) {
 			return {
 				success: false,
-				message: "Cannot exceed 300 characters.",
+				message: "Cannot exceed 300 characters",
 			};
 		}
 
@@ -54,23 +56,3 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 declare let window: ExtendedWindow;
-
-window.openReportModal = () => {
-	const modal = new Modal("report-modal");
-	modal.open();
-};
-
-window.terminateModal = () => {
-	const modal = new Modal("terminate-modal");
-	modal.open();
-};
-
-window.promoteModal = () => {
-	const modal = new Modal("promote-modal");
-	modal.open();
-};
-
-window.demoteModal = () => {
-	const modal = new Modal("demote-modal");
-	modal.open();
-};

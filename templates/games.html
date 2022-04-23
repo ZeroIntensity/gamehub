@@ -8,6 +8,7 @@
 		<script src="https://cdn.tailwindcss.com"></script>
 		<link rel="stylesheet" href="/static/css/dev/selection.css" />
 		<link rel="stylesheet" href="/static/css/dev/placeholder.css" />
+		<link rel="stylesheet" href="/static/css/scheme.css" />
 		{% endif %}
 		<script src="/static/js/dist/games.js"></script>
 	</head>
@@ -209,7 +210,7 @@
 			<nav
 				class="w-3/12 bg-zinc-800 rounded p-3 shadow-lg self-start sticky top-0 h-screen overflow-y-auto"
 			>
-				<div class="flex space-x-4 p-2 mb-5 justify-center">
+				<div class="text-center p-2 mb-5">
 					<p
 						class="text-white hidden lg:inline lg:text-3xl xl:text-5xl font-bold tracking-wide"
 					>
@@ -218,8 +219,6 @@
 							>Hub</span
 						>
 					</p>
-
-					<p></p>
 				</div>
 
 				<svg class="h-7 w-7 md:h-6 md:w-6 2xl:w-8 2xl:h-8 hidden"></svg>
@@ -345,7 +344,7 @@
 							<div class="grid grid-cols-3 text-center">
 								<a
 									href="{{ game.data }}"
-									class="drop-shadow-lg bg-zinc-800 border-solid border-2 border-orange-400 hover:bg-orange-400 sm:p-2 md:p-1 lg:p-2 rounded transition-all text-xl md:text-lg lg:text-xl duration-300"
+									class="font-semibold drop-shadow-lg bg-zinc-700 hover:bg-orange-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2""
 								>
 									Play
 								</a>

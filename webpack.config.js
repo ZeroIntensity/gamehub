@@ -7,6 +7,7 @@ module.exports = {
 		error: "./ts/error.ts",
 		login: "./ts/login.ts",
 		profile: "./ts/profile.ts",
+		apply: "./ts/apply.ts",
 	},
 	module: {
 		rules: [

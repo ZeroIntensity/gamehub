@@ -212,4 +212,22 @@ export class GraphQLClient {
 	> {
 		return this.executeQuery(queries.deleteGame, { target });
 	}
+
+	public async apply(
+		discordTag: string,
+		questionOne: boolean,
+		questionTwo: boolean,
+		anythingElse: Optional<string> = null
+	): Promise<
+		APIResponse<{
+			apply: string;
+		}>
+	> {
+		return this.executeQuery(queries.apply, {
+			discordTag,
+			questionOne,
+			questionTwo,
+			anythingElse,
+		});
+	}
 }

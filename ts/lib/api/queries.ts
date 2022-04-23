@@ -86,4 +86,22 @@ export default {
 			deleteGame(name: $target)
 		}
 	`,
+
+	apply: gql`
+		mutation apply(
+			$discordTag: String!
+			$questionOne: Boolean!
+			$questionTwo: Boolean!
+			$anyOtherHelp: String
+		) {
+			apply(
+				content: {
+					discordTag: $discordTag
+					questionOne: $questionOne
+					questionTwo: $questionTwo
+					anyOtherHelp: $anyOtherHelp
+				}
+			)
+		}
+	`,
 };

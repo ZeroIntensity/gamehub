@@ -6,6 +6,7 @@ import handleEpoch from "./lib/handleEpoch";
 import registerModalClosers from "./lib/registerModalClosers";
 import { GraphQLClient } from "./lib/api/executor";
 import startMsg from "./lib/startMessage";
+import registerModalOpeners from "./lib/registerModalOpeners";
 
 startMsg();
 
@@ -13,6 +14,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	highlightNav();
 	handleEpoch();
 	registerModalClosers();
+	registerModalOpeners();
 
 	const graphql = new GraphQLClient();
 	const form = new Form("post-form");
@@ -31,14 +33,14 @@ window.addEventListener("DOMContentLoaded", () => {
 		if (!noMatch(data, /<.*>/g)) {
 			return {
 				success: false,
-				message: "Invalid title.",
+				message: "Invalid title",
 			};
 		}
 
 		if (!data) {
 			return {
 				success: false,
-				message: "Title is required.",
+				message: "Title is required",
 			};
 		}
 
@@ -51,21 +53,21 @@ window.addEventListener("DOMContentLoaded", () => {
 		if (data.length > 300) {
 			return {
 				success: false,
-				message: "Cannot be more than 300 characters.",
+				message: "Cannot be more than 300 characters",
 			};
 		}
 
 		if (!noMatch(data, /<.*>/g)) {
 			return {
 				success: false,
-				message: "Invalid content.",
+				message: "Invalid content",
 			};
 		}
 
 		if (!data) {
 			return {
 				success: false,
-				message: "Content is required.",
+				message: "Content is required",
 			};
 		}
 
@@ -84,10 +86,3 @@ window.addEventListener("DOMContentLoaded", () => {
 		});
 	});
 });
-
-declare let window: ExtendedWindow;
-
-window.createPostModal = () => {
-	let modal = new Modal("post-modal");
-	modal.open();
-};

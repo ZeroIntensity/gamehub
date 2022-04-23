@@ -1,4 +1,5 @@
 @import "../selection.css";
+@import "../scheme.css";
 
 @tailwind base;
 @tailwind components;
