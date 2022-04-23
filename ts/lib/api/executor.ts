@@ -188,4 +188,20 @@ export class GraphQLClient {
 	> {
 		return this.executeQuery(queries.deleteAccount, { target });
 	}
+
+	public async promoteAccount(target: string): Promise<
+		APIResponse<{
+			promoteAccount: string;
+		}>
+	> {
+		return this.executeQuery(queries.promoteAccount, { target });
+	}
+
+	public async demoteAccount(target: string): Promise<
+		APIResponse<{
+			demoteAccount: string;
+		}>
+	> {
+		return this.executeQuery(queries.demoteAccount, { target });
+	}
 }

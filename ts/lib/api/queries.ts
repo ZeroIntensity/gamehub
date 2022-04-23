@@ -68,4 +68,16 @@ export default {
 			deleteAccount(target: $target)
 		}
 	`,
+
+	promoteAccount: gql`
+		mutation promoteAccount($target: String!) {
+			promote(username: $target)
+		}
+	`,
+
+	demoteAccount: gql`
+		mutation demoteAccount($target: String!) {
+			demote(username: $target)
+		}
+	`,
 };

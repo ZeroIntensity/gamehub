@@ -6,11 +6,12 @@ from strawberry.types import Info
 from datetime import datetime
 from ..config import config
 from typing import Optional
+from ..db import FoundUser
 
 __all__ = ('apply',)
 
 WEBHOOK = Webhook.from_url(
-    config.suggest_webhook,
+    config.apply_webhook,
     adapter = RequestsWebhookAdapter()
 )
 
@@ -32,11 +33,16 @@ def apply(
         strawberry.argument("Application data to be sent.")
     ]
 ) -> str:
+    user: FoundUser = info.context.user
+
     embed = Embed(
         title = "Application",
         color = 0xffa85c
     )
-    embed.set_author(name = f'User "{info.context.user.username}"')
+    embed.set_author(
+        name = user.username,
+        url = info.context.request.url_for("profile", username = user.username)
+    )  # type: ignore
     embed.timestamp = datetime.now()
 
     fields = {

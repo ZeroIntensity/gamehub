@@ -215,11 +215,62 @@
 									Cancel
 								</button>
 								<button
-									onclick="terminateAccount()"
+									onclick="promoteAccount()"
 									id="terminate-btn"
 									class="font-bold text-xl drop-shadow-md border-solid border-2 border-emerald-600 hover:bg-emerald-600 p-3 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
 								>
 									Promote
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div
+				class="fixed z-10 inset-0 overflow-y-auto hidden"
+				aria-labelledby="modal-title"
+				role="dialog"
+				aria-modal="true"
+				data-type="modal"
+				id="demote-modal"
+			>
+				<div
+					class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+				>
+					<div
+						class="fixed inset-0 bg-zinc-900 bg-opacity-75 transition-opacity"
+						aria-hidden="true"
+					></div>
+
+					<span
+						class="hidden md:inline xl:text-xl-block sm:align-middle sm:h-screen"
+						aria-hidden="true"
+						>&#8203;</span
+					>
+					<div
+						class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full"
+					>
+						<div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full">
+							<div class="text-center">
+								<p class="text-xl text-white font-bold">
+									Are you sure you want to demote this account?
+								</p>
+							</div>
+
+							<div class="flex pt-8 space-x-6">
+								<button
+									data-type="modalclose"
+									type="submit"
+									class="font-bold text-xl drop-shadow-md border-solid border-2 border-zinc-400 hover:bg-zinc-400 p-3 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
+								>
+									Cancel
+								</button>
+								<button
+									onclick="demoteAccount()"
+									id="terminate-btn"
+									class="font-bold text-xl drop-shadow-md border-solid border-2 border-rose-400 hover:bg-rose-400 p-3 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
+								>
+									Demote
 								</button>
 							</div>
 						</div>
@@ -340,6 +391,7 @@
 								(has_access(user.account_type, account.account_type)) %}
 								<div
 									class="bg-zinc-700 hover:bg-emerald-500 rounded-lg p-1 transition-all"
+									onclick="promoteModal()"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -361,6 +413,7 @@
 								{% if (account.account_type != "user") and
 								(has_access(user.account_type, account.account_type)) %}
 								<div
+									onclick="demoteModal()"
 									class="bg-zinc-700 hover:bg-rose-500 rounded-lg p-1 transition-all"
 								>
 									<svg

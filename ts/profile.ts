@@ -35,9 +35,21 @@ window.addEventListener("DOMContentLoaded", () => {
 		handleFormPromise(promise, form, () => window.location.reload());
 	});
 
+	// here lies: dry principle
+
 	window.terminateAccount = () => {
 		const promise = graphql.deleteAccount(username);
-		promise.then(data => window.location.reload());
+		promise.then(_ => window.location.reload());
+	};
+
+	window.promoteAccount = () => {
+		const promise = graphql.promoteAccount(username);
+		promise.then(_ => window.location.reload());
+	};
+
+	window.demoteAccount = () => {
+		const promise = graphql.demoteAccount(username);
+		promise.then(_ => window.location.reload());
 	};
 });
 
@@ -50,5 +62,15 @@ window.openReportModal = () => {
 
 window.terminateModal = () => {
 	const modal = new Modal("terminate-modal");
+	modal.open();
+};
+
+window.promoteModal = () => {
+	const modal = new Modal("promote-modal");
+	modal.open();
+};
+
+window.demoteModal = () => {
+	const modal = new Modal("demote-modal");
 	modal.open();
 };

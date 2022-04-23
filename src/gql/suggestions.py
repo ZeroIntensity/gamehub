@@ -5,6 +5,7 @@ from typing_extensions import Annotated
 from strawberry.types import Info
 from datetime import datetime
 from ..config import config
+from ..db import FoundUser
 
 __all__ = ('suggestion',)
 
@@ -24,12 +25,17 @@ def suggestion(
         strawberry.argument("Content of the suggestion.")
     ]
 ) -> str:
+    user: FoundUser = info.context.user
+
     embed = Embed(
         title = "Suggestion",
         description = content,
         color = 0x5caeff
     )
-    embed.set_author(name = f'User "{info.context.user.username}"')
+    embed.set_author(
+        name = user.username,
+        url = info.context.request.url_for("profile", username = user.username)
+    )  # type: ignore
     embed.timestamp = datetime.now()
 
     WEBHOOK.send(embed = embed)
