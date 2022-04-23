@@ -176,7 +176,7 @@
 				</div>
 			</div>
 			<div
-				class="fixed z-10 inset-0 overflow-y-auto"
+				class="fixed z-10 inset-0 overflow-y-auto hidden"
 				aria-labelledby="modal-title"
 				role="dialog"
 				aria-modal="true"
@@ -242,25 +242,7 @@
 					<p></p>
 				</div>
 
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="h-7 w-7 md:h-6 md:w-6 2xl:w-8 2xl:h-8 hidden"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-					stroke-width="2"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"
-					/>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"
-					/>
-				</svg>
+				<svg class="h-7 w-7 md:h-6 md:w-6 2xl:w-8 2xl:h-8 hidden"></svg>
 				<!-- ^^ makes sure the svg classes are compiled by tailwind -->
 
 				<ul class="space-y-2">
@@ -287,16 +269,16 @@
 				</ul>
 			</nav>
 
-			<div class="w-9/12 text-white">
-				<div class="p-6">
-					<div class="rounded bg-zinc-800 w-1/2 p-4 m-auto">
+			<div class="w-9/12 text-white overflow-y-auto">
+				<div class="p-6 h-screen flex m-auto">
+					<div class="rounded bg-zinc-800 w-3/4 lg:w-1/2 p-4 m-auto">
 						<div class="flex">
 							<div>
 								<div class="flex space-x-3 drop-shadow-lg">
 									{% if account.account_type in ("admin", "owner") %}
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										class="h-12 w-12"
+										class="h-14 w-14"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
@@ -311,7 +293,7 @@
 									{% elif account.account_type == "developer" %}
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										class="h-12 w-12"
+										class="h-14 w-14"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
@@ -324,10 +306,10 @@
 										/>
 									</svg>
 									{% endif %}
-									<p class="font-semibold text-4xl">{{ account.username }}</p>
+									<p class="font-semibold text-5xl">{{ account.username }}</p>
 								</div>
 
-								<p class="font-thin text-zinc-300 text-lg">
+								<p class="font-thin text-zinc-300 text-xl">
 									{{ account.account_type.capitalize() }}
 								</p>
 							</div>
@@ -426,7 +408,7 @@
 						</div>
 						{% if account.likes %}
 						<p class="text-2xl">Likes</p>
-						<ul class="overflow-y-auto h-40">
+						<ul class="overflow-y-auto h-32">
 							{% for game in account.likes %}
 							<li class="font-thin text-zinc-400">{{ game }}</li>
 							{% endfor %}
@@ -442,21 +424,25 @@
 						{% if account.comments %}
 
 						<p class="text-2xl">Comments</p>
-						<ul class="pt-2 overflow-y-auto h-96">
-							{% for comment in account.comments %}
-							<li class="pt-2">
-								<div class="text-white bg-zinc-700 rounded-lg p-2 break-words">
-									<div class="flex space-x-4">
-										<p class="font-semibold">{{ comment.game }}</p>
-										<p data-type="epoch" class="font-semibold text-zinc-500">
-											{{ comment.epoch }}
-										</p>
-									</div>
+						<ul class="pt-2 overflow-y-auto">
+							<div class="h-96">
+								{% for comment in account.comments %}
+								<li class="pt-2">
+									<div
+										class="text-white bg-zinc-700 rounded-lg p-2 break-words"
+									>
+										<div class="flex space-x-4">
+											<p class="font-semibold">{{ comment.game }}</p>
+											<p data-type="epoch" class="font-semibold text-zinc-500">
+												{{ comment.epoch }}
+											</p>
+										</div>
 
-									<p class="font-thin text-zinc-400">{{ comment.content }}</p>
-								</div>
-							</li>
-							{% endfor %}
+										<p class="font-thin text-zinc-400">{{ comment.content }}</p>
+									</div>
+								</li>
+								{% endfor %}
+							</div>
 						</ul>
 						{% else %}
 						<p class="text-lg font-thin text-zinc-300 italic">

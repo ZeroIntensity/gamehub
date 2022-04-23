@@ -145,6 +145,20 @@ SVG_SOURCE = """<svg
 							d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
 						/>
 					</svg>"""
+SVG_PROFILE = """<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-7 w-7 md:h-6 md:w-6 2xl:w-8 2xl:h-8"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+					/>
+				</svg>"""
 
 NAVITEMS = [
     NavItem(SVG_HOME, '/', 'Home'),
@@ -156,11 +170,15 @@ NAVITEMS = [
 ]
 
 def nav(user: Optional[FoundUser]):
-
-    return [
+	base: list =  [
         *NAVITEMS,
         NavItem('', '', '', True),
         NavItem(SVG_LOGIN, '/login', 'Login') if not user else \
             NavItem(SVG_LOGOUT, '/logout', 'Logout'),
-        NavItem(SVG_SOURCE, 'https://github.com/gamehub-2/gamehub', 'Source')
+        NavItem(SVG_SOURCE, 'https://github.com/gamehub-2/gamehub', 'Source'),
     ]
+
+	if user:
+		base.append(NavItem(SVG_PROFILE, '/profile/me', 'Profile'))
+
+	return base

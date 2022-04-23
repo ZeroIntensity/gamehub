@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Path, Request, Depends, HTTPException
+from fastapi.responses import RedirectResponse
 from ..utils.template import template
 from ..gql import ctx_dependency
 from ..db import UserModel, Termination
@@ -14,6 +15,9 @@ async def profile(
     ctx = Depends(ctx_dependency)
 ):
     if username == "me":
+        if not ctx.user:
+            return RedirectResponse("/login")
+        
         username = ctx.user.username 
 
     if Termination(username = username).exists():
