@@ -80,4 +80,10 @@ export default {
 			demote(username: $target)
 		}
 	`,
+
+	deleteGame: gql`
+		mutation deleteGame($target: String!) {
+			deleteGame(name: $target)
+		}
+	`,
 };

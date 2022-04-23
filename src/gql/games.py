@@ -1,11 +1,11 @@
 import strawberry
 from ..db import GameModel, GameInput, Game, Comment
 from .permissions import Authenticated, HasAdmin
-from ..utils import game_exists, exception
+from ..utils import game_exists, exception, exists
 from typing_extensions import Annotated
 from typing import List
 from strawberry.types import Info
-import time
+from contextlib import suppress
 
 TargetGame = Annotated[
     str,
@@ -54,7 +54,33 @@ def create_game(
 )
 def delete_game(info: Info, name: TargetGame) -> str:
     game = game_exists(info, name)
+
+    likes: list = game.likes
+    comments: list = game.comments
+
+    for username in likes:
+        try:
+            user = exists(info, username)
+        except Exception:
+            continue
+        
+        user.likes.remove(name)
+        user.update()
+
+    for comment in comments:
+        try:
+            user = exists(info, comment['author'])
+        except Exception:
+            continue
+        
+        for profile_comment in user.comments:
+            if profile_comment['game'] == name:
+                user.comments.remove(profile_comment)
+
+        user.update()
+
     game.delete()
+
     return f'Successfully deleted "{game}"'
 
 @strawberry.field(description = "Get game data.")

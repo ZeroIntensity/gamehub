@@ -88,8 +88,3 @@ for root, dirs, files in os.walk('./src/routers'):
             lib = importlib.import_module(f'{mods}.{file[:-3]}')
 
             app.include_router(lib.router, prefix = lib.prefix)
-
-@app.get('/a')
-def a(response: Response):
-    response.set_cookie('auth', 'test')
-    return {'a': 'b'}

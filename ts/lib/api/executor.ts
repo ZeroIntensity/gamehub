@@ -204,4 +204,12 @@ export class GraphQLClient {
 	> {
 		return this.executeQuery(queries.demoteAccount, { target });
 	}
+
+	public async deleteGame(target: string): Promise<
+		APIResponse<{
+			deleteGame: string;
+		}>
+	> {
+		return this.executeQuery(queries.deleteGame, { target });
+	}
 }

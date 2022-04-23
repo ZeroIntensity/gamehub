@@ -11,6 +11,8 @@ import { isAuthenticated } from "./lib/cookies";
 
 startMsg();
 
+declare let window: ExtendedWindow;
+
 function addComment(
 	list: HTMLElement,
 	comment: {
@@ -269,6 +271,22 @@ window.addEventListener("DOMContentLoaded", () => {
 				graphql.likeGame(gameName);
 			}
 			// not sure if theres a better way to do this
+		};
+	});
+
+	const deleteButtons = document.querySelectorAll('[data-type="deletemodal"]');
+
+	deleteButtons.forEach(element => {
+		const gameName: string = element.getAttribute("data-game-name")!;
+		const modal = new Modal("delete-modal");
+
+		(element as HTMLElement).onclick = () => {
+			modal.open();
+
+			window.deleteGame = () => {
+				const promise = graphql.deleteGame(gameName);
+				promise.then(_ => window.location.reload());
+			};
 		};
 	});
 });
