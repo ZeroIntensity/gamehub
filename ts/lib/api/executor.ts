@@ -109,6 +109,7 @@ export class GraphQLClient {
 					content: string;
 					epoch: number;
 					accountType: AccountType;
+					id: string;
 				}>;
 			};
 		}>
@@ -126,6 +127,7 @@ export class GraphQLClient {
 				author: string;
 				content: string;
 				accountType: AccountType;
+				id: string;
 			};
 		}>
 	> {

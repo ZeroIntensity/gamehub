@@ -13,7 +13,11 @@
 		<script src="/static/js/dist/games.js"></script>
 	</head>
 
-	<body class="bg-zinc-900">
+	<body
+		class="bg-zinc-900"
+		data-user-name="{{ user.username if user else '' }}"
+		data-account-type="{{ user.account_type if user else 'user' }}"
+	>
 		<div class="hidden">
 			<!-- to make sure these classes are found by tailwind -->
 			<span class="h-72 space-x-1"></span>
@@ -198,7 +202,7 @@
 								<button
 									onclick="deleteGame()"
 									id="terminate-btn"
-									class="font-bold text-xl drop-shadow-md border-solid border-2 border-rose-500 hover:bg-rose-600 p-3 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
+									class="font-bold text-xl drop-shadow-md border-solid border-2 border-rose-500 hover:bg-rose-500 p-3 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
 								>
 									Delete
 								</button>
@@ -344,7 +348,7 @@
 							<div class="grid grid-cols-3 text-center">
 								<a
 									href="{{ game.data }}"
-									class="font-semibold drop-shadow-lg bg-zinc-700 hover:bg-orange-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2""
+									class="font-semibold drop-shadow-lg bg-zinc-700 hover:bg-orange-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
 								>
 									Play
 								</a>

@@ -5,7 +5,7 @@ import registerModalOpeners from "./lib/registerModalOpeners";
 import { RadioGroup } from "./lib/radio";
 import { Form } from "./lib/form";
 import { GraphQLClient } from "./lib/api/executor";
-import { Modal } from "./lib/modal";
+import { isAuthenticated } from "./lib/cookies";
 
 startMsg();
 
@@ -65,7 +65,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	});
 
 	form.setCallback((_, data) => {
-		console.log(radioGroup.getValue());
+		if (!isAuthenticated) window.location.href = "/login";
 		const promise = graphql.apply(
 			data["discord-tag"],
 			mapToBool(radioGroup.getValue()),

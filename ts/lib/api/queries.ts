@@ -9,6 +9,7 @@ export default {
 					content
 					epoch
 					accountType
+					id
 				}
 			}
 		}
@@ -35,6 +36,7 @@ export default {
 				author
 				content
 				accountType
+				id
 			}
 		}
 	`,
