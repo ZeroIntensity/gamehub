@@ -1,4 +1,4 @@
-from fastapi import APIRouter, responses, Request, Depends, Response
+from fastapi import APIRouter, Request, Depends
 from fastapi.responses import FileResponse
 from ..db import posts, PostModel
 from typing import List
@@ -15,8 +15,7 @@ prefix: str = ''
 
 @router.get(
     '/',
-    response_class = responses.HTMLResponse,
-    summary = 'Get the home page.'
+    include_in_schema = False
 )
 async def index(request: Request, ctx = Depends(ctx_dependency)):
     posts_list: List[PostModel] = [PostModel(**post) for post in posts.find()]
@@ -28,25 +27,12 @@ async def index(request: Request, ctx = Depends(ctx_dependency)):
         posts = reversed(posts_list)
     )
 
-@router.get(
-    '/applications',
-    response_class = responses.HTMLResponse,
-    summary = 'Get the applications page.'
-)
-async def apply(request: Request, ctx = Depends(ctx_dependency)):
-    return template(
-        'apply.html',
-        request,
-        ctx
-    )
-
 def liked(name: str, likes: list):
     return name in likes
 
 @router.get(
     '/games',
-    response_class = responses.HTMLResponse,
-    summary = "Get the games page."
+    include_in_schema = False
 )
 async def games(request: Request, ctx = Depends(ctx_dependency)):
     return template(
@@ -58,6 +44,9 @@ async def games(request: Request, ctx = Depends(ctx_dependency)):
         liked = liked
     )
 
-@router.get('/favicon.ico')
+@router.get(
+    '/favicon.ico',
+    include_in_schema = False
+)
 def favicon():
     return FileResponse('./static/assets/favicon.ico')

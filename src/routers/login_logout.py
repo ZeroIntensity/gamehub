@@ -13,10 +13,7 @@ class UserPasswordInput(BaseModel):
 
 @router.get(
     '/logout',
-    response_class = RedirectResponse,
-    status_code = 307,
-    summary = "Log out of the current account.",
-    response_description = "Redirected to the home page.",
+    include_in_schema = False
 )
 async def logout():
     response = RedirectResponse('/')
@@ -25,6 +22,7 @@ async def logout():
 
 @router.get(
     '/login',
+    include_in_schema = False
 )
 async def login(
     request: Request,

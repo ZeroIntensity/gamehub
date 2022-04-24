@@ -46,8 +46,7 @@ export class Input extends Output {
 		return this.element.value;
 	}
 }
-
-export class Form extends Output {
+export class BaseForm extends Output {
 	readonly element: HTMLFormElement;
 	public inputs: Record<string, Input>;
 	private submitCallback?: (
@@ -57,8 +56,7 @@ export class Form extends Output {
 	private manualClear: boolean = false;
 	public validators: Array<{ callback: CustomValidator; hook: Output }> = [];
 
-	constructor(id: string) {
-		let element = <HTMLFormElement>document.getElementById(id)!;
+	constructor(element: HTMLFormElement) {
 		super(element.querySelector("small")!);
 
 		this.element = element;
@@ -134,5 +132,11 @@ export class Form extends Output {
 
 	public addValidator(callback: CustomValidator, hook: HTMLElement) {
 		this.validators.push({ hook: new Output(hook), callback });
+	}
+}
+
+export class Form extends BaseForm {
+	constructor(id: string) {
+		super(<HTMLFormElement>document.getElementById(id)!);
 	}
 }

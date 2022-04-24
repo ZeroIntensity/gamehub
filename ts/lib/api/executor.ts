@@ -243,4 +243,16 @@ export class GraphQLClient {
 	> {
 		return this.executeQuery(queries.deleteComment, { gameName, commentId });
 	}
+
+	public async issueReport(
+		gameName: string,
+		content: string
+	): Promise<
+		APIResponse<{
+			issueReport: string;
+		}>
+	> {
+		console.log({ gameName, content });
+		return this.executeQuery(queries.issueReport, { gameName, content });
+	}
 }

@@ -8,6 +8,6 @@ def make_id() -> PostID:
    """Generate an ID for a post."""
    return PostID(
        ''.join(
-           random.choice(string.ascii_letters) for _ in range(15)
+           random.choice(string.ascii_letters) for _ in range(50)
         )
     )

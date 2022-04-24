@@ -112,4 +112,10 @@ export default {
 			deleteComment(data: { name: $gameName, id: $commentId })
 		}
 	`,
+
+	issueReport: gql`
+		mutation issueReport($gameName: String!, $content: String!) {
+			issueReport(content: $content, game: $gameName)
+		}
+	`,
 };

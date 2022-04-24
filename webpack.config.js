@@ -8,6 +8,7 @@ module.exports = {
 		login: "./ts/login.ts",
 		profile: "./ts/profile.ts",
 		apply: "./ts/apply.ts",
+		report: "./ts/report.ts",
 	},
 	module: {
 		rules: [

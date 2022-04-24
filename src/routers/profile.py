@@ -8,7 +8,10 @@ from ..utils import check_perms_bool
 prefix: str = '/profile'
 router = APIRouter()
 
-@router.get('/{username}')
+@router.get(
+    '/{username}',
+    include_in_schema = False
+)
 async def profile(
     request: Request,
     username: str = Path(..., title = "The account to find."),

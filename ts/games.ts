@@ -2,7 +2,7 @@ import highlightNav from "./lib/nav";
 import handleEpoch from "./lib/handleEpoch";
 import registerModalClosers from "./lib/registerModalClosers";
 import { Modal } from "./lib/modal";
-import { Form } from "./lib/form";
+import { Form, BaseForm } from "./lib/form";
 import noMatch from "./lib/utils/noMatch";
 import { Comment } from "./lib/api/schema";
 import { GraphQLClient } from "./lib/api/executor";
@@ -60,6 +60,7 @@ function loadComments(list: HTMLElement, gameName: string) {
 			addComment(list, gameName, comment);
 		});
 		registerDeletes();
+		registerEditors();
 	});
 }
 
@@ -78,6 +79,35 @@ function registerDeletes() {
 			promise.then(_ => {
 				loadComments(document.getElementById("commentBody")!, gameName);
 			});
+		};
+	});
+}
+
+function registerEditors() {
+	const buttons: NodeListOf<HTMLElement> = document.querySelectorAll(
+		'[data-type="editbutton"]'
+	);
+
+	buttons.forEach(btn => {
+		const gameName = btn.getAttribute("data-game-name")!;
+		const id = btn.getAttribute("data-comment-id")!;
+
+		const content: HTMLElement = document.querySelector(
+			`[data-type="commentcontent"][data-comment-id="${id}"]`
+		)!;
+		const form = new BaseForm(
+			document.querySelector(`[id="editForm"][data-comment-id="${id}"]`)!
+		);
+		const input = form.getInput("edit-content");
+
+		form.setCallback((_, data) => {
+			console.log("a");
+		});
+
+		btn.onclick = () => {
+			input.element.value = content.innerHTML;
+			content.classList.add("hidden");
+			form.element.classList.remove("hidden");
 		};
 	});
 }
@@ -145,6 +175,9 @@ function addComment(
 		viewBox="0 0 24 24"
 		stroke="currentColor"
 		stroke-width="2"
+		data-type="editbutton"
+		data-comment-id="${comment.id}"
+		data-game-name="${gameName}"
 	>
 		<path
 			stroke-linecap="round"
@@ -195,7 +228,22 @@ function addComment(
 					${comment.epoch}
 				</p>
 			</div>
-			<p class="font-thin text-zinc-400">${comment.content}</p>
+			<p class="font-thin text-zinc-400" data-type="commentcontent" data-comment-id="${comment.id}">${comment.content}</p>
+			<small></small>
+			<form class="hidden" id="editForm" data-comment-id="${comment.id}">
+				<div class="flex h-fit">
+					<div class="w-full">
+						<input
+							type="text"
+							name="edit-content"
+							id="edit-content"
+							placeholder="balls..."
+							class="bg-zinc-900 w-full text-md lg:text-sm rounded-lg p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+						/>
+						<small class="z-20"></small>
+					</div>
+				</div>
+			</form>
 		</div>
 		<div
 			data-comment-id="${comment.id}"
@@ -263,6 +311,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		(<HTMLElement>element).onclick = () => {
 			const list = <HTMLUListElement>document.getElementById("commentBody")!;
 			loadComments(list, gameName);
+			registerEditors();
 
 			if (formShowed) {
 				form.setCallback(

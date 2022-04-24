@@ -5,7 +5,7 @@ from typing_extensions import Annotated
 from strawberry.types import Info
 from datetime import datetime
 from ..config import config
-from ..utils import exists, exception
+from ..utils import exists, exception, game_exists
 from ..db import FoundUser
 
 __all__ = ('issue_report', 'user_report')
@@ -16,7 +16,7 @@ WEBHOOK = Webhook.from_url(
 )
 
 @strawberry.field(
-    description = "Submit an issue report.",
+    description = "Submit an issue report for a game.",
     permission_classes = [Authenticated]
 )
 def issue_report(
@@ -24,15 +24,20 @@ def issue_report(
     content: Annotated[
         str,
         strawberry.argument("Content of the report.")
+    ],
+    game: Annotated[
+        str,
+        strawberry.argument("Name of the game.")
     ]
 ) -> str:
     user: FoundUser = info.context.user
+    game_exists(info, game)
 
     if len(content) > 400:
         exception(info, "Content cannot be above 400 characters.")
 
     embed = Embed(
-        title = "Issue Report",
+        title = f'Report for game "{game}"',
         description = content,
         color = 0xff5c5c
     )
@@ -41,6 +46,8 @@ def issue_report(
         url = info.context.request.url_for("profile", username = user.username)
     )  # type: ignore
     embed.timestamp = datetime.now()
+
+
 
     WEBHOOK.send(embed = embed)
     return "Successfully submitted issue report."

@@ -29,6 +29,13 @@ window.addEventListener("DOMContentLoaded", () => {
 			};
 		}
 
+		if (!data) {
+			return {
+				success: false,
+				message: "Reason is required.",
+			};
+		}
+
 		return { success: true };
 	});
 
