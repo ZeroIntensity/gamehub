@@ -64,19 +64,21 @@ def create_comment(info: Info, name: TargetGame, content: Content) -> Comment:
     validate_comment(info, content)
     epoch: float = time.time()
     cleaned: str = bleach.linkify(bleach.clean(content))
+    comment_id: str = make_id()
 
     comment = Comment(
         author = user.username,
         content = cleaned,
         epoch = epoch,
-        id = make_id(),
+        id = comment_id,
         account_type = user.account_type
     )
 
     user.comments.append({
         'game': game.name,
         'epoch': epoch,
-        'content': cleaned
+        'content': cleaned,
+        'id': comment_id
     })
     game.comments.append(comment.__dict__)  # type: ignore
     game.update()
@@ -95,9 +97,14 @@ def delete_comment(info: Info, data: CommentInput) -> str:
     comment = get_comment(info, data.name, data.id)    
 
     has_access(info, user, comment["author"])
-    game.comments.remove(comment)
 
+    for profile_comment in user.comments:
+        if profile_comment['id'] == data.id:
+            user.comments.remove(profile_comment)
+
+    game.comments.remove(comment)
     game.update()
+    user.update()
 
     return "Successfully deleted comment."
 

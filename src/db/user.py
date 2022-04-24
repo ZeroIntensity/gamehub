@@ -19,6 +19,7 @@ class ProfileComment:
         description = "UNIX epoch creation date of the comment."
     )
     content: str = strawberry.field(description = "Content of the comment.")
+    id: str =  strawberry.field(description = "ID of the comment.")
 
 
 class FoundUser(ModelProtocol, Protocol):

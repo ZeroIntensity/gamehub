@@ -232,4 +232,15 @@ export class GraphQLClient {
 			anythingElse,
 		});
 	}
+
+	public async deleteComment(
+		gameName: string,
+		commentId: string
+	): Promise<
+		APIResponse<{
+			deleteComment: string;
+		}>
+	> {
+		return this.executeQuery(queries.deleteComment, { gameName, commentId });
+	}
 }
