@@ -123,7 +123,7 @@
 										<button
 											data-form-exclude="true"
 											type="submit"
-											class="drop-shadow-lg md:bg-zinc-900 bg-emerald-400 border-solid border-2 border-emerald-400 md:hover:bg-emerald-400 p-2 rounded transition-all duration-300 text-white"
+											class="font-semibold drop-shadow-lg bg-zinc-700 hover:bg-emerald-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
 										>
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
@@ -196,17 +196,90 @@
 								<button
 									data-type="modalclose"
 									type="submit"
-									class="font-bold text-xl drop-shadow-md border-solid border-2 border-zinc-400 hover:bg-zinc-400 p-3 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
+									class="w-full text-xl font-semibold drop-shadow-lg bg-zinc-700 hover:bg-zinc-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
 								>
 									Cancel
 								</button>
 								<button
 									onclick="deleteGame()"
 									id="terminate-btn"
-									class="font-bold text-xl drop-shadow-md border-solid border-2 border-rose-500 hover:bg-rose-500 p-3 lg:p-2 rounded-lg lg:rounded transition-all duration-300 w-full text-white bg-zinc-900"
+									class="w-full text-xl font-semibold drop-shadow-lg bg-zinc-700 hover:bg-rose-600 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
 								>
 									Delete
 								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div
+				class="fixed z-10 inset-0 overflow-y-auto hidden"
+				aria-labelledby="modal-title"
+				role="dialog"
+				aria-modal="true"
+				data-type="modal"
+				id="disclaimer-modal"
+			>
+				<div
+					class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+				>
+					<div
+						class="fixed inset-0 bg-zinc-900 bg-opacity-75 transition-opacity"
+						aria-hidden="true"
+					></div>
+
+					<span
+						class="hidden md:inline xl:text-xl-block sm:align-middle sm:h-screen"
+						aria-hidden="true"
+						>&#8203;</span
+					>
+					<div
+						class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full"
+					>
+						<div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full">
+							<div class="flex">
+								<p
+									class="justify-start text-2xl md:text-xl font-medium text-white"
+								>
+									Disclaimer
+								</p>
+								<button
+									data-form-exclude="true"
+									type="button"
+									class="justify-end rounded-lg lg:text-sm ml-auto text-zinc-500 hover:text-zinc-400 transition-all"
+									data-type="modalclose"
+								>
+									<svg
+										class="w-8 h-8 md:w-6 md:h-6"
+										fill="currentColor"
+										viewBox="0 0 20 20"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											fill-rule="evenodd"
+											d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+											clip-rule="evenodd"
+										></path>
+									</svg>
+								</button>
+							</div>
+							<div class="text-zinc-400 font-thin pt-4 text-lg">
+								<p class="font-semibold">
+									We do not own any of the games on this website.
+								</p>
+								<p>This website is meant as a place for games to be found.</p>
+								<div class="py-4">
+									<hr class="w-full border-t border-zinc-700" />
+								</div>
+								<p>
+									If you have created a game on this site and would like it
+									taken down, you can either visit the
+									<a
+										href="https://github.com/gamehub-2/gamehub"
+										class="text-orange-400 hover:text-orange-300 transition-all"
+										>reports page</a
+									>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -259,7 +332,28 @@
 						Games
 					</h1>
 				</div>
-
+				<div class="m-auto w-fit">
+					<button
+						data-type="modalopen"
+						data-target="disclaimer-modal"
+						class="w-full text-xl font-semibold drop-shadow-lg bg-zinc-800 hover:bg-orange-400 rounded transition-all duration-300 text-zinc-500 hover:text-white p-2"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-10 w-10"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							stroke-width="2"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM12 9v2m0 4h.01"
+							/>
+						</svg>
+					</button>
+				</div>
 				<div class="p-4">
 					<div
 						class="grid grid-cols-1 md:grid-cols-2 gap-5 p-7 first:pt-4 last:pb-4"

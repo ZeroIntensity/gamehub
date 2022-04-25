@@ -9,6 +9,7 @@ import { GraphQLClient } from "./lib/api/executor";
 import startMsg from "./lib/startMessage";
 import { isAuthenticated } from "./lib/cookies";
 import hasAccess from "./lib/utils/hasAccess";
+import registerModalOpeners from "./lib/registerModalOpeners";
 
 startMsg();
 
@@ -264,6 +265,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	highlightNav();
 	handleEpoch();
 	registerModalClosers();
+	registerModalOpeners();
 
 	const commentOpeners = document.querySelectorAll(
 		'[data-type="opencomments"]'
