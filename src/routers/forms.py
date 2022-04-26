@@ -27,3 +27,14 @@ async def report(request: Request, ctx = Depends(ctx_dependency)):
         ctx
     )
 
+@router.get(
+    '/suggestions',
+    include_in_schema = False
+)
+async def suggestions(request: Request, ctx = Depends(ctx_dependency)):
+    return template(
+        'suggestions.html',
+        request,
+        ctx
+    )
+

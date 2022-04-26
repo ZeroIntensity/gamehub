@@ -118,4 +118,10 @@ export default {
 			issueReport(content: $content, game: $gameName)
 		}
 	`,
+
+	suggest: gql`
+		mutation suggest($content: String!) {
+			suggestion(content: $content)
+		}
+	`,
 };

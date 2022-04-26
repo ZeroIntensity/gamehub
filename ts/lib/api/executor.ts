@@ -252,7 +252,14 @@ export class GraphQLClient {
 			issueReport: string;
 		}>
 	> {
-		console.log({ gameName, content });
 		return this.executeQuery(queries.issueReport, { gameName, content });
+	}
+
+	public async suggest(content: string): Promise<
+		APIResponse<{
+			suggestion: string;
+		}>
+	> {
+		return this.executeQuery(queries.suggest, { content });
 	}
 }

@@ -9,6 +9,7 @@ module.exports = {
 		profile: "./ts/profile.ts",
 		apply: "./ts/apply.ts",
 		report: "./ts/report.ts",
+		suggestions: "./ts/suggestions.ts",
 	},
 	module: {
 		rules: [

@@ -6,6 +6,7 @@ import { RadioGroup } from "./lib/radio";
 import { Form } from "./lib/form";
 import { GraphQLClient } from "./lib/api/executor";
 import { isAuthenticated } from "./lib/cookies";
+import handleFormPromise from "./lib/utils/handleFormPromise";
 
 startMsg();
 
@@ -65,7 +66,6 @@ window.addEventListener("DOMContentLoaded", () => {
 	});
 
 	form.setCallback((_, data) => {
-		if (!isAuthenticated) window.location.href = "/login";
 		const promise = graphql.apply(
 			data["discord-tag"],
 			mapToBool(radioGroup.getValue()),
@@ -73,6 +73,6 @@ window.addEventListener("DOMContentLoaded", () => {
 			data["anything-else"]
 		);
 
-		promise.then(() => window.location.reload());
+		handleFormPromise(promise, form, () => window.location.reload());
 	});
 });

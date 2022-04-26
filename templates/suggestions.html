@@ -3,9 +3,9 @@
 	<head>
 		<title>Applications - GameHub</title>
 
-		<script src="/static/js/dist/report.js"></script>
+		<script src="/static/js/dist/suggestions.js"></script>
 		{% if production %}
-		<link rel="stylesheet" href="/static/css/dist/report.css" />
+		<link rel="stylesheet" href="/static/css/dist/suggestions.css" />
 		{% else %}
 		<script src="https://cdn.tailwindcss.com"></script>
 		<link rel="stylesheet" href="/static/css/dev/selection.css" />
@@ -21,7 +21,7 @@
 			role="dialog"
 			aria-modal="true"
 			data-type="modal"
-			id="bug-modal"
+			id="feature-modal"
 		>
 			<div
 				class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
@@ -44,7 +44,7 @@
 							<p
 								class="justify-start text-2xl md:text-xl font-medium text-white"
 							>
-								Bug Report
+								Feature Suggestion
 							</p>
 							<button
 								data-form-exclude="true"
@@ -67,7 +67,7 @@
 							</button>
 						</div>
 						<div class="text-zinc-400 font-thin pt-4 text-lg">
-							<p>Bugs aren't handled on the GameHub website.</p>
+							<p>Feature requests aren't handled on the GameHub website.</p>
 							<div class="py-4">
 								<hr class="w-full border-t border-zinc-700" />
 							</div>
@@ -77,7 +77,7 @@
 									href="https://github.com/gamehub-2/gamehub"
 									class="text-orange-400 hover:text-orange-300 transition-all"
 									>open source project</a
-								>, so that means all issues are handled on our
+								>, so that means all feature requests are handled on our
 								<a
 									href="https://github.com/gamehub-2/gamehub/issues"
 									class="text-orange-400 hover:text-orange-300 transition-all"
@@ -96,21 +96,21 @@
 									class="text-orange-400 hover:text-orange-300 transition-all"
 									>discord</a
 								>
-								and report the issue there. An admin will take care of it for
-								you!
+								and ask somebody there. An admin will take care of it for you!
 							</p>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
 		<div
 			class="fixed z-10 inset-0 overflow-y-auto hidden"
 			aria-labelledby="modal-title"
 			role="dialog"
 			aria-modal="true"
 			data-type="modal"
-			id="report-modal"
+			id="game-suggest-modal"
 		>
 			<div
 				class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
@@ -129,12 +129,12 @@
 					class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full"
 				>
 					<div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full">
-						<form class="space-y-6" action="#" id="report-form">
+						<form class="space-y-6" action="#" id="suggestion-form">
 							<div class="flex">
 								<p
 									class="justify-start text-2xl md:text-xl font-medium text-white"
 								>
-									User Report
+									Game Suggestions
 								</p>
 								<button
 									data-form-exclude="true"
@@ -160,136 +160,31 @@
 
 							<div>
 								<label
-									for="username"
+									for="description"
 									class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
-									>Username</label
-								>
-								<input
-									name="username"
-									id="report-username"
-									placeholder="Quandale_Dingle"
-									class="bg-zinc-900 lg:text-sm rounded-lg h-fit block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
-								/>
-								<small></small>
-							</div>
-
-							<div>
-								<label
-									for="reason"
-									class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
-									>Reason</label
+									>Description</label
 								>
 								<textarea
-									name="reason"
-									id="report-reason"
-									placeholder="Beat an elderly man to death in 2004..."
+									name="description"
+									id="suggestion-content"
+									placeholder="i ran out of placeholder ideas"
 									class="bg-zinc-900 lg:text-sm rounded-lg h-fit block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
 								></textarea>
 								<small></small>
 							</div>
 
-							<button
-								data-form-exclude="true"
-								type="submit"
-								class="w-full text-xl font-semibold drop-shadow-lg bg-zinc-700 hover:bg-rose-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
-							>
-								Report
-							</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div
-			class="fixed z-10 inset-0 overflow-y-auto hidden"
-			aria-labelledby="modal-title"
-			role="dialog"
-			aria-modal="true"
-			data-type="modal"
-			id="issue-modal"
-		>
-			<div
-				class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-			>
-				<div
-					class="fixed inset-0 bg-zinc-900 bg-opacity-75 transition-opacity"
-					aria-hidden="true"
-				></div>
-
-				<span
-					class="hidden md:inline xl:text-xl-block sm:align-middle sm:h-screen"
-					aria-hidden="true"
-					>&#8203;</span
-				>
-				<div
-					class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full"
-				>
-					<div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full">
-						<form class="space-y-6" action="#" id="issue-form">
-							<div class="flex">
-								<p
-									class="justify-start text-2xl md:text-xl font-medium text-white"
-								>
-									Game Report
-								</p>
-								<button
-									data-form-exclude="true"
-									type="button"
-									class="justify-end rounded-lg lg:text-sm ml-auto text-zinc-500 hover:text-zinc-400 transition-all"
-									data-type="modalclose"
-								>
-									<svg
-										class="w-8 h-8 md:w-6 md:h-6"
-										fill="currentColor"
-										viewBox="0 0 20 20"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											fill-rule="evenodd"
-											d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-											clip-rule="evenodd"
-										></path>
-									</svg>
-								</button>
-							</div>
-							<small></small>
-
-							<div>
-								<label
-									for="game"
-									class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
-									>Game</label
-								>
-								<input
-									name="issue-content"
-									id="game-name"
-									placeholder="Roblox sex"
-									class="bg-zinc-900 lg:text-sm rounded-lg h-fit block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
-								/>
-								<small></small>
-							</div>
-
-							<div>
-								<label
-									for="issue-content"
-									class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
-									>Content</label
-								>
-								<textarea
-									name="issue"
-									id="issue-content"
-									placeholder="Doesn't work from my Samsung 26.7 cu. ft. Family Hub Side by Side Smart Refrigerator"
-									class="bg-zinc-900 lg:text-sm rounded-lg h-fit block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
-								></textarea>
-								<small></small>
-							</div>
+							<p class="text-zinc-400 font-thin">
+								For legal reasons, GameHub will
+								<span class="font-semibold">not</span> provide any copyrighted
+								or pirated games.
+							</p>
 
 							<button
 								data-form-exclude="true"
 								type="submit"
-								class="w-full text-xl font-semibold drop-shadow-lg bg-zinc-700 hover:bg-rose-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
+								class="w-full text-xl font-semibold drop-shadow-lg bg-zinc-700 hover:bg-sky-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
 							>
-								Report
+								Suggest
 							</button>
 						</form>
 					</div>
@@ -341,51 +236,36 @@
 
 			<div class="w-9/12 text-white">
 				<div class="p-2 text-center text-6xl font-bold">
-					<h1>Reports</h1>
+					<h1>Suggestions</h1>
 				</div>
 				<div class="p-2 pt-4 space-y-6 m-auto w-3/4">
 					<div class="bg-zinc-800 rounded p-2">
-						<p class="text-3xl">Game Report</p>
+						<p class="text-3xl">Game Suggestion</p>
 						<p class="text-lg font-thin text-zinc-400">
-							Something with a game isn't working correctly.
+							A new game should be added.
 						</p>
 						<div class="pt-2">
 							<button
 								data-type="modalopen"
-								data-target="issue-modal"
+								data-target="game-suggest-modal"
 								class="font-semibold drop-shadow-lg bg-zinc-700 hover:bg-orange-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
 							>
-								Report
+								Suggest
 							</button>
 						</div>
 					</div>
 					<div class="bg-zinc-800 rounded p-2">
-						<p class="text-3xl">User Report</p>
+						<p class="text-3xl">Feature Suggestion</p>
 						<p class="text-lg font-thin text-zinc-400">
-							Somebody is misbehaving.
+							Add something to the website.
 						</p>
 						<div class="pt-2">
 							<button
 								data-type="modalopen"
-								data-target="report-modal"
+								data-target="feature-modal"
 								class="font-semibold drop-shadow-lg bg-zinc-700 hover:bg-orange-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
 							>
-								Report
-							</button>
-						</div>
-					</div>
-					<div class="bg-zinc-800 rounded p-2">
-						<p class="text-3xl">Issue Report</p>
-						<p class="text-lg font-thin text-zinc-400">
-							There's a technical issue with the site itself.
-						</p>
-						<div class="pt-2">
-							<button
-								data-type="modalopen"
-								data-target="bug-modal"
-								class="font-semibold drop-shadow-lg bg-zinc-700 hover:bg-orange-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
-							>
-								Report
+								Suggest
 							</button>
 						</div>
 					</div>
