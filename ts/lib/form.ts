@@ -69,31 +69,8 @@ export class BaseForm extends Output {
 
 		this.element.addEventListener("submit", (event: SubmitEvent) => {
 			event.preventDefault();
-			let validated = true;
 
-			Object.keys(this.inputs).forEach(input => {
-				const obj = this.inputs[input];
-
-				obj.validators.forEach(callback => {
-					const response = callback(obj.element.value);
-
-					if (!response.success) {
-						obj.error(response.message!);
-						validated = false;
-					}
-				});
-			});
-
-			this.validators.forEach(validator => {
-				const response = validator.callback();
-
-				if (!response.success) {
-					validator.hook.error(response.message!);
-					validated = false;
-				}
-			});
-
-			if (!validated) return;
+			if (!this.fireValidators()) return;
 			if (!this.submitCallback) throw new Error("callback is not set");
 
 			const data: Record<string, string> = {};
@@ -105,6 +82,34 @@ export class BaseForm extends Output {
 			this.submitCallback(event, data);
 			if (!this.manualClear) this.clear();
 		});
+	}
+
+	public fireValidators(): boolean {
+		let validated = true;
+
+		Object.keys(this.inputs).forEach(input => {
+			const obj = this.inputs[input];
+
+			obj.validators.forEach(callback => {
+				const response = callback(obj.element.value);
+
+				if (!response.success) {
+					obj.error(response.message!);
+					validated = false;
+				}
+			});
+		});
+
+		this.validators.forEach(validator => {
+			const response = validator.callback();
+
+			if (!response.success) {
+				validator.hook.error(response.message!);
+				validated = false;
+			}
+		});
+
+		return validated;
 	}
 
 	public getInput(name: string): Input {

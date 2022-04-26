@@ -124,4 +124,14 @@ export default {
 			suggestion(content: $content)
 		}
 	`,
+
+	editComment: gql`
+		mutation editComment(
+			$content: String!
+			$gameName: String!
+			$commentId: String!
+		) {
+			editComment(content: $content, data: { name: $gameName, id: $commentId })
+		}
+	`,
 };

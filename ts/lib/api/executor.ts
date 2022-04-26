@@ -262,4 +262,20 @@ export class GraphQLClient {
 	> {
 		return this.executeQuery(queries.suggest, { content });
 	}
+
+	public async editComment(
+		content: string,
+		gameName: string,
+		commentId: string
+	): Promise<
+		APIResponse<{
+			editComment: string;
+		}>
+	> {
+		return this.executeQuery(queries.editComment, {
+			content,
+			gameName,
+			commentId,
+		});
+	}
 }

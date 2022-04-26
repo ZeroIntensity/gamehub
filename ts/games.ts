@@ -10,11 +10,39 @@ import startMsg from "./lib/startMessage";
 import { isAuthenticated } from "./lib/cookies";
 import hasAccess from "./lib/utils/hasAccess";
 import registerModalOpeners from "./lib/registerModalOpeners";
+import handleFormPromise from "./lib/utils/handleFormPromise";
 
 startMsg();
 
 declare let window: ExtendedWindow;
 const graphql = new GraphQLClient();
+
+function validateComment(data: string): ValidatorResponse {
+	if (data.length > 300) {
+		return {
+			success: false,
+			message: "Comment content cannot exceed 300 characters.",
+		};
+	}
+
+	if (!noMatch(data, /<.*>/g)) {
+		return {
+			success: false,
+			message: "Invalid comment.",
+		};
+	}
+
+	if (!data) {
+		return {
+			success: false,
+			message: "Content is required.",
+		};
+	}
+
+	return {
+		success: true,
+	};
+}
 
 function loadComments(list: HTMLElement, gameName: string) {
 	list.innerHTML = `<svg
@@ -38,18 +66,16 @@ function loadComments(list: HTMLElement, gameName: string) {
 
 	comments.then(resp => {
 		const data = resp.response.json.data!.getGame.comments;
-		if (!data.length) {
-			list.innerHTML = `<div class="text-center p-4" id="nocom">
+		list.innerHTML = !data.length
+			? `<div class="text-center p-4" id="nocom">
                                     <p class="text-white font-semibold text-lg lg:text-md">
                                         No Comments
                                     </p>
                                     <p class="text-zinc-400 font-thin text-md lg:text-sm">
                                         Be the first to make a comment.
                                     </p>
-                                </div>`;
-		} else {
-			list.innerHTML = "";
-		}
+                                </div>`
+			: "";
 
 		const len = document.querySelector(
 			`[data-type="commentlen"][data-game-name="${gameName}"]`
@@ -100,15 +126,40 @@ function registerEditors() {
 			document.querySelector(`[id="editForm"][data-comment-id="${id}"]`)!
 		);
 		const input = form.getInput("edit-content");
+		input.addValidator(data => validateComment(data));
+
+		const finalizeEdit = <T>(
+			promise: Promise<APIResponse<T>>,
+			inputContent: string
+		) => {
+			handleFormPromise(promise, form, () => {});
+			content.classList.remove("hidden");
+			content.innerHTML = inputContent;
+			form.element.classList.add("hidden");
+		};
 
 		form.setCallback((_, data) => {
-			console.log("a");
+			let inputContent = data["edit-content"];
+			const promise = graphql.editComment(inputContent, gameName, id);
+
+			finalizeEdit(promise, inputContent);
 		});
 
 		btn.onclick = () => {
-			input.element.value = content.innerHTML;
-			content.classList.add("hidden");
-			form.element.classList.remove("hidden");
+			if (content.classList.contains("hidden")) {
+				let value: string = input.element.value;
+
+				// form.submit isnt using the callback for some reason, so i have to do this manually
+				form.fireValidators();
+				const promise = graphql.editComment(value, gameName, id);
+				finalizeEdit(promise, value);
+			} else {
+				input.element.value = content.innerHTML;
+				content.classList.add("hidden");
+				form.element.classList.remove("hidden");
+			}
+
+			// TODO: optimize
 		};
 	});
 }
@@ -229,7 +280,12 @@ function addComment(
 					${comment.epoch}
 				</p>
 			</div>
-			<p class="font-thin text-zinc-400" data-type="commentcontent" data-comment-id="${comment.id}">${comment.content}</p>
+			<p class="font-thin text-zinc-400" data-type="commentcontent" data-comment-id="${
+				comment.id
+			}">${comment.content}</p>
+			${
+				comment.author == username
+					? `
 			<small></small>
 			<form class="hidden" id="editForm" data-comment-id="${comment.id}">
 				<div class="flex h-fit">
@@ -239,12 +295,15 @@ function addComment(
 							name="edit-content"
 							id="edit-content"
 							placeholder="balls..."
-							class="bg-zinc-900 w-full text-md lg:text-sm rounded-lg p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+							class="bg-zinc-600 w-full text-md lg:text-sm rounded-lg p-2.5 text-white focus:outline-none"
 						/>
 						<small class="z-20"></small>
 					</div>
 				</div>
 			</form>
+			`
+					: ""
+			}
 		</div>
 		<div
 			data-comment-id="${comment.id}"
@@ -276,33 +335,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		var form = new Form("comment-form");
 		const commentInput = form.getInput("comment-content");
 
-		commentInput.addValidator(data => {
-			if (data.length > 300) {
-				return {
-					success: false,
-					message: "Comment content cannot exceed 300 characters.",
-				};
-			}
-
-			if (!noMatch(data, /<.*>/g)) {
-				return {
-					success: false,
-					message: "Invalid comment.",
-				};
-			}
-
-			if (!data) {
-				return {
-					success: false,
-					message: "Content is required.",
-				};
-			}
-
-			return {
-				success: true,
-			};
-		});
-		form.setCallback(() => console.log("a"));
+		commentInput.addValidator(data => validateComment(data));
 	}
 
 	const modal = new Modal("comment-modal");
