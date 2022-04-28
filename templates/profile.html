@@ -364,10 +364,10 @@
 								</p>
 							</div>
 							<div class="self-center ml-auto flex space-x-2">
-								<div
-									class="bg-zinc-700 hover:bg-rose-400 rounded-lg p-1 transition-all"
+								<button
 									data-type="modalopen"
 									data-target="report-modal"
+									class="font-semibold drop-shadow-lg bg-zinc-700 hover:bg-rose-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -383,16 +383,16 @@
 											d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
 										/>
 									</svg>
-								</div>
+								</button>
 								{% if (user) and (user.account_type != "user") and
 								(user.username != account.username) %}
 								<!-- this is just here so prettier doesnt merge these jinja statments -->
 								{% if (account.account_type != "developer") and
 								(has_access(user.account_type, account.account_type)) %}
-								<div
-									class="bg-zinc-700 hover:bg-emerald-500 rounded-lg p-1 transition-all"
+								<button
 									data-type="modalopen"
 									data-target="promote-modal"
+									class="font-semibold drop-shadow-lg bg-zinc-700 hover:bg-emerald-400 hover:bg-emearld-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -408,15 +408,15 @@
 											d="M5 11l7-7 7 7M5 19l7-7 7 7"
 										/>
 									</svg>
-								</div>
+								</button>
 								{% endif %}
 								<!-- this is just here so prettier doesnt merge these jinja statments -->
 								{% if (account.account_type != "user") and
 								(has_access(user.account_type, account.account_type)) %}
-								<div
+								<button
 									data-type="modalopen"
 									data-target="demote-modal"
-									class="bg-zinc-700 hover:bg-rose-500 rounded-lg p-1 transition-all"
+									class="font-semibold drop-shadow-lg bg-zinc-700 hover:bg-rose-500 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -432,13 +432,13 @@
 											d="M19 13l-7 7-7-7m14-8l-7 7-7-7"
 										/>
 									</svg>
-								</div>
+								</button>
 								{% endif %} {% if (has_access(user.account_type,
 								account.account_type)) %}
-								<div
-									class="bg-rose-900 hover:bg-rose-700 rounded-lg p-1 transition-all"
+								<button
 									data-type="modalopen"
 									data-target="terminate-modal"
+									class="font-semibold drop-shadow-lg bg-zinc-700 hover:bg-rose-900 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -454,7 +454,7 @@
 											d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
 										/>
 									</svg>
-								</div>
+								</button>
 								{% endif %} {% endif %}
 							</div>
 						</div>

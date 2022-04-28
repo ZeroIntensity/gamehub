@@ -75,20 +75,6 @@ SVG_GAMES = """<svg
 							d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"
 						/>
 					</svg>"""
-SVG_CHATROOMS = """<svg
-						xmlns="http://www.w3.org/2000/svg"
-						class="h-7 w-7 md:h-6 md:w-6 2xl:w-8 2xl:h-8"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-						stroke-width="2"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
-						/>
-					</svg>"""
 SVG_SUGGESTIONS = """<svg
 						xmlns="http://www.w3.org/2000/svg"
 						class="h-7 w-7 md:h-6 md:w-6 2xl:w-8 2xl:h-8"
@@ -163,7 +149,6 @@ SVG_PROFILE = """<svg
 NAVITEMS = [
     NavItem(SVG_HOME, '/', 'Home'),
     NavItem(SVG_GAMES, '/games', 'Games'),
-    NavItem(SVG_CHATROOMS, '/chatrooms', 'Chat Rooms'),
     NavItem(SVG_SUGGESTIONS, '/suggestions', 'Suggestions'),
     NavItem(SVG_APPLICATIONS, '/applications', 'Application'),
     NavItem(SVG_REPORT, '/report', 'Report'),
