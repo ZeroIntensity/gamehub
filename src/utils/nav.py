@@ -160,7 +160,7 @@ def nav(user: Optional[FoundUser]):
         NavItem('', '', '', True),
         NavItem(SVG_LOGIN, '/login', 'Login') if not user else \
             NavItem(SVG_LOGOUT, '/logout', 'Logout'),
-        NavItem(SVG_SOURCE, 'https://github.com/gamehub-2/gamehub', 'Source'),
+        NavItem(SVG_SOURCE, 'https://github.com/ZeroIntensity/gamehub', 'Source'),
     ]
 
 	if user:

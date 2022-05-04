@@ -9,7 +9,7 @@ Make sure you have a MongoDB server running! If your mongo server is on a differ
 **Node V17+ and Python 3.8+ are required.**
 
 ```
-$ git clone https://github.com/gamehub-2/gamehub && cd gamehub
+$ git clone https://github.com/ZeroIntensity/gamehub && cd gamehub
 $ yarn install && yarn build
 $ python3 -m pip install -r requirements.txt
 $ python3 main.py
