@@ -5,7 +5,6 @@ from ..utils import game_exists, exception, exists
 from typing_extensions import Annotated
 from typing import List
 from strawberry.types import Info
-from contextlib import suppress
 
 TargetGame = Annotated[
     str,

@@ -278,4 +278,15 @@ export class GraphQLClient {
 			commentId,
 		});
 	}
+
+	public async addGame(
+		gameName: string,
+		url: string
+	): Promise<
+		APIResponse<{
+			addGame: string;
+		}>
+	> {
+		return this.executeQuery(queries.addGame, { gameName, url });
+	}
 }

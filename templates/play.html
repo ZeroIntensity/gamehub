@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Home - GameHub</title>
+
+		{% if production %}
+		<link rel="stylesheet" href="/static/css/dist/play.css" />
+		{% else %}
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link rel="stylesheet" href="/static/css/dev/selection.css" />
+		<link rel="stylesheet" href="/static/css/dev/placeholder.css" />
+		<link rel="stylesheet" href="/static/css/scheme.css" />
+
+		{% endif %}
+	</head>
+
+	<body class="bg-zinc-900">
+		<div class="flex flex-wrap bg-zinc-900 w-full h-screen">
+			<nav
+				class="w-3/12 bg-zinc-800 rounded p-3 shadow-lg self-start sticky top-0 h-screen overflow-y-auto"
+			>
+				<div class="flex space-x-4 p-2 mb-5 justify-center">
+					<p class="text-white text-2xl lg:text-5xl font-bold tracking-wide">
+						Game<span
+							class="bg-gradient-to-r from-orange-400 to-orange-500 bg-clip-text text-transparent"
+							>Hub</span
+						>
+					</p>
+
+					<p></p>
+				</div>
+
+				<svg class="h-7 w-7 md:h-6 md:w-6 2xl:w-8 2xl:h-8 hidden"></svg>
+				<!-- ^^ makes sure the svg classes are compiled by tailwind -->
+
+				<ul class="space-y-2">
+					{% for navitem in nav %} {% if not navitem.marker %}
+					<li>
+						<a
+							data-type="navlink"
+							href="{{ navitem.href }}"
+							class="flex items-center space-x-3 text-white p-2 rounded-md font-medium hover:bg-zinc-700 focus:shadow-outline"
+						>
+							<span class="text-white m-auto md:m-0">
+								{{ navitem.svg|safe }}
+							</span>
+							<span class="hidden md:inline 2xl:text-xl"
+								>{{ navitem.title }}</span
+							>
+						</a>
+					</li>
+					{% else %}
+					<div class="py-4">
+						<hr class="w-full border-t border-zinc-700" />
+					</div>
+					{% endif %} {% endfor %}
+				</ul>
+			</nav>
+
+			<div class="w-9/12 text-white">
+				<iframe src="{{ game.data }}" class="h-full w-full"></iframe>
+			</div>
+		</div>
+	</body>
+</html>

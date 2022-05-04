@@ -396,6 +396,37 @@ window.addEventListener("DOMContentLoaded", () => {
 
 			modal.open();
 		};
+		const gameForm = new Form("game-form");
+
+		const gameTitle = gameForm.getInput("game-title");
+		const url = gameForm.getInput("game-url");
+
+		gameTitle.addValidator(data => {
+			if (!data) {
+				return {
+					success: false,
+					message: "Name is required.",
+				};
+			}
+
+			return { success: true };
+		});
+
+		url.addValidator(data => {
+			if (!data) {
+				return {
+					success: false,
+					message: "URL is required.",
+				};
+			}
+
+			return { success: true };
+		});
+
+		gameForm.setCallback((_, data) => {
+			const promise = graphql.addGame(data["game-title"], data["game-url"]);
+			handleFormPromise(promise, form, () => window.location.reload());
+		});
 	});
 
 	const likeButtons = document.querySelectorAll('[data-type="likebutton"]');

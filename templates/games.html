@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="/static/css/dev/selection.css" />
 		<link rel="stylesheet" href="/static/css/dev/placeholder.css" />
 		<link rel="stylesheet" href="/static/css/scheme.css" />
+		<link rel="stylesheet" href="/static/css/autofill.css" />
 		{% endif %}
 		<script src="/static/js/dist/games.js"></script>
 	</head>
@@ -291,6 +292,101 @@
 					</div>
 				</div>
 			</div>
+			<div
+				class="fixed z-10 inset-0 overflow-y-auto hidden"
+				aria-labelledby="modal-title"
+				role="dialog"
+				aria-modal="true"
+				data-type="modal"
+				id="game-modal"
+			>
+				<div
+					class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+				>
+					<div
+						class="fixed inset-0 bg-zinc-900 bg-opacity-75 transition-opacity"
+						aria-hidden="true"
+					></div>
+
+					<span
+						class="hidden md:inline xl:text-xl-block sm:align-middle sm:h-screen"
+						aria-hidden="true"
+						>&#8203;</span
+					>
+					<div
+						class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full"
+					>
+						<div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full">
+							<form class="space-y-6" action="#" id="game-form">
+								<div class="flex">
+									<p
+										class="justify-start text-2xl md:text-xl font-medium text-white"
+									>
+										Create Game
+									</p>
+									<button
+										data-form-exclude="true"
+										type="button"
+										class="justify-end rounded-lg lg:text-sm ml-auto text-zinc-500 hover:text-zinc-400 transition-all"
+										data-type="modalclose"
+									>
+										<svg
+											class="w-8 h-8 md:w-6 md:h-6"
+											fill="currentColor"
+											viewBox="0 0 20 20"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												fill-rule="evenodd"
+												d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+												clip-rule="evenodd"
+											></path>
+										</svg>
+									</button>
+								</div>
+								<small></small>
+								<div>
+									<label
+										for="name"
+										class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
+										>Name</label
+									>
+									<input
+										type="text"
+										name="name"
+										id="game-title"
+										class="bg-zinc-900 lg:text-sm rounded-lg block h-fit w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+										placeholder="Sex with Hitler..."
+									/>
+									<small></small>
+								</div>
+								<div>
+									<label
+										for="URL"
+										class="block mb-2 text-lg lg:text-sm font-medium text-zinc-400"
+										>URL</label
+									>
+									<input
+										name="URL"
+										id="game-url"
+										placeholder="https://iforgor.com"
+										class="bg-zinc-900 lg:text-sm rounded-lg block w-full p-2.5 focus:bg-zinc-700 text-white focus:outline-none"
+									></input>
+									<small></small>
+								</div>
+
+								<button
+									data-form-exclude="true"
+									type="submit"
+									class="w-full text-xl font-semibold drop-shadow-lg bg-zinc-700 hover:bg-emerald-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
+								>
+									Create
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 			<nav
 				class="w-3/12 bg-zinc-800 rounded p-3 shadow-lg self-start sticky top-0 h-screen overflow-y-auto"
 			>
@@ -359,6 +455,30 @@
 					</button>
 				</div>
 				<div class="p-4">
+					{% if user and user.account_type != "user" %}
+					<div class="pl-7 group">
+						<button
+							class="drop-shadow-lg bg-zinc-800 hover:bg-emerald-500 rounded transition-all duration-300 text-zinc-500 hover:text-white p-2"
+							data-type="modalopen"
+							data-target="game-modal"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-10 w-10 md:h-8 md:w-8 lg:h-7 lg:w-7"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+								/>
+							</svg>
+						</button>
+					</div>
+					{% endif %}
 					<div
 						class="grid grid-cols-1 md:grid-cols-2 gap-5 p-7 first:pt-4 last:pb-4"
 					>
@@ -446,7 +566,7 @@
 
 							<div class="grid grid-cols-3 text-center">
 								<a
-									href="{{ game.data }}"
+									href="/games/play/{{ game.name }}"
 									class="font-semibold drop-shadow-lg bg-zinc-700 hover:bg-orange-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
 								>
 									Play
