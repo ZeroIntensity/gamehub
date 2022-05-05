@@ -21,7 +21,7 @@ def check_creds(username: str, password: str) -> Optional[FoundUser]:
             
         # TODO: optimize
         
-        model = UserModel(name = name).find()
+        model = UserModel(username = name).find()
         hasher.verify(model.password, password)
     except (ValueError, VerifyMismatchError):
         return None
