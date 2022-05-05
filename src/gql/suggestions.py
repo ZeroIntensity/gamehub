@@ -1,18 +1,13 @@
 import strawberry
-from discord import Webhook, RequestsWebhookAdapter, Embed
+from discord import Embed
 from .permissions import Authenticated
 from typing_extensions import Annotated
 from strawberry.types import Info
 from datetime import datetime
-from ..config import config
 from ..db import FoundUser
 
 __all__ = ('suggestion',)
 
-WEBHOOK = Webhook.from_url(
-    config.suggest_webhook,
-    adapter = RequestsWebhookAdapter()
-)
 
 @strawberry.field(
     description = "Submit a suggestion.",
@@ -38,5 +33,4 @@ def suggestion(
     )  # type: ignore
     embed.timestamp = datetime.now()
 
-    WEBHOOK.send(embed = embed)
     return "Successfully submitted suggestion."

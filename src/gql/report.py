@@ -1,19 +1,13 @@
 import strawberry
-from discord import Webhook, RequestsWebhookAdapter, Embed
+from discord import Embed
 from .permissions import Authenticated
 from typing_extensions import Annotated
 from strawberry.types import Info
 from datetime import datetime
-from ..config import config
 from ..utils import exists, exception, game_exists
 from ..db import FoundUser
 
 __all__ = ('issue_report', 'user_report')
-
-WEBHOOK = Webhook.from_url(
-    config.report_webhook,
-    adapter = RequestsWebhookAdapter()
-)
 
 @strawberry.field(
     description = "Submit an issue report for a game.",
@@ -49,7 +43,6 @@ def issue_report(
 
 
 
-    WEBHOOK.send(embed = embed)
     return "Successfully submitted issue report."
 
 @strawberry.field(
@@ -84,5 +77,4 @@ def user_report(
     )  # type: ignore
     embed.timestamp = datetime.now()
 
-    WEBHOOK.send(embed = embed)
     return "Successfully submitted user report."

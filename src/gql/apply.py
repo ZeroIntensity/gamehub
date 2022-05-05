@@ -4,18 +4,12 @@ from .permissions import Authenticated
 from typing_extensions import Annotated
 from strawberry.types import Info
 from datetime import datetime
-from ..config import config
 from typing import Optional
 from ..db import FoundUser
 from ..utils import validate
 import re
 
 __all__ = ('apply',)
-
-WEBHOOK = Webhook.from_url(
-    config.apply_webhook,
-    adapter = RequestsWebhookAdapter()
-)
 
 @strawberry.input(description = "Object representing an application")
 class Application:
@@ -66,5 +60,4 @@ def apply(
             inline = False
         )
 
-    WEBHOOK.send(embed = embed)
     return "Successfully submitted application"

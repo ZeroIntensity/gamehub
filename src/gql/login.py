@@ -17,7 +17,6 @@ from ..db import Termination
 __all__ = (
     "login",
     "logout",
-    "handle_login"
 )
 
 def handle_login(response: Response, username: str, password: str):
@@ -48,12 +47,19 @@ def login(
     if termination.exists():
         exception(info, f"Account has been terminated: {termination.find().reason}", 410)
 
-    response = handle_login(info.context.response, credentials.name, credentials.password)
-
-    if not response:
+    if not check_creds(credentials.name, credentials.password):
         exception(info, "Invalid username or password.")
 
-    return response
+    token: str = sign_jwt(credentials.name)
+
+    info.context.response.set_cookie(
+        "auth", token,
+        secure = config.production,
+        samesite = "strict",
+        expires = config.auth_validation_time
+    )
+
+    return token
 
 @strawberry.field(
     description = "Log out of the current account.",
