@@ -64,7 +64,7 @@ def ctx_dependency(
     
     name = None
     
-    for user in users:
+    for user in users.find():
         if user['username'].lower() == payload["user_id"].lower():
             name = payload['user_id']
     
