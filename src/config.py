@@ -23,6 +23,7 @@ class Config:
     mongo_username: str
     mongo_password: str
     mongo_auth: bool
+    ssl: bool
 
 _reload = os.environ.get('RELOAD')
 
@@ -40,6 +41,7 @@ config = Config(**{
     'apply_webhook': os.environ['APPLY_WEBHOOK'],
     'mongo_username': os.environ.get('MONGO_USERNAME') or '',
     'mongo_password': os.environ.get('MONGO_PASSWORD') or '',
-    'mongo_auth': bool(os.environ.get('MONGO_AUTH'))
+    'mongo_auth': bool(os.environ.get('MONGO_AUTH')),
+    'ssl': bool(os.environ.get('SSL'))
 })
 
