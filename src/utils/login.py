@@ -12,7 +12,7 @@ def check_creds(username: str, password: str) -> Optional[FoundUser]:
     try:
         found = False
         for user in users.find():
-            if users['username'].lower() == username.lower():
+            if user['username'].lower() == username.lower():
                 found = True
                 
         if not found:
