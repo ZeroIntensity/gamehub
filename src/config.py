@@ -20,6 +20,9 @@ class Config:
     suggest_webhook: str
     report_webhook: str
     apply_webhook: str
+    mongo_username: str
+    mongo_password: str
+    mongo_auth: bool
 
 _reload = os.environ.get('RELOAD')
 
@@ -35,5 +38,8 @@ config = Config(**{
     'suggest_webhook': os.environ['SUGGEST_WEBHOOK'],
     'report_webhook': os.environ['REPORT_WEBHOOK'],
     'apply_webhook': os.environ['APPLY_WEBHOOK'],
+    'mongo_username': os.environ.get('MONGO_USERNAME') or '',
+    'mongo_password': os.environ.get('MONGO_PASSWORD') or '',
+    'mongo_auth': bool(os.environ.get('MONGO_AUTH'))
 })
 

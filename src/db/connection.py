@@ -9,7 +9,15 @@ __all__ = (
     'terminations'
 )
 
-client = pymongo.MongoClient(config.mongo_host, config.mongo_port)
+client = pymongo.MongoClient(
+    config.mongo_host,
+    config.mongo_port,
+    **{
+        'username': config.mongo_username,
+        'password': config.mongo_password,
+        'authMechanism': 'SCRAM-SHA-256'
+    } if config.mongo_auth else {}
+)
 db = client.gamehub
 
 users = db.users
