@@ -43,7 +43,7 @@ class JWTBearer(HTTPBearer):
         if not decoded:
             raise HTTPException(status_code = 403, detail = "Invalid or expired token.")
         
-        termination = Termination(username = decoded['user_id'])
+        termination = Termination(username = decoded['user_id'].lower())
 
         if termination.exists():
             raise HTTPException(status_code = 410, detail = f"Account has been terminated: {termination.find().reason}")
