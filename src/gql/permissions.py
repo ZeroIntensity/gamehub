@@ -4,7 +4,7 @@ from strawberry.types import Info
 from fastapi import Depends
 from typing import Any, Optional
 from strawberry.fastapi import BaseContext
-from ..db import FoundUser, UserModel, Termination
+from ..db import FoundUser, UserModel, Termination, users
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from ..utils import check_perms, decode_jwt, not_null
 
@@ -61,10 +61,16 @@ def ctx_dependency(
 ) -> Context:
     if not credentials:
         return Context(user = None)
-
+    
+    name = None
+    
+    for user in users:
+        if user['username'].lower() == payload["user_id"].lower():
+            name = payload['user_id']
+    
     payload = not_null(decode_jwt(credentials))
     try:
-        return Context(user = UserModel(username = payload["user_id"]).find())
+        return Context(user = UserModel(username = name).find())
     except ValueError:
         return Context(user = None)
 
