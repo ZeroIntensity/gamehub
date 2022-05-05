@@ -62,13 +62,13 @@ def ctx_dependency(
     if not credentials:
         return Context(user = None)
     
+    payload = not_null(decode_jwt(credentials))
     name = None
     
     for user in users.find():
         if user['username'].lower() == payload["user_id"].lower():
             name = payload['user_id']
     
-    payload = not_null(decode_jwt(credentials))
     try:
         return Context(user = UserModel(username = name).find())
     except ValueError:
