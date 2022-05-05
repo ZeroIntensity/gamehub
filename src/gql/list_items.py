@@ -27,7 +27,7 @@ def get_games() -> List[Game]:
         params['comments'] = comments
         res.append(Game(**params))
 
-    return sorted(res, key = lambda x: len(x.likes))
+    return sorted(res, key = lambda x: len(x.likes), reverse = True)
 
 @strawberry.field(description = "List all games.")
 def games() -> List[Game]:
