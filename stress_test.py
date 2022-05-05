@@ -1,7 +1,7 @@
 import rethread  # pip install -U rethread
 import requests
 
-URL: str = "http://localhost:5000"
+URL: str = "https://gamehub-2.herokuapp.com/"
 
 @rethread.auto
 def request_thread():

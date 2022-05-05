@@ -134,4 +134,10 @@ export default {
 			editComment(content: $content, data: { name: $gameName, id: $commentId })
 		}
 	`,
+
+	addGame: gql`
+		mutation addGame($gameName: String!, $url: String!) {
+			createGame(data: { name: $gameName, data: $url })
+		}
+	`,
 };

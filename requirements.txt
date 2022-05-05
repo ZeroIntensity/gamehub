@@ -10,3 +10,4 @@ pyjwt>=2.3.0
 aiofiles>=0.8.0
 bleach>=5.0.0
 discord.py>=1.7.3
+requests>=2.27.1

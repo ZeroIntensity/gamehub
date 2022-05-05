@@ -10,6 +10,7 @@ module.exports = {
 		apply: "./ts/apply.ts",
 		report: "./ts/report.ts",
 		suggestions: "./ts/suggestions.ts",
+		play: "./ts/play.ts",
 	},
 	module: {
 		rules: [

@@ -9,7 +9,7 @@ export default () => {
 		"font-size: 14px;"
 	);
 	console.log(
-		"%cSource code is available at https://github.com/gamehub-2/gamehub",
+		"%cSource code is available at https://github.com/ZeroIntensity/gamehub",
 		"font-size: 14px"
 	);
 };

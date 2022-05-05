@@ -21,7 +21,7 @@ def login(
         strawberry.argument("Account credentials.")
     ]
 ) -> str:
-    termination = Termination(username = credentials.name)
+    termination = Termination(username = credentials.name.lower())
 
     if termination.exists():
         exception(info, f"Account has been terminated: {termination.find().reason}", 410)
