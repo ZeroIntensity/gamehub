@@ -1,4 +1,4 @@
-from ..db import FoundUser, users
+from ..db import FoundUser, users, UserModel
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from typing import Optional
@@ -13,6 +13,7 @@ def check_creds(username: str, password: str) -> Optional[FoundUser]:
         found = False
         for user in users.find():
             if user['username'].lower() == username.lower():
+                name = user['username']
                 found = True
                 
         if not found:
@@ -20,6 +21,7 @@ def check_creds(username: str, password: str) -> Optional[FoundUser]:
             
         # TODO: optimize
         
+        model = UserModel(name = name).find()
         hasher.verify(model.password, password)
     except (ValueError, VerifyMismatchError):
         return None
