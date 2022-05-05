@@ -1,7 +1,7 @@
 import strawberry
 import re
 from typing_extensions import Annotated
-from ..db import UserModel, FoundUser, Termination
+from ..db import UserModel, FoundUser, Termination, users
 from ..utils import (
     validate, 
     hash, 
@@ -50,18 +50,20 @@ def create_account(
         comments = []
     )
     pattern = r'.*(<|>|\(|\)|\*|&|@|\'|\"|,|\{|\}|\[|\]| ).*'
+    
+    for user in users.find():
+        if user['username'].lower() == credentials.name.lower():
+            exception(info, f'Name "{credentials.name}" is already taken.')
 
     validate(info, {
-        UserModel(username = credentials.name).exists(): f'Name "{credentials.name}" is already taken.',
         len(credentials.name) < 4: "Username must be at least 4 characters.",
         len(credentials.name) > 20: "Username cannot exceed 20 characters.",
         bool(re.match(pattern, credentials.name)): "Invalid username.",
         len(credentials.password) < 6: "Password must be at least 6 characters.",
-        Termination(username = credentials.name).exists(): f'Name "{credentials.name}" is already taken.'
+        Termination(username = credentials.name.lower()).exists(): f'Name "{credentials.name}" is already taken.'
     })
 
     model.password = hash(credentials.password)
-    
     model.save()
 
     return "Successfully created account."
@@ -144,7 +146,7 @@ def delete_account(
     if target:
         if not reason:
             exception(info, "A reason must be specified.")
-        Termination(username = target, reason = reason).save()
+        Termination(username = target.lower(), reason = reason).save()
 
     user: FoundUser = info.context.user
     model = has_access(info, user, target)
