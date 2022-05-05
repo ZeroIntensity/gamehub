@@ -95,7 +95,7 @@ def delete_comment(info: Info, data: CommentInput) -> str:
 
     game = game_exists(info, data.name)
     comment = get_comment(info, data.name, data.id)    
-
+    
     has_access(info, user, comment["author"])
 
     for profile_comment in user.comments:
