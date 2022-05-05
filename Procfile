@@ -1,1 +1,1 @@
-web: pip install -r requirements.txt && uvicorn main:app
+web: uvicorn main:app
