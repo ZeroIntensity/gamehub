@@ -68,7 +68,7 @@ def ctx_dependency(
     for user in users.find():
         if user['username'].lower() == payload["user_id"].lower():
             name = payload['user_id']
-    
+    print(name, payload['user_id'])    
     try:
         return Context(user = UserModel(username = name).find())
     except ValueError:

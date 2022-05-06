@@ -339,11 +339,11 @@
 					<div class="rounded bg-zinc-800 w-3/4 lg:w-1/2 p-4 m-auto">
 						<div class="flex">
 							<div>
-								<div class="flex space-x-3 drop-shadow-lg">
+								<div class="flex space-x-1 drop-shadow-lg">
 									{% if account.account_type in ("admin", "owner") %}
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										class="h-14 w-14"
+										class="h-9 w-9"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
@@ -358,7 +358,7 @@
 									{% elif account.account_type == "developer" %}
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										class="h-14 w-14"
+										class="h-9 w-9"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
@@ -371,7 +371,7 @@
 										/>
 									</svg>
 									{% endif %}
-									<p class="font-semibold text-5xl">{{ account.username }}</p>
+									<p class="font-semibold text-2xl">{{ account.username }}</p>
 								</div>
 
 								<p class="font-thin text-zinc-300 text-xl">
@@ -386,7 +386,7 @@
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										class="h-10 w-10"
+										class="h-7 w-7"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
@@ -411,7 +411,7 @@
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										class="h-10 w-10"
+										class="h-7 w-7"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
@@ -435,7 +435,7 @@
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										class="h-10 w-10"
+										class="h-7 w-7"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
@@ -457,7 +457,7 @@
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										class="h-10 w-10"
+										class="h-7 w-7"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
