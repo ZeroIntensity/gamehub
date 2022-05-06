@@ -6,7 +6,7 @@ from ..db import (
     Post,
     Comment
 )
-from typing import List
+from typing import List, Dict
 from ..utils import no_id
 
 __all__ = (
@@ -27,7 +27,7 @@ def get_games() -> List[Game]:
         params['comments'] = comments
         res.append(Game(**params))
 
-    return res
+    return sorted(res, key = lambda x: len(x.likes), reverse = True)
 
 @strawberry.field(description = "List all games.")
 def games() -> List[Game]:

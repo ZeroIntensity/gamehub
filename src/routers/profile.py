@@ -3,7 +3,7 @@ from fastapi.responses import RedirectResponse
 from ..utils.template import template
 from ..gql import ctx_dependency
 from ..db import UserModel, Termination
-from ..utils import check_perms_bool
+from ..utils import check_perms_bool, find_username
 
 prefix: str = '/profile'
 router = APIRouter()
@@ -32,7 +32,7 @@ async def profile(
         )
 
     try:
-        user = UserModel(username = username).find()
+        user = UserModel(username = find_username(username) or '').find()
     except ValueError as e:
         raise HTTPException(status_code = 404, detail = "User Not Found") from e
 

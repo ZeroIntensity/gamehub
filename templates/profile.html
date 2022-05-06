@@ -481,7 +481,13 @@
 						<p class="text-2xl">Likes</p>
 						<ul class="overflow-y-auto h-32">
 							{% for game in account.likes %}
-							<li class="font-thin text-zinc-400">{{ game }}</li>
+							<li class="font-thin text-zinc-400">
+								<a
+									class="text-orange-400 hover:text-orange-300 transition-all"
+									href="/games/play/{{ game }}"
+									>{{ game }}</a
+								>
+							</li>
 							{% endfor %}
 						</ul>
 						{% else %}

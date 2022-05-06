@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 from .schema import schema
 from fastapi.staticfiles import StaticFiles
@@ -9,7 +9,7 @@ from .gql import get_context
 from .router import Router
 import importlib.util
 from .utils import nav, decode_jwt
-from .db import UserModel
+from .db import UserModel, users
 from typing import Optional
 from fastapi.security import HTTPAuthorizationCredentials
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -55,7 +55,14 @@ async def handle_errors(request: Request, exc: StarletteHTTPException):
                 credentials = token
             )
             decode = decode_jwt(credentials.credentials)
-            user = UserModel(username = decode['user_id']).find() if decode else None
+
+            name = ''
+
+            for user in users.find():
+                if user['username'].lower() == decode['user_id'].lower() if decode else None:
+                    name = user['username']
+
+            user = UserModel(username = name).find() if decode else None
 
         if status in {410, 403}:
             response = RedirectResponse('/')

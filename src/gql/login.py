@@ -3,7 +3,13 @@ from strawberry.types import Info
 from fastapi import Response
 from .account import UserInput
 from ..config import config
-from ..utils import check_creds, sign_jwt, exception
+from ..utils import (
+    check_creds,
+    sign_jwt,
+    exception,
+    find_username,
+    not_null
+)
 from typing_extensions import Annotated
 from .permissions import Authenticated
 from ..db import Termination
@@ -12,6 +18,21 @@ __all__ = (
     "login",
     "logout",
 )
+
+def handle_login(response: Response, username: str, password: str):
+    if not check_creds(username, password):
+        return False
+
+    token: str = sign_jwt(not_null(find_username(username)))
+
+    response.set_cookie(
+        "auth", token,
+        secure = config.production,
+        samesite = "strict",
+        expires = config.auth_validation_time
+    )
+
+    return token
 
 @strawberry.field(description = "Log in to an account.")
 def login(
