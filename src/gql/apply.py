@@ -6,11 +6,14 @@ from strawberry.types import Info
 from datetime import datetime
 from ..config import config
 from typing import Optional
+from ..db import FoundUser
+from ..utils import validate
+import re
 
 __all__ = ('apply',)
 
 WEBHOOK = Webhook.from_url(
-    config.suggest_webhook,
+    config.apply_webhook,
     adapter = RequestsWebhookAdapter()
 )
 
@@ -32,11 +35,21 @@ def apply(
         strawberry.argument("Application data to be sent.")
     ]
 ) -> str:
+    user: FoundUser = info.context.user
+
+    validate(info, {
+        len(content.any_other_help or '') > 1000: "Fields cannot exceed 1000 characters.",
+        not re.match(r'.+#\d{4}$', content.discord_tag): "Invalid discord tag."
+    })
+
     embed = Embed(
         title = "Application",
         color = 0xffa85c
     )
-    embed.set_author(name = f'User "{info.context.user.username}"')
+    embed.set_author(
+        name = user.username,
+        url = info.context.request.url_for("profile", username = user.username)
+    )  # type: ignore
     embed.timestamp = datetime.now()
 
     fields = {
