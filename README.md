@@ -1,10 +1,22 @@
 # GameHub
 
-## Running
+## Unblocked Games Website
 
-Getting your own instance of GameHub running is pretty simple.
+### Contribution
 
-Make sure you have a MongoDB server running! If your mongo server is on a different host/port, you can include the `MONGO_PORT` or `MONGO_HOST` environment variables.
+There isn't a development documentation, so if you have any questions about how GameHub works feel free to create an issue.
+
+#### Tech Stack
+
+| Stack           | Technology                                                            |
+| --------------- | --------------------------------------------------------------------- |
+| Backend         | [FastAPI](https://fastapi.tiangolo.com)                               |
+| Frontend        | [TypeScript](https://www.typescriptlang.org/)                         |
+| CSS             | [Tailwind](https://tailwindcss.com)                                   |
+| Template Engine | [Jinja2](https://pypi.org/project/Jinja2)                             |
+| Build           | [PostCSS](https://postcss.org/) and [Webpack](https://webpack.js.org) |
+
+### Running
 
 **Node V16+ and Python 3.8+ are required.**
 
@@ -15,7 +27,19 @@ $ python3 -m pip install -r requirements.txt
 $ python3 main.py
 ```
 
-## Why is this using MongoDB and not a relational database?
+Everything in `src/config.py` can be changed by supplying an environment variable.
+
+#### Basic .env file
+
+```
+APPLY_WEBHOOK=https://discord.com/api/webhooks/...
+REPORT_WEBHOOK=https://discord.com/api/webhooks/...
+SUGGEST_WEBHOOK=https://discord.com/api/webhooks/...
+JWT_ALGORITHM=HS256
+JWT_SECRET=mysecret
+```
+
+### Why is this using MongoDB and not a relational database?
 
 Ease of use. I have yet to find a good library for ORM/DRM in Python, and Mongo is much easier to make one for.
 
