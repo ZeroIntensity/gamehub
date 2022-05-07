@@ -8,13 +8,10 @@ There isn't a development documentation, so if you have any questions about how 
 
 #### Tech Stack
 
-| Stack           | Technology                                                            |
-| --------------- | --------------------------------------------------------------------- |
-| Backend         | [FastAPI](https://fastapi.tiangolo.com)                               |
-| Frontend        | [TypeScript](https://www.typescriptlang.org/)                         |
-| CSS             | [Tailwind](https://tailwindcss.com)                                   |
-| Template Engine | [Jinja2](https://pypi.org/project/Jinja2)                             |
-| Build           | [PostCSS](https://postcss.org/) and [Webpack](https://webpack.js.org) |
+| Stack    | Technology                              |
+| -------- | --------------------------------------- |
+| Backend  | [FastAPI](https://fastapi.tiangolo.com) |
+| Frontend | [Next.js](https://nextjs.org/)          |
 
 ### Running
 

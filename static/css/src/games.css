@@ -1,8 +1,0 @@
-@import "../placeholder.css";
-@import "../selection.css";
-@import "../scheme.css";
-@import "../autofill.css";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
