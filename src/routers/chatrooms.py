@@ -18,7 +18,7 @@ import bleach
 router = APIRouter()
 prefix: str = '/chatrooms'
 
-@router.get('/')
+@router.get('')
 def index(request: Request, ctx = Depends(ctx_dependency)):
     return template(
         'chatrooms.html',
