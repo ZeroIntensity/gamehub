@@ -111,7 +111,7 @@ async def connect(
     if not username:
         return
 
-    name = name.replace('-', ' ')
+    name = name.replace('-', '#')
 
     if name not in MANAGERS:
         MANAGERS[name] = RoomManager(name)

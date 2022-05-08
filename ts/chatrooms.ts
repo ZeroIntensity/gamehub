@@ -23,7 +23,7 @@ function roomConnect(roomName: string, form: Form, input: Input) {
 	const protocol = window.location.protocol == "http:" ? "ws:" : "wss:";
 	const ws = new WebSocket(
 		`${protocol}//${window.location.host}/chatrooms/${roomName.replace(
-			" ",
+			"#",
 			"-"
 		)}/connect`
 	);
@@ -156,7 +156,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	joinButtons.forEach(element => {
 		(element as HTMLElement).onclick = () => {
-			if (!isAuthenticated) window.location.href = "/";
+			if (!isAuthenticated) window.location.href = "/login";
 			else
 				roomConnect(
 					element.getAttribute("data-chatroom-name")!,
