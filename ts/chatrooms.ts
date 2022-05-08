@@ -2,7 +2,7 @@ import highlightNav from "./lib/nav";
 import startMsg from "./lib/startMessage";
 import { Modal } from "./lib/modal";
 import { isAuthenticated } from "./lib/cookies";
-import { Form } from "./lib/form";
+import { Form, Input } from "./lib/form";
 import registerModalClosers from "./lib/registerModalClosers";
 import registerModalOpeners from "./lib/registerModalOpeners";
 import handleFormPromise from "./lib/utils/handleFormPromise";
@@ -12,31 +12,11 @@ startMsg();
 
 declare let window: ExtendedWindow;
 
-function roomConnect(roomName: string) {
+function roomConnect(roomName: string, form: Form, input: Input) {
 	const modal = new Modal("chatroom-modal");
 	const roomContent = document.getElementById("room-content")!;
-	const form = new Form("message-form");
-	const input = form.getInput("message-content");
 	const exit = document.getElementById("exitroom")!;
 	let closed = false;
-
-	input.addValidator(data => {
-		if (!data) {
-			return {
-				success: false,
-				message: "Message content is required.",
-			};
-		}
-
-		if (data.length > 300) {
-			return {
-				success: false,
-				message: "Cannot exceed 300 characters.",
-			};
-		}
-
-		return { success: true };
-	});
 
 	modal.open();
 
@@ -150,11 +130,36 @@ window.addEventListener("DOMContentLoaded", () => {
 	});
 
 	const joinButtons = document.querySelectorAll('[data-type="chatroomjoin"]');
+	const messageForm = new Form("chatroom-form");
+	const messageInput = messageForm.getInput("message-content");
+
+	messageInput.addValidator(data => {
+		if (!data) {
+			return {
+				success: false,
+				message: "Message content is required.",
+			};
+		}
+
+		if (data.length > 300) {
+			return {
+				success: false,
+				message: "Cannot exceed 300 characters.",
+			};
+		}
+
+		return { success: true };
+	});
 
 	joinButtons.forEach(element => {
 		(element as HTMLElement).onclick = () => {
 			if (!isAuthenticated) window.location.href = "/";
-			else roomConnect(element.getAttribute("data-chatroom-name")!);
+			else
+				roomConnect(
+					element.getAttribute("data-chatroom-name")!,
+					messageForm,
+					messageInput
+				);
 		};
 	});
 
