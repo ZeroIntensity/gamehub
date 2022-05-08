@@ -26,6 +26,7 @@ class ExtendedWindow extends Window {
 	demoteAccount(): void;
 	deleteGame(): void;
 	deletePost(): void;
+	deleteRoom(): void;
 }
 
 type ValidatorResponse = { success: boolean; message?: string };
@@ -47,3 +48,9 @@ type GQLHeaders = {
 };
 
 type CustomValidator = () => ValidatorResponse;
+
+type RoomMessage = {
+	type: "notification" | "message";
+	author: string;
+	message: string;
+};

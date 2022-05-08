@@ -148,4 +148,15 @@ export default {
 			deletePost(id: $id)
 		}
 	`,
+	createRoom: gql`
+		mutation createRoom($roomName: String!) {
+			createRoom(name: $roomName)
+		}
+	`,
+
+	deleteRoom: gql`
+		mutation deleteRoom($roomName: String!) {
+			deleteRoom(name: $roomName)
+		}
+	`,
 };

@@ -11,6 +11,7 @@ module.exports = {
 		report: "./ts/report.ts",
 		suggestions: "./ts/suggestions.ts",
 		play: "./ts/play.ts",
+		chatrooms: "./ts/chatrooms.ts",
 	},
 	module: {
 		rules: [

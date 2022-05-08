@@ -6,7 +6,8 @@ __all__ = (
     'users',
     'games',
     'posts',
-    'terminations'
+    'terminations',
+    'chatrooms'
 )
 
 client = pymongo.MongoClient(
@@ -24,3 +25,4 @@ users = db.users
 games = db.games
 posts = db.posts
 terminations = db.terminations
+chatrooms = db.chatrooms

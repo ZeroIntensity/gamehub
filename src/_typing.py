@@ -15,5 +15,12 @@ class ProfileComment(TypedDict):
     content: str
     id: str
 
+RoomMessageType = Literal["message", "notification"]
+
+class RoomMessage(TypedDict):
+    type: RoomMessageType
+    message: str
+    author: str
+
 Argon2Hash = NewType("Argon2Hash", str)
 AccountType = Literal["user", "admin", "owner", "developer"]

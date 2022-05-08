@@ -5,7 +5,9 @@ from ..db import (
     Game,
     Post,
     Comment,
-    Termination
+    Termination,
+    chatrooms,
+    Room
 )
 from typing import List
 from ..utils import no_id
@@ -15,7 +17,9 @@ __all__ = (
     'games',
     'posts',
     'get_games',
-    'transform_comments'
+    'transform_comments',
+    'rooms',
+    'get_rooms'
 )
 
 TERMINATED_COMMENT = lambda epoch, id, author: {
@@ -52,10 +56,17 @@ def get_games() -> List[Game]:
 
     return sorted(res, key = lambda x: len(x.likes), reverse = True)
 
-@strawberry.field(description = "List all games.")
+def get_rooms() -> List[Room]:
+    return [Room(**no_id(room)) for room in chatrooms.find()]
+
+@strawberry.field(description = "Get all games.")
 def games() -> List[Game]:
     return get_games()
 
-@strawberry.field(description = "List all posts.")
+@strawberry.field(description = "Get all posts.")
 def posts() -> List[Post]:
     return [Post(**no_id(post)) for post in posts_col.find()]
+
+@strawberry.field(description = "Get all chatrooms.")
+def rooms() -> List[Room]:
+    return get_rooms()

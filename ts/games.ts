@@ -260,6 +260,7 @@ function addComment(
 	>
 		<div>
 			<div class="flex">
+			
 				<div class="space-x-1 flex">
 					${svg}
 					<a
@@ -458,13 +459,13 @@ window.addEventListener("DOMContentLoaded", () => {
 	});
 
 	const deleteButtons = document.querySelectorAll('[data-type="deletemodal"]');
+	const deleteModal = new Modal("delete-modal");
 
 	deleteButtons.forEach(element => {
 		const gameName: string = element.getAttribute("data-game-name")!;
-		const modal = new Modal("delete-modal");
 
 		(element as HTMLElement).onclick = () => {
-			modal.open();
+			deleteModal.open();
 
 			window.deleteGame = () => {
 				const promise = graphql.deleteGame(gameName);

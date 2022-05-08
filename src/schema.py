@@ -8,6 +8,7 @@ class Query:
     can_access = can_access
     games = games
     posts = posts
+    rooms = rooms
 
 @strawberry.type(description = "Root type for mutations.")
 class Mutation:
@@ -31,5 +32,7 @@ class Mutation:
     issue_report = issue_report
     user_report = user_report
     apply = apply
+    create_room = create_room
+    delete_room = delete_room
 
 schema = strawberry.Schema(Query, mutation = Mutation)

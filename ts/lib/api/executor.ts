@@ -289,4 +289,20 @@ export class GraphQLClient {
 	> {
 		return this.executeQuery(queries.deletePost, { id });
 	}
+
+	public async createRoom(roomName: string): Promise<
+		APIResponse<{
+			createRoom: string;
+		}>
+	> {
+		return this.executeQuery(queries.createRoom, { roomName });
+	}
+
+	public async deleteRoom(roomName: string): Promise<
+		APIResponse<{
+			deleteRoom: string;
+		}>
+	> {
+		return this.executeQuery(queries.deleteRoom, { roomName });
+	}
 }
