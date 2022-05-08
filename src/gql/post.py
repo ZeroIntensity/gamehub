@@ -4,14 +4,13 @@ from strawberry.types import Info
 from ..db import Post, PostModel, FoundUser, PostInput
 from typing_extensions import Annotated
 import time
-from ..utils import make_id, has_post_access, validate
+from ..utils import make_id, validate, post_exists
 import bleach
 
 __all__ = (
     'create_post',
     'delete_post',
-    'edit_post',
-    'can_alter_post'
+    'edit_post'
 )
 
 def validate_post(info: Info, data: PostInput):
@@ -57,42 +56,17 @@ def create_post(
     permission_classes = [Authenticated, HasAdmin]
 )
 def delete_post(info: Info, id: PostID) -> str:
-    post = has_post_access(
-        info,
-        id,
-        info.context.user.username
-    )
+    post = post_exists(info, id)
     post.delete()
 
     return "Successfully deleted post."
-
-@strawberry.field(
-    description = "Check whether a user can alter a post."
-)
-def can_alter_post(
-    info: Info,
-    id: PostID,
-    target: Annotated[
-        str,
-        strawberry.argument("Account to check permissions on.")
-    ]
-) -> bool:
-    try:
-        has_post_access(info, id, target)
-        return True
-    except Exception:
-        return False
 
 @strawberry.field(
     description = "Edit a post.",
     permission_classes = [Authenticated, HasAdmin]
 )
 def edit_post(info: Info, id: PostID, data: PostData) -> str:
-    post = has_post_access(
-        info,
-        id,
-        info.context.user.username
-    )
+    post = post_exists(info, id)
     validate_post(info, data)
 
     post.content = bleach.linkify(bleach.clean(data.content))

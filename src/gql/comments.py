@@ -71,7 +71,8 @@ def create_comment(info: Info, name: TargetGame, content: Content) -> Comment:
         content = cleaned,
         epoch = epoch,
         id = comment_id,
-        account_type = user.account_type
+        account_type = user.account_type,
+        terminated = False
     )
 
     user.comments.append({

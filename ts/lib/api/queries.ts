@@ -10,6 +10,7 @@ export default {
 					epoch
 					accountType
 					id
+					terminated
 				}
 			}
 		}
@@ -37,6 +38,7 @@ export default {
 				content
 				accountType
 				id
+				terminated
 			}
 		}
 	`,
@@ -66,8 +68,8 @@ export default {
 		}
 	`,
 	deleteAccount: gql`
-		mutation deleteAccount($target: String) {
-			deleteAccount(target: $target)
+		mutation deleteAccount($target: String, $reason: String) {
+			deleteAccount(target: $target, reason: $reason)
 		}
 	`,
 
@@ -115,7 +117,7 @@ export default {
 
 	issueReport: gql`
 		mutation issueReport($gameName: String!, $content: String!) {
-			issueReport(content: $content, game: $gameName)
+			issueReport(game: $gameName, content: $content)
 		}
 	`,
 
@@ -138,6 +140,12 @@ export default {
 	addGame: gql`
 		mutation addGame($gameName: String!, $url: String!) {
 			createGame(data: { name: $gameName, data: $url })
+		}
+	`,
+
+	deletePost: gql`
+		mutation deletePost($id: String!) {
+			deletePost(id: $id)
 		}
 	`,
 };

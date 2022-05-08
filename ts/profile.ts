@@ -20,6 +20,8 @@ window.addEventListener("DOMContentLoaded", () => {
 	const form = new Form("report-form");
 	const reason = form.getInput("report-reason");
 	const graphql = new GraphQLClient();
+	const terminate = new Form("terminate-form");
+	const terminateReason = terminate.getInput("terminate-reason");
 
 	reason.addValidator(data => {
 		if (data.length > 300) {
@@ -39,17 +41,26 @@ window.addEventListener("DOMContentLoaded", () => {
 		return { success: true };
 	});
 
+	terminateReason.addValidator(data => {
+		if (!data) {
+			return {
+				success: false,
+				message: "Reason is required.",
+			};
+		}
+
+		return { success: true };
+	});
+
+	terminate.setCallback((_, data) => {
+		const promise = graphql.deleteAccount(username, data["terminate-reason"]);
+		handleFormPromise(promise, form, () => window.location.reload());
+	});
+
 	form.setCallback((_, data) => {
 		const promise = graphql.userReport(data["report-reason"], username);
 		handleFormPromise(promise, form, () => window.location.reload());
 	});
-
-	// here lies: dry principle
-
-	window.terminateAccount = () => {
-		const promise = graphql.deleteAccount(username);
-		promise.then(_ => window.location.reload());
-	};
 
 	window.promoteAccount = () => {
 		const promise = graphql.promoteAccount(username);

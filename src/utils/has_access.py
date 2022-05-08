@@ -8,7 +8,6 @@ from .exception import exception
 
 __all__ = (
     'has_access',
-    'has_post_access'
 )
 
 def has_access(
@@ -30,13 +29,3 @@ def has_access(
         )
 
     return target_model
-
-def has_post_access(info: Info, id: str, target: str) -> FoundPost:
-    """Check if the supplied user can alter the specified post."""
-    post = post_exists(info, id)
-    user = exists(info, target)
-
-    if post.author != user.username:
-        check_perms(info, user.account_type, 'developer')
-
-    return post

@@ -69,34 +69,42 @@
 				</ul>
 			</nav>
 
-			<div class="w-9/12 text-white">
-				<div class="p-6">
-					<div class="rounded bg-zinc-800 w-1/2 p-4 m-auto overflow-x-auto">
-						<div class="flex">
-							<div>
-								<div class="flex space-x-3 drop-shadow-lg">
-									<p class="font-semibold text-4xl text-zinc-300">
-										{{ username }}
-									</p>
-								</div>
-
-								<p class="font-thin text-rose-300 text-lg">Terminated</p>
+			<div class="w-9/12 text-white overflow-y-auto">
+				<div class="p-6 h-screen flex m-auto">
+					<div
+						class="rounded bg-zinc-800 w-3/4 lg:w-1/2 p-4 m-auto h-5/6 overflow-y-auto"
+					>
+						<div>
+							<div class="flex space-x-1 drop-shadow-lg">
+								<p class="font-semibold text-2xl">{{ username }}</p>
 							</div>
+
+							<p class="font-thin text-rose-300 text-xl">Terminated</p>
 						</div>
 
 						<div class="py-4">
 							<hr class="w-full border-t border-zinc-700" />
 						</div>
-						<p class="text-lg font-thin text-zinc-300 italic">
-							No likes available.
-						</p>
+
+						<div class="grid place-items-center h-1/4">
+							<p class="text-xl font-thin text-zinc-300 italic">
+								No likes available.
+							</p>
+						</div>
+
 						<div class="py-4">
 							<hr class="w-full border-t border-zinc-700" />
 						</div>
 
-						<p class="text-lg font-thin text-zinc-300 italic">
-							No comments available.
-						</p>
+						<div class="grid place-items-center h-2/4">
+							<p class="text-xl font-thin text-zinc-300 italic">
+								No comments available.
+							</p>
+						</div>
+
+						<div class="py-4">
+							<hr class="w-full border-t border-zinc-700" />
+						</div>
 					</div>
 				</div>
 			</div>

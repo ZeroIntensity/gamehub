@@ -19,6 +19,7 @@
 		"ts:build": "webpack"
 	},
 	"dependencies": {
-		"dotenv": "^16.0.0"
+		"dotenv": "^16.0.0",
+		"moment": "^2.29.3"
 	}
 }

@@ -21,6 +21,7 @@ class Comment:
     epoch: float = strawberry.field(description = "UNIX epoch creation date of the comment.")
     id: str = strawberry.field(description = "ID of the comment.")
     account_type: str = strawberry.field(description = "Account type of the comment author.")
+    terminated: bool = strawberry.field(description = "Whether the author is terminated.")
 
 class FoundGame(ModelProtocol, Protocol):
     _id: str

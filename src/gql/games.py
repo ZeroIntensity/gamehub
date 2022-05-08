@@ -1,10 +1,10 @@
 import strawberry
-from ..db import GameModel, GameInput, Game, Comment
+from ..db import GameModel, GameInput, Game
 from .permissions import Authenticated, HasAdmin
 from ..utils import game_exists, exception, exists
 from typing_extensions import Annotated
-from typing import List
 from strawberry.types import Info
+from .list_items import transform_comments
 
 TargetGame = Annotated[
     str,
@@ -86,13 +86,9 @@ def delete_game(info: Info, name: TargetGame) -> str:
 def get_game(info: Info, name: TargetGame) -> Game:
     game = game_exists(info, name)
     params = game.make_dict()
+    comments = params['comments']
 
-    del params['_id']
+    for x in {'_id', 'comments'}:
+        del params[x]
 
-    comments: List[Comment] = [
-        Comment(**comment) for comment in params['comments']
-    ]
-
-    del params['comments']
-
-    return Game(**params, comments = comments)
+    return Game(**params, comments = transform_comments(comments))

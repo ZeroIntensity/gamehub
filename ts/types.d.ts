@@ -25,6 +25,7 @@ class ExtendedWindow extends Window {
 	promoteAccount(): void;
 	demoteAccount(): void;
 	deleteGame(): void;
+	deletePost(): void;
 }
 
 type ValidatorResponse = { success: boolean; message?: string };

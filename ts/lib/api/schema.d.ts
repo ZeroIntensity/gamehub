@@ -4,6 +4,7 @@ export type CommentSchema = {
 	epoch: number;
 	id: string;
 	accountType: AccountType;
+	terminated: boolean;
 };
 
 export type CommentDataSchema = {

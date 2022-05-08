@@ -167,13 +167,7 @@ function registerEditors() {
 function addComment(
 	list: HTMLElement,
 	gameName: string,
-	comment: {
-		id: string;
-		author: string;
-		epoch: number;
-		content: string;
-		accountType: AccountType;
-	} & Comment,
+	comment: Required<Comment>,
 	scroll: boolean = false
 ) {
 	const username: string = document.body.getAttribute("data-user-name")!;
@@ -271,7 +265,7 @@ function addComment(
 					<a
 						href="/profile/${comment.author}"
 						class="font-semibold hover:opacity-50 transition-all"
-						>${comment.author}</a
+						>${comment.terminated ? "Deleted User" : comment.author}</a
 					>
 				</div>
 				<p

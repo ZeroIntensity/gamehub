@@ -6,7 +6,6 @@ class Query:
     user_data = user_data
     get_game = get_game
     can_access = can_access
-    can_alter_post = can_alter_post
     games = games
     posts = posts
 

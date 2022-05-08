@@ -10,6 +10,8 @@ import registerModalOpeners from "./lib/registerModalOpeners";
 
 startMsg();
 
+declare let window: ExtendedWindow;
+
 window.addEventListener("DOMContentLoaded", () => {
 	highlightNav();
 	handleEpoch();
@@ -84,5 +86,21 @@ window.addEventListener("DOMContentLoaded", () => {
 				form.error(data.message!);
 			} else window.location.reload();
 		});
+	});
+
+	const deleteButtons = document.querySelectorAll('[data-type="deletepost"]');
+
+	deleteButtons.forEach(element => {
+		const postId: string = element.getAttribute("data-post-id")!;
+		const modal = new Modal("delete-modal");
+
+		(element as HTMLElement).onclick = () => {
+			modal.open();
+
+			window.deletePost = () => {
+				const promise = graphql.deletePost(postId);
+				promise.then(_ => window.location.reload());
+			};
+		};
 	});
 });

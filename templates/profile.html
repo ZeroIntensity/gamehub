@@ -135,7 +135,7 @@
 						class="relative inline-block align-bottom bg-zinc-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full"
 					>
 						<div class="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full">
-							<form class="space-y-6" action="#" id="report-form">
+							<form class="space-y-6" action="#" id="terminate-form">
 								<div class="flex">
 									<p
 										class="justify-start text-2xl md:text-xl font-medium text-white"
@@ -283,7 +283,6 @@
 								</button>
 								<button
 									onclick="demoteAccount()"
-									id="terminate-btn"
 									class="w-full text-xl font-semibold drop-shadow-lg bg-zinc-700 hover:bg-rose-400 rounded transition-all duration-300 text-zinc-400 hover:text-white p-2"
 								>
 									Demote
@@ -336,7 +335,9 @@
 
 			<div class="w-9/12 text-white overflow-y-auto">
 				<div class="p-6 h-screen flex m-auto">
-					<div class="rounded bg-zinc-800 w-3/4 lg:w-1/2 p-4 m-auto">
+					<div
+						class="rounded bg-zinc-800 w-3/4 lg:w-1/2 p-4 m-auto h-5/6 overflow-y-auto"
+					>
 						<div class="flex">
 							<div>
 								<div class="flex space-x-1 drop-shadow-lg">
@@ -479,7 +480,7 @@
 						</div>
 						{% if account.likes %}
 						<p class="text-2xl">Likes</p>
-						<ul class="overflow-y-auto h-32">
+						<ul class="h-fit">
 							{% for game in account.likes %}
 							<li class="font-thin text-zinc-400">
 								<a
@@ -491,9 +492,11 @@
 							{% endfor %}
 						</ul>
 						{% else %}
-						<p class="text-lg font-thin text-zinc-300 italic">
-							This user has no likes.
-						</p>
+						<div class="grid place-items-center h-1/4">
+							<p class="text-2xl font-thin text-zinc-300 italic">
+								This user has no likes.
+							</p>
+						</div>
 						{% endif %}
 						<div class="py-4">
 							<hr class="w-full border-t border-zinc-700" />
@@ -501,15 +504,19 @@
 						{% if account.comments %}
 
 						<p class="text-2xl">Comments</p>
-						<ul class="pt-2 overflow-y-auto">
-							<div class="h-96">
+						<ul class="pt-2">
+							<div class="h-fit">
 								{% for comment in account.comments %}
 								<li class="pt-2">
 									<div
 										class="text-white bg-zinc-700 rounded-lg p-2 break-words"
 									>
 										<div class="flex space-x-4">
-											<p class="font-semibold">{{ comment.game }}</p>
+											<a
+												href="/games/play/{{ comment.game }}"
+												class="font-semibold hover:opacity-50 transition-all"
+												>{{ comment.game }}</a
+											>
 											<p data-type="epoch" class="font-semibold text-zinc-500">
 												{{ comment.epoch }}
 											</p>
@@ -522,10 +529,15 @@
 							</div>
 						</ul>
 						{% else %}
-						<p class="text-lg font-thin text-zinc-300 italic">
-							This user has no comments.
-						</p>
+						<div class="grid place-items-center h-2/4">
+							<p class="text-2xl font-thin text-zinc-300 italic">
+								This user has no comments.
+							</p>
+						</div>
 						{% endif %}
+						<div class="py-4">
+							<hr class="w-full border-t border-zinc-700" />
+						</div>
 					</div>
 				</div>
 			</div>

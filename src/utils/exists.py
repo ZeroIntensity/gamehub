@@ -4,10 +4,12 @@ from ..db import (
     FoundGame,
     GameModel,
     FoundPost,
-    PostModel
+    PostModel,
+    games
 )
 from strawberry.types import Info
 from .exception import exception
+from .find_username import find_username
 
 __all__ = (
     'exists',
@@ -19,7 +21,7 @@ def exists(info: Info, username: str) -> FoundUser:
     """Check if a user exists inside a GraphQL resolver."""
 
     try:
-        target = UserModel(username = username).find()
+        target = UserModel(username = find_username(username) or '').find()
     except ValueError as e:
         exception(
             info,
@@ -32,7 +34,13 @@ def exists(info: Info, username: str) -> FoundUser:
 
 def game_exists(info: Info, name: str) -> FoundGame:
     """Check if a game exists inside a GraphQL resolver."""
-    game = GameModel(name = name)
+    found_name: str = ''
+
+    for game in games.find():
+        if game['name'].lower() == name.lower():
+            found_name = game['name']
+
+    game = GameModel(name = found_name)
 
     if not game.exists():
         exception(info, f'Game "{name}" does not exist.', 404)

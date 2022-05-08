@@ -2,6 +2,7 @@ import makeRequest from "./makeRequest";
 import cookies, { isAuthenticated } from "../cookies";
 import queries from "./queries";
 import { Query } from "./_gql";
+import { Comment } from "./schema";
 
 export class GraphQLExecutor {
 	private _authorization?: string;
@@ -104,13 +105,7 @@ export class GraphQLClient {
 	public async getComments(gameName: string): Promise<
 		APIResponse<{
 			getGame: {
-				comments: Array<{
-					author: string;
-					content: string;
-					epoch: number;
-					accountType: AccountType;
-					id: string;
-				}>;
+				comments: Array<Required<Comment>>;
 			};
 		}>
 	> {
@@ -122,13 +117,7 @@ export class GraphQLClient {
 		content: string
 	): Promise<
 		APIResponse<{
-			createComment: {
-				epoch: number;
-				author: string;
-				content: string;
-				accountType: AccountType;
-				id: string;
-			};
+			createComment: Required<Comment>;
 		}>
 	> {
 		return this.executeQuery(queries.createComment, { gameName, content });
@@ -183,12 +172,15 @@ export class GraphQLClient {
 		return this.executeQuery(queries.userReport, { content, target });
 	}
 
-	public async deleteAccount(target: Optional<string> = null): Promise<
+	public async deleteAccount(
+		target: Optional<string> = null,
+		reason: Optional<string> = null
+	): Promise<
 		APIResponse<{
 			deleteAccount: string;
 		}>
 	> {
-		return this.executeQuery(queries.deleteAccount, { target });
+		return this.executeQuery(queries.deleteAccount, { target, reason });
 	}
 
 	public async promoteAccount(target: string): Promise<
@@ -288,5 +280,13 @@ export class GraphQLClient {
 		}>
 	> {
 		return this.executeQuery(queries.addGame, { gameName, url });
+	}
+
+	public async deletePost(id: string): Promise<
+		APIResponse<{
+			deletePost: string;
+		}>
+	> {
+		return this.executeQuery(queries.deletePost, { id });
 	}
 }
