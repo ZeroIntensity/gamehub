@@ -22,7 +22,10 @@ function roomConnect(roomName: string, form: Form, input: Input) {
 
 	const protocol = window.location.protocol == "http:" ? "ws:" : "wss:";
 	const ws = new WebSocket(
-		`${protocol}//${window.location.host}/chatrooms/${roomName}/connect`
+		`${protocol}//${window.location.host}/chatrooms/${roomName.replace(
+			" ",
+			"-"
+		)}/connect`
 	);
 
 	ws.onopen = () => {
