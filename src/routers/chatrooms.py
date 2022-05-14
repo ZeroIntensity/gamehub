@@ -78,8 +78,6 @@ class RoomManager:
             "message": message,
             "author": "sys"
         }
-        
-    
 
 MANAGERS: Dict[str, RoomManager] = {}
 
