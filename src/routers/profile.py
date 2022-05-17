@@ -25,7 +25,7 @@ async def profile(
 
     name = find_username(username) or ''
 
-    if Termination(username = name.lower()).exists():
+    if Termination(username = username.lower()).exists():
         return template(
             "terminated.html",
             request,
@@ -34,7 +34,7 @@ async def profile(
         )
 
     try:
-        user = UserModel(username = find_username(name) or '').find()
+        user = UserModel(username = name).find()
     except ValueError as e:
         raise HTTPException(status_code = 404, detail = "User Not Found") from e
 
