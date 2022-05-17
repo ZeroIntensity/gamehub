@@ -30,7 +30,7 @@ async def profile(
             "terminated.html",
             request,
             ctx,
-            username = name
+            username = username
         )
 
     try:
